@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-14">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Cochetooo/git/Xahla-API/lib/joml-1.9.25.jar" sourcepath="P:/Programmation/Java/Xahla-API/lib/joml-1.9.25-sources.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Cochetooo/git/Xahla-API/lib/Xahla_API_Utils.jar" sourcepath="P:/Programmation/Java/Xahla-API/lib/Xahla_API_Utils_sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/P:/Programmation/Java/Xahla-API/doc-xahla-utils/"/>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LWJGL3">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Cochetooo/git/Xahla-API/lib/json-20200518.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/LWJGL3_Natives"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
