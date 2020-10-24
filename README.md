@@ -1,11 +1,13 @@
 # Xahla
 The Efficient Workspace for Java Video Game Developpers.
 
-Xahla is a framework that greatly ease the development of video games in Java by having is own automated workspace.
+Xahla is a framework that greatly ease the development of video games in Java by having its own automated workspace.
 With our product, you'll be able to design:
 
 → OpenGL based projects in Java with an Entity-Component System (soon Vulkan and DirectX will be supported)
+
 → Software based for GUI projects in Java and XML with a Model View View-model Architecture
+
 → Server Side based projects in Java with a Plugin Handler with an Event-Driven Architecture
 
 The workspace includes a manager for JSON API relations by HTTP Request (2.0).
