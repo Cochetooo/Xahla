@@ -41,8 +41,8 @@ public class Shader {
 	 * @param geometryShader	Does the shader contains a geometry shader.
 	 */
 	public Shader(Context _context, String path, boolean geometryShader) {
-		program = glCreateProgram();
 		this.Context = _context;
+		program = glCreateProgram();
 		
 		if (program == GL_FALSE)
 			Context.getExceptionHandler().reportException(new ValidationException("Can't create program for shader: " + path));

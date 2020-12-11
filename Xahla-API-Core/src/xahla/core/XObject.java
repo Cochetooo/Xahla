@@ -10,7 +10,7 @@ import java.util.List;
  * It owns a unique name and a unique identifier.
  * 
  * @author Cochetooo
- * @version 1.2
+ * @version 1.3
  */
 public abstract class XObject implements IAppCore, Comparable<XObject> {
 	
@@ -67,6 +67,7 @@ public abstract class XObject implements IAppCore, Comparable<XObject> {
 
 	@Override public void awake() { components.forEach((c)->c.awake()); }
 	@Override public void init() { components.forEach((c)->c.init()); }
+	@Override public void post_init() { components.forEach((c)->c.post_init()); }
 	@Override public void update() { components.forEach((c)->c.update()); }
 	@Override public void post_update() { components.forEach((c)->c.post_update()); }
 	@Override public void pre_render() { components.forEach((c)->c.pre_render()); }
@@ -109,6 +110,30 @@ public abstract class XObject implements IAppCore, Comparable<XObject> {
 		return null;
 	}
 	
+	/**
+	 * @param comp	The component name.
+	 * @return		True if the object contains a component that inherits of the given class.
+	 */
+	public boolean contains(String comp) {
+		for (Component c : components)
+			if (c.getName().equals(comp)) 
+				return true;
+		
+		return false;
+	}
+	
+	/**
+	 * @param comp	The component class.
+	 * @return		True if the object contains a component that inherits of the given class.
+	 */
+	public boolean contains(Class<?> comp) {
+		for (Component c : components)
+			if (comp.isInstance(c)) 
+				return true;
+		
+		return false;
+	}
+	
 	/** @return	True if the object has been destroyed. */
 	public boolean isDestroyed() { return destroyed; }
 	/** @return The name of the object. */
@@ -118,5 +143,15 @@ public abstract class XObject implements IAppCore, Comparable<XObject> {
 	
 	/** @return The context attached to the object. */
 	public Context getContext() { return Context; }
+	
+	@Override
+	public String toString() {
+		String result = "Object " + this.name + " [" + this.getClass().getSimpleName() + "] ID: " + id + "\n";
+		
+		for (Component c : components)
+			result += "\tComponent " + c.getName() + " [" + c.getClass().getSimpleName() + "] ID: " + c.getID() + "\n";
+		
+		return result;
+	}
 
 }

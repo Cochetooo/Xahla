@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import xahla.server.eloquent.Action;
 import xahla.server.eloquent.Model;
 import xahla.utils.ValidationException;
+import xahla.utils.logger.Logger;
 
 public class QueryBuilder {
 	
@@ -55,6 +56,8 @@ public class QueryBuilder {
 		String body = (String) resp.body();
 		JSONObject json = new JSONObject(body);
 		
+		Logger.log(json);
+		
 		return null;
 	}
 	
@@ -65,6 +68,8 @@ public class QueryBuilder {
 		String body = (String) resp.body();
 		JSONObject json = new JSONObject(body);
 		JSONObject first = json.getJSONArray("list").getJSONObject(0);
+		
+		Logger.log(first);
 		
 		return null;
 	}

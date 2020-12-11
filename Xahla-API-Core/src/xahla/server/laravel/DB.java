@@ -40,7 +40,7 @@ public class DB {
 	
 	private static Map<Object, Object> sampleData() {
 		var data = new HashMap<Object, Object>();
-		data.put("apiToken", apiToken);
+		data.put("api_token", apiToken);
 		
 		return data;
 	}

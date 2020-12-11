@@ -110,7 +110,7 @@ public class Context implements IAppCore {
 			return l;
 		
 		if (getConfigProperty(title, key) instanceof Integer i)
-			return i;
+			return (long) i;
 		
 		throw new ValidationException("Value is not an integer.");
 	}
@@ -139,7 +139,7 @@ public class Context implements IAppCore {
 			return d;
 		
 		if (getConfigProperty(title, key) instanceof Float f)
-			return f;
+			return (double) f;
 		
 		throw new ValidationException("Value is not an integer.");
 	}
@@ -247,8 +247,7 @@ public class Context implements IAppCore {
 	}
 	
 	/**
-	 * @param name	The name of the XObject.
-	 * @return		The XObject with the given name.
+	 * @return	The XObject with the given name.
 	 */
 	public XObject getObjectByName(String name) {
 		for (XObject o : objects) {
@@ -257,6 +256,21 @@ public class Context implements IAppCore {
 		}
 		
 		return null;
+	}
+	
+	/**
+	 * @return	A collection of objects that inherits the given class.
+	 * @error Not working as intended.
+	 */
+	public List<XObject> getObjectsByClass(Class<?> objClass) {
+		var objects = new ArrayList<XObject>();
+		
+		for (XObject o : objects) {
+			if (objClass.isInstance(o))
+				objects.add(o);
+		}
+		
+		return objects;
 	}
 	
 	/** @return The current context. */
