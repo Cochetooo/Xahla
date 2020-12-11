@@ -1,12 +1,17 @@
 package xahla.context;
 
+import org.joml.Vector4f;
+
 import xahla.client.graphics.Graphics;
+import xahla.client.graphics.Shader;
 import xahla.client.graphics.Window;
-import xahla.context.objects.OrthographicCamera;
-import xahla.context.objects.PerspectiveCamera;
+import xahla.context.objects.*;
 import xahla.core.App;
 import xahla.core.Config;
 import xahla.core.Context;
+import xahla.core.XObject;
+import xahla.utils.logger.Level;
+import xahla.utils.logger.Logger;
 
 /**
  * The Client Context is the generic client-sided program provided by the API.<br>
@@ -14,11 +19,12 @@ import xahla.core.Context;
  * It can be overriden to handle other components.
  * 
  * @author Cochetooo
- * @version 1.0
+ * @version 1.1
  */
 public class ClientContext extends Context {
 
 	private Window window;
+	private Shader shader;
 	
 	/**
 	 * @param app	The Main Application of the API.
@@ -50,10 +56,10 @@ public class ClientContext extends Context {
 		
 		window.setVSync(this.getConfigBool("Rendering", "vsync"));
 		
-		if (projection.equals("perspective")) {
+		if (projection.equals("3d")) {
 			this.getConfigs().add(new Config(this, "perspective.json", "Perspective"));
 			this.add(new PerspectiveCamera("MainCamera", this));
-		} else if (projection.equals("orthographic")) {
+		} else if (projection.equals("2d")) {
 			this.getConfigs().add(new Config(this, "orthographic.json", "Orthographic"));
 			this.add(new OrthographicCamera("MainCamera", this));
 		}
@@ -62,11 +68,13 @@ public class ClientContext extends Context {
 	}
 	
 	/**
-	 * Unused but here for shader initialization.
+	 * Used for shader initialization.
 	 */
 	@Override
-	public void post_init() {
-		// Shader initialization
+	public void post_init() {	
+		this.shader = new Shader(this, "world", false);
+		
+		objects.forEach((o)->o.post_init());
 	}
 	
 	/**
@@ -77,10 +85,53 @@ public class ClientContext extends Context {
 		super.update();
 		window.update();
 	}
-	
+
+	/**
+	 * Render every entity objects of the game.<br>
+	 * Objects that are not visible will be ignored,
+	 * and detached objects are rendered prior to other objects.
+	 */
 	@Override
 	public void render() {
-		super.render();
+		for (XObject obj : objects) {
+			if (obj instanceof EntityObject eObj) {
+				if (eObj.isVisible())
+					if (eObj.isDetached()) {
+						eObj.render();
+					}
+			}
+		}
+		
+		shader.bind();
+		shader.loadMat(shader.getUniformLocation("projectionMatrix"), ((Camera) this.getObjectByName("MainCamera")).projection().getProjection());
+		
+		int i = 0;
+		for (XObject obj : this.objects) {
+			if (obj instanceof DirectionalLight light) {
+				if (i == 10) {
+					Logger.log(Level.WARNING, "Directional Light numbers exceeded: 10");
+					break;
+				}
+				
+				shader.loadVec4(shader.getUniformLocation("directionalLight" + i), new Vector4f(
+					light.getLightPosition().x,
+					light.getLightPosition().y,
+					light.getLightPosition().z,
+					light.getStrength()
+				));
+				i++;
+			}
+		}
+		
+		for (XObject obj : objects) {
+			if (obj instanceof EntityObject eObj) {
+				if (eObj.isVisible())
+					if (!eObj.isDetached())
+						eObj.render();
+			}
+		}
+		
+		Shader.unbind();
 	}
 	
 	/**
@@ -104,4 +155,7 @@ public class ClientContext extends Context {
 	
 	/** @return The GLFW window instance. */
 	public final Window getWindow() { return window; }
+	
+	/** @return The global shader of the world. */
+	public Shader getWorldShader() { return shader; }
 }

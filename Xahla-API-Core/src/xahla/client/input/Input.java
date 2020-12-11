@@ -1,9 +1,18 @@
 package xahla.client.input;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
+import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
+import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.system.MemoryStack.stackPush;
 
+import java.nio.DoubleBuffer;
+
+import org.joml.Vector2f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.system.MemoryStack;
 
 /**
  * This class handles GLFW keyboard and mouse input.<br>
@@ -159,6 +168,21 @@ public class Input {
 		}
 		
 		return false;
+	}
+	
+	public static Vector2f getMousePosition() {
+		float x, y;
+		
+		try (MemoryStack stack = stackPush()) {
+			DoubleBuffer xBuffer = BufferUtils.createDoubleBuffer(1);
+			DoubleBuffer yBuffer = BufferUtils.createDoubleBuffer(1);
+			glfwGetCursorPos(window, xBuffer, yBuffer);
+			
+			x = (float) xBuffer.get(0);
+			y = (float) yBuffer.get(0);
+			
+			return new Vector2f(x, y);
+		}
 	}
 
 }

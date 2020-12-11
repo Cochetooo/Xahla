@@ -30,19 +30,20 @@ public class VertexArrayObject {
 	
 	private FloatBuffer buffer;
 	
-	private int pos, color, normal, texCoord, rowSize;
+	private int pos, color, normal, texCoord, rowSize, length, bufferSize;
 	private int positionLocation, colorLocation, normalLocation, texCoordLocation;
 	
 	/**
-	 * @param shader	The shader that will handle the VAO.
-	 * @param pos		The number of float necessary for a position point (usually 2 or 3).
-	 * @param color		The number of float necessary for a color (usually 4).
-	 * @param normal	The number of float necessary for a normal vector (usually 2 or 3)
-	 * @param texCoord	The number of float necessary for a texture coordinate (usually 2)
-	 * @param drawMode	The draw mode (see <b>GL_STATIC_DRAW</b>, <b>GL_DYNAMIC_DRAW</b> and <b>GL_STREAM_DRAW</b>
-	 * @param data		The float array containing the data for the VAO.
+	 * @param shader		The shader that will handle the VAO.
+	 * @param pos			The number of float necessary for a position point (usually 2 or 3).
+	 * @param color			The number of float necessary for a color (usually 4).
+	 * @param normal		The number of float necessary for a normal vector (usually 2 or 3)
+	 * @param texCoord		The number of float necessary for a texture coordinate (usually 2)
+	 * @param drawMode		The draw mode (see <b>GL_STATIC_DRAW</b>, <b>GL_DYNAMIC_DRAW</b> and <b>GL_STREAM_DRAW</b>
+	 * @param nbVertices	The number of vertices per mesh.
+	 * @param data			The float array containing the data for the VAO.
 	 */
-	public VertexArrayObject(Shader shader, int pos, int color, int normal, int texCoord, int drawMode, float[] data) {
+	public VertexArrayObject(Shader shader, int pos, int color, int normal, int texCoord, int drawMode, int nbVertices, float[] data) {
 		this.vao = glGenVertexArrays();
 		this.vbo = glGenBuffers();
 		
@@ -52,11 +53,19 @@ public class VertexArrayObject {
 		this.texCoord = texCoord;
 		
 		this.rowSize = pos + color + normal + texCoord;
+		this.length = nbVertices;
 		
 		this.positionLocation = shader.getAttribLocation("in_position");
 		this.colorLocation	  = shader.getAttribLocation("in_color");
 		this.normalLocation   = shader.getAttribLocation("in_normal");
 		this.texCoordLocation = shader.getAttribLocation("in_texCoord");
+		
+		this.bufferSize = data.length;
+		
+		Logger.log(Level.FINEST, "Buffer size: " + bufferSize);
+		Logger.log(Level.FINEST, "Nb Vertices: " + length);
+		Logger.log(Level.FINEST, "Row Size: " + rowSize);
+		Logger.log(Level.FINEST, "Nb of objects: " + (bufferSize / (length*rowSize)));
 		
 		if (this.buffer == null) {
 			try (MemoryStack stack = MemoryStack.stackPush()) {
@@ -69,7 +78,7 @@ public class VertexArrayObject {
 	/**
 	 * Put data into the VBO as well as allocating data into the attributes.<br>
 	 * <b>Might be slow.</b>
-	 * @param drawMode		The draw mode (see <b>GL_STATIC_DRAW</b>, <b>GL_DYNAMIC_DRAW</b> and <b>GL_STREAM_DRAW</b>
+	 * @param drawMode		The draw mode (see <b>GL_STATIC_DRAW</b>, <b>GL_DYNAMIC_DRAW</b> and <b>GL_STREAM_DRAW</b>).
 	 */
 	public void update(int drawMode) {
 		glBindVertexArray(vao);
@@ -92,22 +101,22 @@ public class VertexArrayObject {
 		int size = 0;
 		
 		if (pos > 0) {
-			glVertexAttribPointer(positionLocation, pos, GL_FLOAT, false, rowSize * 4, size);
+			glVertexAttribPointer(positionLocation, pos, GL_FLOAT, false, rowSize * length, size);
 			size += pos;
 		}
 		
 		if (color > 0) {
-			glVertexAttribPointer(colorLocation, color, GL_FLOAT, false, rowSize * 4, size * 4);
+			glVertexAttribPointer(colorLocation, color, GL_FLOAT, false, rowSize * length, size * 4);
 			size += color;
 		}
 		
 		if (normal > 0) {
-			glVertexAttribPointer(normalLocation, normal, GL_FLOAT, false, rowSize * 4, size * 4);
+			glVertexAttribPointer(normalLocation, normal, GL_FLOAT, false, rowSize * length, size * 4);
 			size += normal;
 		}
 		
 		if (texCoord > 0) {
-			glVertexAttribPointer(texCoordLocation, texCoord, GL_FLOAT, false, rowSize * 4, size * 4);
+			glVertexAttribPointer(texCoordLocation, texCoord, GL_FLOAT, false, rowSize * length, size * 4);
 			size += texCoord;
 		}
 		
@@ -116,8 +125,7 @@ public class VertexArrayObject {
 		
 		buffer.clear();
 		
-		Logger.log(Level.FINER, "VAO updated (pos=" + positionLocation + " color=" + colorLocation + " normalLocation=" + normalLocation + " texCoordLocation=" + texCoordLocation + ")");
-		Logger.log(Level.FINEST, "Buffer size: " + rowSize * 4);
+		Logger.log(Level.FINEST, "VAO updated (pos=" + positionLocation + " color=" + colorLocation + " normalLocation=" + normalLocation + " texCoordLocation=" + texCoordLocation + ")");
 	}
 	
 	/**
@@ -126,6 +134,8 @@ public class VertexArrayObject {
 	 * @param data		The float array containing the data for the VAO.
 	 */
 	public void subData(float[] data) {
+		this.bufferSize = data.length;
+		
 		buffer.clear();
 		try (MemoryStack stack = MemoryStack.stackPush()) {
 			buffer = stack.floats(data);
@@ -139,7 +149,7 @@ public class VertexArrayObject {
 	/** Draw the VAO. */
 	public void render() {
 		glBindVertexArray(vao);
-		glDrawArrays(GL_QUADS, 0, rowSize * 4);
+		glDrawArrays(GL_QUADS, 0, bufferSize / rowSize);
 		glBindVertexArray(0);
 	}
 	
