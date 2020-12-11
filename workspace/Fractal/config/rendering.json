@@ -1,0 +1,9 @@
+{
+  "standard_opengl_version": 3.3,
+  "initial_height": 500,
+  "resizable": true,
+  "vsync": false,
+  "window_title": "Fractale TD 3",
+  "projection": "orthographic",
+  "initial_width": 600
+}
