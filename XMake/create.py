@@ -4,11 +4,12 @@ from shutil import copyfile
 
 eclipse_files = ['.classpath', '.project', '.settings/org.eclipse.jdt.core.prefs']
 TEMPLATE_LOCATION = 'templates'
+WORKSPACE_FOLDER = 'workspace'
 
 # Generate all files for an eclipse project
 def generateEclipseFiles(programName):
     for f in eclipse_files:
-        newFile = open(programName + "/" + f, 'w')
+        newFile = open(WORKSPACE_FOLDER + '/' + programName + "/" + f, 'w')
 
         template = tmp.getTemplate(f, '', 'eclipse/')
         content = tmp.compileBlade(template.read(), {'author':tmp.author, 'programName':programName})
@@ -27,7 +28,7 @@ xahla_dir = ['.settings',
 def createXahla(programName, perspective=False):
     # Directories
     for dir in xahla_dir:
-        path = programName + "/" + dir
+        path = WORKSPACE_FOLDER + '/' + programName + "/" + dir
         try:
             os.makedirs(path)
         except OSError:
@@ -38,15 +39,24 @@ def createXahla(programName, perspective=False):
     # Module Info
     moduleTemplate = tmp.getTemplate("moduleXahla")
     moduleContent = tmp.compileBlade(moduleTemplate.read(), {'programName':programName})
-    tmp.writeFile(programName + '/src', 'module-info', moduleContent)
+    tmp.writeFile(WORKSPACE_FOLDER + '/' + programName + '/src', 'module-info', moduleContent)
 
     # Configurations
-    copyfile(TEMPLATE_LOCATION + "/xahla-config/rendering.json", programName + "/config/rendering.json")
+    copyfile(
+        TEMPLATE_LOCATION + "/xahla-config/rendering.json", 
+        WORKSPACE_FOLDER + '/' + programName + "/config/rendering.json"
+    )
     
     if (perspective):
-        copyfile(TEMPLATE_LOCATION + "/xahla-config/perspective.json", programName + "/config/perspective.json")
+        copyfile(
+            TEMPLATE_LOCATION + "/xahla-config/perspective.json", 
+            WORKSPACE_FOLDER + '/' + programName + "/config/perspective.json"
+        )
     else:
-        copyfile(TEMPLATE_LOCATION + "/xahla-config/orthographic.json", programName + "/config/orthographic.json")
+        copyfile(
+            TEMPLATE_LOCATION + "/xahla-config/orthographic.json", 
+            WORKSPACE_FOLDER + '/' + programName + "/config/orthographic.json"
+        )
 
     # Eclipse Files
     generateEclipseFiles(programName)

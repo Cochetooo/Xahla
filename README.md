@@ -18,11 +18,13 @@ To use our workspace, you will need Java Runtime Environment 14+ and Python 3.9+
 Then, all you have to do is download the zipped project and start a project by making one of the following command on the root directory:
 
 ```
-py XMake/make.py create:xahla-core {gameName}
-py XMake/make.py create:xahla-gui {softwareName}
-py XMake/make.py create:xahla-server {serverName}
-py XMake/make.py create:xahla-plugin {pluginName} {serverProjectName}
+./make.py create:xahla-core {gameName}
+./make.py create:xahla-gui {softwareName}
+./make.py create:xahla-server {serverName}
+./make.py create:xahla-plugin {pluginName} {serverProjectName}
 ```
 
 All your projects are stored in the workspace/ folder.
 The lib/ folder contains LWJGL 3.2.3, JOML 1.9.25, JSON 2020-05-18, Xahla-Core 1.0 and Xahla-Utils 1.1
+
+http://etna.edmc73.com/framework

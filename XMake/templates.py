@@ -1,6 +1,7 @@
 import os
 
 TEMPLATE_LOCATION = 'templates'
+WORKSPACE_FOLDER = 'workspace'
 author = os.getlogin()
 
 # Return the template with the given name.
@@ -48,7 +49,7 @@ def makeMainXahla(programName):
 
     content = compileBlade(template.read(), {'author':author, 'programName':programName})
 
-    writeFile(programName + '/src/org/xahla/main', programName, content)
+    writeFile(WORKSPACE_FOLDER + '/' + programName + '/src/org/xahla/main', programName, content)
 
 # Generate a Java Sample XObject File
 def makeXObject(package, objectName):
