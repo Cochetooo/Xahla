@@ -1,5 +1,0 @@
-09/12/20
-
-XMake:
-- Projects now create properly on the workspace/ folder.
-- Changed command "make:xahla", "make:gui" and "make:server" to "make:xahla-core", "make:xahla-gui" and "make:xahla-server" respectively.

@@ -1,9 +1,19 @@
 {
+  "fragment_shader_ext": "fsh",
+  "geometry_shader_ext": "gsh",
   "standard_opengl_version": 3.3,
-  "initial_height": 500,
   "resizable": true,
   "vsync": false,
-  "window_title": "Fractale TD 3",
-  "projection": "orthographic",
-  "initial_width": 600
+  "framerate": 10000,
+  "window_title": "Fractal",
+  "initial_width": 600,
+  "fullscreen": true,
+  "initial_height": 600,
+  "msaa": 2,
+  "floating": false,
+  "vertex_shader_ext": "vsh",
+  "color_buffer_bits": 32,
+  "projection": "2d",
+  "decoration": true,
+  "center_cursor_on_startup": false
 }
