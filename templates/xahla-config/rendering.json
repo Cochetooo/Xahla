@@ -1,9 +1,0 @@
-{
-    "initial_width": 1080,
-    "initial_height": 720,
-    "window_title": "Simple Window",
-    "resizable": true,
-    "projection": "orthographic",
-    "standard_opengl_version": 3.3,
-    "vsync": false
-}

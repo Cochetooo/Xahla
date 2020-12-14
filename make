@@ -3,5 +3,5 @@
 
 for param in "$*"
 do
-    py XMake/make.py $param
+    python vendor/XMake/make.py $param
 done
