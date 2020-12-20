@@ -30,7 +30,14 @@ xahla_dir = ['.settings',
     'res/shaders/std']
 
 # Generate a new Xahla Core Project.
-def createXahla(programName, perspective=False):
+def createXahla(programName, options=None):
+    perspective = False
+    framebuffer = False
+
+    if options is not None:
+        perspective = True if '--perspective' in options else False
+        framebuffer = True if '--framebuffer' in options else False
+
     # Directories
     for dir in xahla_dir:
         path = WORKSPACE_FOLDER + '/' + programName + "/" + dir
@@ -52,6 +59,7 @@ def createXahla(programName, perspective=False):
         WORKSPACE_FOLDER + '/' + programName + "/config/rendering.json"
     )
     print("Created file: config/rendering.json")
+
     
     if (perspective):
         copyfile(
@@ -80,8 +88,26 @@ def createXahla(programName, perspective=False):
 
     print("Created files: /res/shaders/std/world.vsh and /res/shaders/std/world.fsh")
 
+    if (framebuffer):
+        copyfile(
+            SHADER_LOCATION + "/screen.vsh",
+            WORKSPACE_FOLDER + '/' + programName + "/res/shaders/std/screen.vsh"
+        )
+
+        copyfile(
+            SHADER_LOCATION + "/screen.fsh",
+            WORKSPACE_FOLDER + '/' + programName + "/res/shaders/std/screen.fsh"
+        )
+
+        print("Created files: /res/shaders/std/screen.vsh and /res/shaders/std/screen.fsh")
+
+    
+
     # Eclipse Files
     generateEclipseFiles(programName)
 
     # Main File
-    tmp.makeMainXahla(programName)
+    if (framebuffer):
+        tmp.makeMainXahlaFB(programName)
+    else:
+        tmp.makeMainXahla(programName)

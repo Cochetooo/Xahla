@@ -3,11 +3,14 @@ package xahla.client.graphics;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL14.GL_TEXTURE_LOD_BIAS;
+import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30.glFramebufferTexture2D;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +19,11 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.joml.Vector2i;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryUtil;
+
+import xahla.client.graphics.objects.FrameBufferObject;
 
 /**
  * TextureLoader is a utility class for Texture. It allows efficient Texture creation.
@@ -115,6 +122,32 @@ public class TextureLoader {
 		
 		finalTexture.setMipmap(mipmap);
 		
+		MemoryUtil.memFree(texture.getBuffer());
+		
+		return finalTexture;
+	}
+	
+	/**
+	 * Load a texture with empty data, that will store the content of a framebuffer.
+	 * @param dimension		The dimension of the texture.
+	 * @param bufferType	The type of FBO: color, depth, stencil or depth & stencil.
+	 * @param filter		The texture filter (usually <b>GL_NEAREST</b> or <b>GL_LINEAR</b>).
+	 * @return				The loaded texture.
+	 */
+	public static Texture loadFramebufferTexture(Vector2i dimension, FrameBufferObject.BufferType bufferType, int filter) {
+		int id = createTexture();
+		
+		glBindTexture(GL_TEXTURE_2D, id);
+		glTexImage2D(GL_TEXTURE_2D, 0, bufferType.getInternalFormat(), 
+				dimension.x, dimension.y, 
+				0, bufferType.getFormat(), bufferType.getType(), (ByteBuffer) null);
+		
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+		
+		glFramebufferTexture2D(GL_FRAMEBUFFER, bufferType.getAttachment(), GL_TEXTURE_2D, id, 0);
+		
+		Texture finalTexture = new Texture(id, dimension.x, dimension.y);
 		return finalTexture;
 	}
 	
@@ -180,7 +213,7 @@ public class TextureLoader {
 			data[i] = a << 24 | b << 16 | g << 8 | r;
 		}
 
-		IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
+		IntBuffer buffer = MemoryUtil.memAllocInt(data.length);
 		buffer.put(data);
 		buffer.flip();
 

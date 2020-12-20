@@ -1,17 +1,16 @@
 package xahla.client.input;
 
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
-import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
-import static org.lwjgl.glfw.GLFW.glfwPollEvents;
+import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryStack.stackPush;
 
 import java.nio.DoubleBuffer;
 
+import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWScrollCallback;
 import org.lwjgl.system.MemoryStack;
 
 /**
@@ -36,6 +35,8 @@ public class Input {
 	private static long mouseDoubleClickPeriodNS = 1_000_000_000 / 5;
 	
 	private static int NO_STATE = -1;
+	
+	private static Vector2d scrollOffsets = new Vector2d(0, 0);
 	
 	/**
 	 * Initialize the Input class (similarly to a constructor but for a static class).
@@ -67,6 +68,15 @@ public class Input {
 			
 			activeMouseButtons[button] = action != GLFW_RELEASE;
 			mouseButtonStates[button] = action;
+		}
+	};
+	
+	/** The mouse or touchpad scroll callback handle */
+	public static GLFWScrollCallback scroll = new GLFWScrollCallback() {
+		@Override
+		public void invoke(long window, double xoffset, double yoffset) {
+			scrollOffsets.x = xoffset;
+			scrollOffsets.y = yoffset;
 		}
 	};
 	
@@ -183,5 +193,33 @@ public class Input {
 			
 			return new Vector2f(x, y);
 		}
+	}
+	
+	/**
+	 * @return	The amount of vertical scroll as float.
+	 */
+	public static float getScrollWheel() {
+		return (float) scrollOffsets.y;
+	}
+	
+	/**
+	 * Mostly used for touchpad scroll. For mouse wheel, see {@link #getScrollWheel()}.
+	 * @return	A vector containing the horizontal and vertical scroll as double.
+	 */
+	public static Vector2d getScroll() {
+		return scrollOffsets;
+	}
+	
+	/**
+	 * If the cursor is disabled, enabling this will provide an unscaled and unaccelerated mouse motion.
+	 */
+	public static void enableRawMouseMotion() {
+		if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
+			return;
+		
+		if (!glfwRawMouseMotionSupported())
+			return;
+		
+		glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 	}
 }

@@ -17,6 +17,7 @@ module xahla.api.core {
 	requires java.net.http;
 	
 	exports xahla.client.graphics;
+	exports xahla.client.graphics.objects;
 	exports xahla.client.input;
 	
 	exports xahla.context;
