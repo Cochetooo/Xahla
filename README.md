@@ -4,7 +4,7 @@ The Efficient Workspace for Java Video Game Developpers.
 Xahla is a framework that greatly ease the development of video games in Java by having its own automated workspace.
 With our product, you'll be able to design:
 
-→ OpenGL based projects in Java with an Entity-Component System (soon Vulkan and DirectX will be supported)
+→ OpenGL based projects in Java with an Entity-Component System (Vulkan support is to be coming)
 
 → Software based for GUI projects in Java and XML with a Model View View-model Architecture
 
@@ -18,10 +18,10 @@ To use our workspace, you will need Java Runtime Environment 14+ and Python 3.9+
 Then, all you have to do is download the zipped project and start a project by making one of the following command on the root directory:
 
 ```
-./make.py create:xahla-core {gameName}
-./make.py create:xahla-gui {softwareName}
-./make.py create:xahla-server {serverName}
-./make.py create:xahla-plugin {pluginName} {serverProjectName}
+./make create:xahla-core {gameName}
+./make create:xahla-gui {softwareName}
+./make create:xahla-server {serverName}
+./make create:xahla-plugin {pluginName} {serverName}
 ```
 
 All your projects are stored in the workspace/ folder.

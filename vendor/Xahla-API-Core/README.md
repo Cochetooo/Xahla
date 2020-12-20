@@ -1,3 +1,11 @@
+## 19/12/2020
+- Added: Framebuffered Client Context, which contains a whole scene Framebuffer with an integrated shader.
+- Added: Framebuffer and Renderbuffer
+- Added: post_render() for post rendering.
+- Changed: Moved VBO, RBO and FBO into graphics.objects package.
+- Improved: Cleant up Core engine.
+- Fixed: pre_render() and post_update() now call properly.
+
 ## 13/12/2020
 - Added an option to change the cursor mode.
 - Viewport now correctly updates when the window is resized.

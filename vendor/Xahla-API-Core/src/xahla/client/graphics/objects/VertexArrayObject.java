@@ -1,4 +1,4 @@
-package xahla.client.graphics;
+package xahla.client.graphics.objects;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL11.GL_QUADS;
@@ -15,6 +15,7 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.system.MemoryStack;
 
+import xahla.client.graphics.Shader;
 import xahla.utils.logger.Level;
 import xahla.utils.logger.Logger;
 
@@ -26,7 +27,7 @@ import xahla.utils.logger.Logger;
  */
 public class VertexArrayObject {
 	
-	public int vao, vbo;
+	private int vao, vbo;
 	
 	private FloatBuffer buffer;
 	

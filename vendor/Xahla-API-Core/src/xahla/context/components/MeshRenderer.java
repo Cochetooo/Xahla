@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL15;
 import xahla.client.graphics.Color4f;
 import xahla.client.graphics.Shader;
 import xahla.client.graphics.Texture;
-import xahla.client.graphics.VertexArrayObject;
+import xahla.client.graphics.objects.VertexArrayObject;
 import xahla.context.ClientContext;
 import xahla.context.objects.Camera;
 import xahla.context.objects.EntityObject;
@@ -19,7 +19,7 @@ import xahla.utils.ValidationException;
  * It can store a texture.<br>
  * <b>For the moment, it only allows position, normal, color and texture coordinates data.</b><br><br>
  * 
- * {@link xahla.client.graphics.VertexArrayObject}
+ * {@link xahla.client.graphics.objects.VertexArrayObject}
  * {@link xahla.context.objects.EntityObject}
  * @author Cochetooo
  * @version 1.2

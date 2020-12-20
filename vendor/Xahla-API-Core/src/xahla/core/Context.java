@@ -50,6 +50,11 @@ public class Context implements IAppCore {
 		objects.forEach((o) -> o.update());
 	}
 	
+	@Override
+	public void post_update() {
+		objects.forEach((o) -> o.post_update());
+	}
+	
 	/** Call second() to each objects. */
 	@Override
 	public void second() {
@@ -73,10 +78,22 @@ public class Context implements IAppCore {
 		objects.forEach((o) -> o.resize());
 	}
 	
+	@Override
+	public void pre_render() {
+		objects.forEach((o) -> o.pre_render());
+	}
+	
 	/** Render all objects. */
 	@Override
 	public void render() {
 		objects.forEach((o) -> o.render());
+	}
+	
+	@Override
+	public void post_render() {
+		app.post_render();
+		
+		objects.forEach((o) -> o.post_render());
 	}
 	
 	/** Request to perform a low-level API task.<br>

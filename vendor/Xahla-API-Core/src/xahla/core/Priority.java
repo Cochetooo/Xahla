@@ -9,7 +9,7 @@ package xahla.core;
  */
 public enum Priority {
 	
-	LOW(-1), NORMAL(0), HIGH(1);
+	LOWEST(-2), LOW(-1), NORMAL(0), HIGH(1), HIGHEST(2);
 	
 	public final int priority;
 	
