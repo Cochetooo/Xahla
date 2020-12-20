@@ -32,7 +32,7 @@ def compileBlade(content, toReplace):
     return result
 
 # Generate a Java Controller File
-def makeController(package, objectName, crud=False):
+def makeController(project, package, objectName, crud=False):
     template = None
 
     if (crud):
@@ -42,7 +42,7 @@ def makeController(package, objectName, crud=False):
     
     content = compileBlade(template.read(), {'package':package, 'objectName':objectName})
 
-    writeFile(WORKSPACE_FOLDER + '/src/' + package, objectName, content)
+    writeFile(WORKSPACE_FOLDER + '/' + project + '/src/' + package, objectName, content)
 
 def makeMainXahla(programName):
     template = getTemplate('MainXahla')
@@ -59,9 +59,9 @@ def makeMainXahlaFB(programName):
     writeFile(WORKSPACE_FOLDER + '/' + programName + '/src/org/xahla/main', programName, content)
 
 # Generate a Java Sample XObject File
-def makeXObject(package, objectName):
+def makeXObject(project, package, objectName):
     template = getTemplate('XObject')
 
     content = compileBlade(template.read(), {'package':package.replace('/', '.'), 'author':author, 'objectName':objectName})
 
-    writeFile(WORKSPACE_FOLDER + '/src/' + package, objectName, content)
+    writeFile(WORKSPACE_FOLDER + '/' + project + '/src/' + package, objectName, content)

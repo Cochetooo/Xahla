@@ -41,23 +41,23 @@ def compute(argv):
 
     # Make a Controller for XDataManager
     elif (argv[0] == 'make:controller'):
-        if (len(argv) < 3):
-            print(NOT_ENOUGH_ARG.format('3'))
+        if (len(argv) < 4):
+            print(NOT_ENOUGH_ARG.format('4'))
         else:
-            if (len(argv) > 3):
-                if (argv[3] == '--crud'):
-                    tmp.makeController(argv[1], argv[2], True)
+            if (len(argv) > 4):
+                if (argv[4] == '--crud'):
+                    tmp.makeController(argv[1], argv[2], argv[3], True)
                 else:
-                    print('Error at argument 3: Invalid Argument ({})'.format(argv[3]))
+                    print('Error at argument 4: Invalid Argument ({})'.format(argv[3]))
             else:
-                tmp.makeController(argv[1], argv[2])
+                tmp.makeController(argv[1], argv[2], argv[3])
 
     # Make a XObject for Core Xahla Project
     elif (argv[0] == 'make:xobject'):
-        if (len(argv) < 3):
-            print(NOT_ENOUGH_ARG.format('3'))
+        if (len(argv) < 4):
+            print(NOT_ENOUGH_ARG.format('4'))
         else:
-            tmp.makeXObject(argv[1], argv[2])
+            tmp.makeXObject(argv[1], argv[2], argv[3])
     
 
 # Main Function

@@ -21,14 +21,14 @@
 - Fixed: resize() now call properly
 
 ## a0.2.1 (12/12/2020)
-- Added: **MSAA**.
-- Added: option for window decoration, fullscreen and color buffer bits
-- Added: an option to center cursor on startup
-- Added: an option to set the window as floating over all other applications
-- Changed: Framerate is now set on the rendering config file
+- Added: **Multisampling Anti-Aliasing**.
+- Added: Option for window decoration, fullscreen and color buffer bits
+- Added: Option to center cursor on startup
+- Added: Option to set the window as floating over all other applications
+- Changed: Framerate is now set in the rendering config file
 
 ## a0.2.0 (11/12/2020)
-- Added: **Global Shader**
+- Added: **World Shader**
 - Added: **Directional Light** Object
 - Added: **Rectangle Meshes**
 - Added: Mouse position getter
@@ -49,7 +49,7 @@
 - Added: JavaDoc and sources for Utils module
 
 ## a0.1.2 (15/09/2020)
-- Added: **Texture**, **Shaders** and **VAO**
+- Added: **Textures**, **Shaders** and **VAO**
 - Added: **Orthographic & Perspective Camera**, **Projection**
 - Added: **Box Collider** and **Mesh Renderer**
 - Changed: Reorganized Project, Core and Utils are now split
