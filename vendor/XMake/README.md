@@ -1,3 +1,6 @@
+## a0.1.3 (20/12/20)
+- Added: Support for windows command line with batch file
+
 ## a0.1.2 (12/12/20)
 - Improved: Xahla Core projects creation
 - Fixed: Module dependencies and JSON library missing
