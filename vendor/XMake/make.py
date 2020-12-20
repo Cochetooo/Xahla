@@ -34,7 +34,10 @@ def compute(argv):
         if (len(argv) < 2):
             print(NOT_ENOUGH_ARG.format('2'))
         else:
-            crt.createXahla(argv[1])
+            if (len(argv) < 3):
+                crt.createXahla(argv[1])
+            else:
+                crt.createXahla(argv[1], argv[2:])
 
     # Make a Controller for XDataManager
     elif (argv[0] == 'make:controller'):

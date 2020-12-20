@@ -9,7 +9,6 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 import java.nio.IntBuffer;
 
 import org.joml.Vector2i;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
@@ -202,8 +201,8 @@ public class Window implements IAppCore {
 		IntBuffer w, h;
 		
 		try (MemoryStack stack = stackPush()) {
-			w = BufferUtils.createIntBuffer(1);
-			h = BufferUtils.createIntBuffer(1);
+			w = stack.mallocInt(1);
+			h = stack.mallocInt(1);
 			glfwGetWindowSize(window, w, h);
 			
 			return windowSize.set(w.get(0), h.get(0));

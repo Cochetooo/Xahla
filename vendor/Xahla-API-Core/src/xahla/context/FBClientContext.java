@@ -1,9 +1,10 @@
 package xahla.context;
 
 import xahla.client.graphics.Shader;
+import xahla.client.graphics.objects.SnapshotBuffer;
 import xahla.context.components.Projection;
-import xahla.context.components.SnapshotBuffer;
 import xahla.core.App;
+import xahla.core.Context;
 
 /**
  * This Client context add a framebuffer for the scene.<br>
@@ -46,6 +47,17 @@ public class FBClientContext extends ClientContext {
 		frame.dispose();
 		super.dispose();
 	}
+	
+	/**
+	 * Take a snapshot of the screen, and saves it in a PPM file.
+	 * @param path	The path to the saved file.
+	 */
+	public void screenshot(String path) {
+		frame.screenshot(path);
+	}
+	
+	/** @return The current context. */
+	public static FBClientContext instance() { return (FBClientContext) Context.instance(); }
 	
 	/** @return The shader that handles the frame buffer of the screen. */
 	public Shader getScreenShader() { return frameShader; }

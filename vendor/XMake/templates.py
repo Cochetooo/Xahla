@@ -51,6 +51,13 @@ def makeMainXahla(programName):
 
     writeFile(WORKSPACE_FOLDER + '/' + programName + '/src/org/xahla/main', programName, content)
 
+def makeMainXahlaFB(programName):
+    template = getTemplate('MainXahlaFB')
+
+    content = compileBlade(template.read(), {'author':author, 'programName':programName})
+
+    writeFile(WORKSPACE_FOLDER + '/' + programName + '/src/org/xahla/main', programName, content)
+
 # Generate a Java Sample XObject File
 def makeXObject(package, objectName):
     template = getTemplate('XObject')

@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.*;
 import org.joml.Vector2i;
 
 import xahla.client.graphics.Window;
-import xahla.context.ClientContext;
+import xahla.context.FBClientContext;
 import xahla.core.App;
 import xahla.core.IAppCore;
 
@@ -21,7 +21,7 @@ import xahla.utils.logger.Logger;
 public class {{ programName }} implements IAppCore {
 
     private static {{ programName }} main;
-    private ClientContext context;
+    private FBClientContext context;
     private Window window;
 
     private Vector2i windowDim;
@@ -32,13 +32,13 @@ public class {{ programName }} implements IAppCore {
         Logger.debugShow = Level.FINE;
 
         App.build(
-            ClientContext.class,    // The context type
+            FBClientContext.class,    // The context type
             60,                     // The Update rate
             main                    // The Application Program
         );
 
         // Start the program
-        main.context = ClientContext.instance();
+        main.context = FBClientContext.instance();
         main.context.request("start");
     }
 

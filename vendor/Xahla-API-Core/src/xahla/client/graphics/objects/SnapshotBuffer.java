@@ -1,4 +1,4 @@
-package xahla.context.components;
+package xahla.client.graphics.objects;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.GL_DYNAMIC_DRAW;
@@ -8,9 +8,6 @@ import static org.lwjgl.opengl.GL30.glCheckFramebufferStatus;
 
 import xahla.client.graphics.Shader;
 import xahla.client.graphics.Texture;
-import xahla.client.graphics.objects.FrameBufferObject;
-import xahla.client.graphics.objects.RenderBufferObject;
-import xahla.client.graphics.objects.VertexArrayObject;
 import xahla.context.ClientContext;
 import xahla.core.Context;
 import xahla.utils.ValidationException;
@@ -30,7 +27,7 @@ public class SnapshotBuffer {
 	private Shader shader;
 
 	public SnapshotBuffer(Shader shader, ClientContext context) {
-		this.fbo = new FrameBufferObject(context.getWindow(), FrameBufferObject.BufferType.COLOR, GL_LINEAR);
+		this.fbo = new FrameBufferObject(context.getWindow().getWindowDimension(), FrameBufferObject.BufferType.COLOR, GL_LINEAR);
 		this.rbo = new RenderBufferObject(context.getWindow(), RenderBufferObject.BufferType.DEPTH_STENCIL);
 		rbo.use();
 		FrameBufferObject.unbind();
@@ -51,6 +48,14 @@ public class SnapshotBuffer {
 		this.shader = shader;
 	}
 	
+	/**
+	 * Take a snapshot of the screen, and saves it in a PPM file.
+	 * @param path	The path to the saved file.
+	 */
+	public void screenshot(String path) {
+		this.fbo.saveToFile(path + ".ppm");
+	}
+	
 	public void pre_render() {
 		fbo.bind();
 		
@@ -65,7 +70,7 @@ public class SnapshotBuffer {
 		
 		shader.bind();
 		
-		glBindTexture(GL_TEXTURE_2D, fbo.getTexture());
+		fbo.getTexture().bind();
 		vao.render();
 		
 		Texture.unbind();
