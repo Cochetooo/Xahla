@@ -70,10 +70,11 @@ public abstract class XObject implements IAppCore, Comparable<XObject> {
 	@Override public void post_init() { components.forEach((c)->c.post_init()); }
 	@Override public void update() { components.forEach((c)->c.update()); }
 	@Override public void post_update() { components.forEach((c)->c.post_update()); }
-	@Override public void pre_render() { components.forEach((c)->c.pre_render()); }
 	@Override public void client_update() { components.forEach((c)->c.client_update()); }
 	@Override public void server_update() { components.forEach((c)->c.server_update()); }
+	@Override public void pre_render() { components.forEach((c)->c.pre_render()); }
 	@Override public void render() { components.forEach((c)->c.render()); }
+	@Override public void post_render() { components.forEach((c)->c.post_render()); }
 	@Override public void second() { components.forEach((c)->c.second()); }
 	@Override public void dispose() { components.forEach((c)->c.dispose()); }
 	@Override public void resize() { components.forEach((c)->c.resize()); }

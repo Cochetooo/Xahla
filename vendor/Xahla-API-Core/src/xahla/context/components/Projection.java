@@ -74,6 +74,16 @@ public class Projection extends Component {
 		
 	}
 	
+	/**
+	 * Reset the projection and model matrix to the identity matrix.
+	 */
+	public static void resetProjection() {
+		glMatrixMode(GL_PROJECTION);
+		glLoadIdentity();
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+	}
+	
 	@Override
 	protected final Camera getObjectToWorkFor() { return (Camera) super.getObjectToWorkFor(); }
 	

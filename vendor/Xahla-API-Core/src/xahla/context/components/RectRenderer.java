@@ -9,7 +9,7 @@ import xahla.context.objects.EntityObject;
 /**
  * This component is used for rectangle mesh creation.
  * 
- * {@link xahla.client.graphics.VertexArrayObject}
+ * {@link xahla.client.graphics.objects.VertexArrayObject}
  * {@link xahla.context.objects.EntityObject}
  * @author Cochetooo
  * @version 1.0

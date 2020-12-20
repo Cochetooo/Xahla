@@ -26,6 +26,8 @@ public interface IAppCore {
 	default void render() {}
 	/** Called each UPS tick, after the API Context has made its logic and update call. */
 	default void post_update() {}
+	/** Called each FPS tick, after every objects has been rendered. */
+	default void post_render() {}
 	/** Called whenever the display is resized. */
 	default void resize() {}
 	

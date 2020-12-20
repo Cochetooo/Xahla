@@ -2,13 +2,13 @@ package xahla.client.graphics;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.GL_MULTISAMPLE;
+import static org.lwjgl.opengl.GL30.GL_MAX_COLOR_ATTACHMENTS;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import org.joml.Vector2f;
 import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL20;
 
 import xahla.context.ClientContext;
 import xahla.utils.ValidationException;
@@ -46,8 +46,8 @@ public class Graphics {
 			
 		Logger.log(Level.CONFIG, "VSync: " + context.getConfigBool("Rendering", "vsync"));
 		Logger.log(Level.CONFIG, "Has Modern OpenGL Support: " + Graphics.supportStandardOpenGLVersion() + " (" + glGetString(GL_VERSION) + ")");
-		Logger.log(Level.CONFIG, "GL Shading Language Version Support: " + glGetString(GL20.GL_SHADING_LANGUAGE_VERSION));
 		Logger.log(Level.CONFIG, "Texture Enabled.");
+		Logger.log(Level.FINEST, "Max Color Attachments: " + glGetInteger(GL_MAX_COLOR_ATTACHMENTS));
 	}
 	
 	/**

@@ -83,7 +83,7 @@ public class ClientContext extends Context {
 		super.update();
 		window.update();
 	}
-
+	
 	/**
 	 * Render every entity objects of the game.<br>
 	 * Objects that are not visible will be ignored,
@@ -135,7 +135,9 @@ public class ClientContext extends Context {
 	/**
 	 * Swap the buffer of the window.
 	 */
+	@Override
 	public void post_render() {
+		super.post_render();
 		window.render();
 	}
 	

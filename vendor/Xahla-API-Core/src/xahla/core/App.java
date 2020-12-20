@@ -112,11 +112,16 @@ public class App {
 	
 	private void render() {
 		app.pre_render();
+		Context.pre_render();
 		Context.render();
 		app.render();
 		
 		if (Context instanceof ClientContext cp)
 			cp.post_render();
+	}
+	
+	void post_render() {
+		app.post_render();
 	}
 	
 	void resize() {
