@@ -68,4 +68,5 @@ dependencies {
     if (lwjglNatives == "natives-macos") runtimeOnly "org.lwjgl:lwjgl-vulkan::$lwjglNatives"
     implementation "org.joml:joml:${jomlVersion}"
     implementation 'org.json:json:20210307'
+    implementation 'org.jsoup:jsoup:1.14.3'
 }
