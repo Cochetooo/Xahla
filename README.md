@@ -10,16 +10,10 @@ With our product, you'll be able to design:
 
 → Server Side based projects in Java with a Plugin Handler with an Event-Driven Architecture
 
-The workspace includes a manager for JSON API relations by HTTP Request (2.0).
-It also includes XMake, a command-line executable that add a bundle of utility commands such as project creation, or auto-generated class.
-
-# Install
-To use our workspace, you will need Java Runtime Environment 16 or higher on your computer.
-/!\ The framework isn't ready to function yet. /!\ 
-
 All your projects are stored in the workspace/ folder.
 The lib/ folder contains LWJGL 3.2.3, JOML 1.10.2, JSON 2020-05-18.
 
+# Modules
 Xahla framework provides several modules, that can be separately used:
 - **Core**: 0.2.0 [Core engine]
 - **Server** *(optional)*: 0.1.2 [Server-side features]
@@ -30,11 +24,23 @@ Xahla framework provides several modules, that can be separately used:
 - **GUI** *(optional)*: 0.1.1 [User-interface management]
 - **AI** *(optional)*: 0.1.1 [Artifical Intelligence Handling]
 - **VR** *(optional)*: 0.1.1 [Virtual Reality Handling]
+- **Mobile** *(optional)*: 0.1.1 [Mobile Handling (Android & iOS)]
 - **Plugins** *(optional)*: 0.1.2 [Plugin & events manager for server-sided programs]
 - **Database** *(optional)*: 0.1.1 [Database & API handler for web communication]
 
 - **XMake**: 0.2.0 [Command-line tool for project management]
 - **XProjectManager**: 0.1.2 [GUI for project management]
 
+# Install
+To use our workspace, you will need Java Runtime Environment 16 or higher on your computer.
+/!\ The framework isn't ready to function yet. /!\ 
+
+# Extensions
+Extensions modules will come in the future to enhance the development experience.
+Planned to be added:
+- **HTML & Bootstrap Utilities**: Easily create and manage HTML files with Bootstrap (https://getbootstrap.com/)
+- **Office**: Easily handle office files and CSV (Word, Excel)
+
+# Documentation
 http://xahla.fr/framework - Get started with our framework
 http://xahla.fr/api - Understand our web API

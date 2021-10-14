@@ -1,0 +1,60 @@
+<html> 
+ <head> 
+  <title>ArithmeticException</title> 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> 
+  <meta charset="utf-8"> 
+ </head> 
+ <body> 
+  <div class="container"> 
+   <div class="content p-5"> 
+    <div class="card mb-5"> 
+     <div class="card-header"> 
+      <h6><small id="file_class">Unknown Class</small></h6> 
+     </div> 
+     <div class="card-body"> <small id="exception_name">ArithmeticException</small> 
+      <h3 id="exception_message">/ by zero</h3> 
+      <p id="additional_message">None</p> 
+     </div> 
+    </div> 
+    <ul class="nav nav-tabs text-center" id="navbar" role="tablist"> 
+     <li class="nav-item" role="presentation"> <button class="nav-link active" aria-current="page" id="stacktrace-tab" data-bs-toggle="tab" data-bs-target="#stacktrace" type="button" role="tab" aria-controls="stacktrace" aria-selected="true">Stack trace</button> </li> 
+     <li class="nav-item" role="presentation"> <button class="nav-link" id="context-tab" data-bs-toggle="tab" data-bs-target="#context" type="button" role="tab" aria-controls="context" aria-selected="false">Context</button> </li> 
+     <li class="nav-item" role="presentation"> <button class="nav-link" id="debug-tab" data-bs-toggle="tab" data-bs-target="#debug" type="button" role="tab" aria-controls="debug" aria-selected="false">Debug console</button> </li> 
+    </ul> 
+    <div class="tab-content" id="navcontent"> 
+     <div class="tab-pane fade show active" id="stacktrace" role="tabpanel" aria-labelledby="stacktrace-tab"> 
+      <ul class="list-group" id="list-stacktrace"> 
+       <li class="list-group-item">MainTestKt$main$1.invoke(MainTest.kt:8) </li>
+       <li class="list-group-item">MainTestKt$main$1.invoke(MainTest.kt:7) </li>
+       <li class="list-group-item">utils.PrimitiveUtilsKt.xh_tryCatch(PrimitiveUtils.kt:19) </li>
+       <li class="list-group-item">utils.PrimitiveUtilsKt.xh_tryCatch$default(PrimitiveUtils.kt:17) </li>
+       <li class="list-group-item">utils.PrimitiveUtilsKt.xh_tryCatch(PrimitiveUtils.kt:12) </li>
+       <li class="list-group-item">MainTestKt.main(MainTest.kt:7) </li>
+      </ul> 
+     </div> 
+     <div class="tab-pane fade" id="context" role="tabpanel" aria-labelledby="context-tab"> 
+      <ul class="list-group" id="list-context"> 
+       <li class="list-group-item"><b>OS Name</b>: Linux</li>
+       <li class="list-group-item"><b>OS Architecture</b>: amd64</li>
+       <li class="list-group-item"><b>OS Version</b>: 5.11.0-37-generic</li>
+       <li class="list-group-item"><b>Java Classpath</b>: /home/alexiscochet/Xahla/framework/Core/build/classes/kotlin/test:/home/alexiscochet/Xahla/framework/Core/build/classes/kotlin/main:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.5.10/da6a904b132f0402fa4d79169a3c1770598d4702/kotlin-stdlib-1.5.10.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-assimp/3.2.3/f62aa07a20afbdd3097efc296c4841e0d29700eb/lwjgl-assimp-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-bgfx/3.2.3/433883c4040fa8df47244dffa1d42c96ce2143de/lwjgl-bgfx-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.2.3/5e520d5c290c8b012545a8d34fa5db5ab051ea53/lwjgl-glfw-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-nanovg/3.2.3/718be4a13691d1cd276fa852326e9e837d65204e/lwjgl-nanovg-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-nuklear/3.2.3/45bfab23e975201bf3cb81287be6034adec64a86/lwjgl-nuklear-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-odbc/3.2.3/891c336a725361ef4b72893ac86d763a178ef39d/lwjgl-odbc-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.2.3/106742e805803ab9eab8e343f0fb31a3d263903c/lwjgl-openal-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opencl/3.2.3/3061cd1e012ede64c606f64a5a3cf956dad7dc07/lwjgl-opencl-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.3/bdd534a323d0c8f54969b95e424b6ac8984f7d6e/lwjgl-opengl-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengles/3.2.3/77a9ef18a071cb0219bcfa8c9199cee935d0c974/lwjgl-opengles-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openvr/3.2.3/ea19076fc886f2e8a95b50a7f95401606b5282ff/lwjgl-openvr-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-par/3.2.3/92d96fe3a3345f4c18ca0e682de41b20ec64b70c/lwjgl-par-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-shaderc/3.2.3/3612d4ed5466d100b7cf31f188530c3bdaa23145/lwjgl-shaderc-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.3/40eccaa4fa86fc815f2e17946a392fb5fdcc286a/lwjgl-stb-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vma/3.2.3/b8f6485a6e7e5785877474999e1e8451731bad09/lwjgl-vma-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vulkan/3.2.3/34a69f76173952424e85943a2dc7d9efd3d8ff9c/lwjgl-vulkan-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.2.3/17a59ba0fe8d474ec9dbe0d5db40d2cfe59c4c08/lwjgl-3.2.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.joml/joml/1.10.2/194a5217c25777c5f9f9de354de7c2c894e618c9/joml-1.10.2.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.json/json/20210307/528c8df3757e8bcf151817b1d7b9b434f6aa08d5/json-20210307.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.jsoup/jsoup/1.14.3/c43a81e18e6d0eb71951aa031d55d5c293c531a6/jsoup-1.14.3.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.5.10/6b84d926e28493be69daf673e40076f89492ef7/kotlin-stdlib-common-1.5.10.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-assimp/3.2.3/9ecc218db17c49f2819a5a80dee7efea65a9ac4f/lwjgl-assimp-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-bgfx/3.2.3/b30a656e8833ab98cc9434686c17390dbfa12531/lwjgl-bgfx-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-glfw/3.2.3/62b044d9b0a057444bef2ab70b9afc288ec09dba/lwjgl-glfw-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-nanovg/3.2.3/73a623c979331cac61050c36ebeabee5a5b8eae6/lwjgl-nanovg-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-nuklear/3.2.3/cbc2898b60a5f85368dc2f6999df7fc33926d83e/lwjgl-nuklear-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openal/3.2.3/869ddd9dbbf92a7d1be7f5942ca0adbde068d999/lwjgl-openal-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengl/3.2.3/7f14db5da9aa7951efe88993f519d7d38ad6e46b/lwjgl-opengl-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-opengles/3.2.3/8c65b45d59fbb03d808071a516c093635ef37947/lwjgl-opengles-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-openvr/3.2.3/a7238fca64acb61f3b7508f4559ddc6c99d2026/lwjgl-openvr-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-par/3.2.3/162fd34fd3e914cffed8c15512d6912fdf1ce374/lwjgl-par-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-shaderc/3.2.3/7a7c1d4a0d75e256bf91fa618515b2e984a861a0/lwjgl-shaderc-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-stb/3.2.3/189950254d81e9214b39cc656163541bf1accbba/lwjgl-stb-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl-vma/3.2.3/ccdc829c7e5fac2f168c163259d160221a85bdb9/lwjgl-vma-3.2.3-natives-linux.jar:/home/alexiscochet/.gradle/caches/modules-2/files-2.1/org.lwjgl/lwjgl/3.2.3/3d9d36c93446c7a1c90bc7aec8fa89c7988bf82b/lwjgl-3.2.3-natives-linux.jar</li>
+       <li class="list-group-item"><b>Java Home</b>: /home/alexiscochet/.jdks/corretto-16.0.2</li>
+       <li class="list-group-item"><b>Java Version</b>: 16.0.2</li>
+       <li class="list-group-item"><b>JRE Vendor Name</b>: Amazon.com Inc.</li>
+       <li class="list-group-item"><b>JRE Vendor URL</b>: https://aws.amazon.com/corretto/</li>
+       <li class="list-group-item"><b>User Directory</b>: /home/alexiscochet/Xahla/framework</li>
+       <li class="list-group-item"><b>User Home</b>: /home/alexiscochet</li>
+       <li class="list-group-item"><b>User Name</b>: alexiscochet</li>
+       <li class="list-group-item"><b>Locale Language</b>: fr</li>
+       <li class="list-group-item"><b>Xahla Framework Version</b>: 1.0.0</li>
+       <li class="list-group-item"><b>Xahla Environment</b>: Dev</li>
+      </ul> 
+     </div> 
+     <div class="tab-pane fade" id="debug" role="tabpanel" aria-labelledby="debug-tab"> 
+     </div> 
+    </div> 
+   </div> 
+  </div> 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>  
+ </body>
+</html>
