@@ -11,7 +11,7 @@ With our product, you'll be able to design:
 → Server Side based projects in Java with a Plugin Handler with an Event-Driven Architecture
 
 All your projects are stored in the workspace/ folder.
-The lib/ folder contains LWJGL 3.2.3, JOML 1.10.2, JSON 2020-05-18.
+The lib/ folder contains LWJGL 3.2.3, JOML 1.10.2, JSON 2021-03-07 and JSoup 1.14.3.
 
 # Modules
 Xahla framework provides several modules, that can be separately used:
