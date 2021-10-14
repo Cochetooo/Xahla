@@ -33,6 +33,7 @@ Xahla framework provides several modules, that can be separately used:
 
 # Install
 To use our workspace, you will need Java Runtime Environment 16 or higher on your computer.
+
 /!\ The framework isn't ready to function yet. /!\ 
 
 # Extensions
@@ -43,4 +44,5 @@ Planned to be added:
 
 # Documentation
 http://xahla.fr/framework - Get started with our framework
+
 http://xahla.fr/api - Understand our web API
