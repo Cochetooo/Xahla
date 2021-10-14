@@ -47,8 +47,15 @@ fun xh_open_webpage(uri: URI): Boolean {
 /**
  * Execute a ping test to a specified ip address.
  */
-fun xh_ping_test(address: String): Float {
-    val ip = InetAddress.getByName(address)
+fun xh_ping_test(address: String, timeout: Int = 10000): Float {
+    val time = XH_Timer()
 
+    xh_tryCatch {
+        val ip = InetAddress.getByName(address)
+        val reachable = ip.isReachable(timeout)
+    }
 
+    XH_Logger.internal_log("IP $address reachable.", XH_LogLevel.FINER, "XH_UNet")
+
+    return time.elapsedNow() / 1_000_000.0f
 }

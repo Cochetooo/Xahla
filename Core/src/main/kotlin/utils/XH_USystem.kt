@@ -26,3 +26,21 @@ val XH_DEVICE_OS: XH_EOperatingSystem = with(System.getProperty("os.name").lower
         else -> XH_Logger.throwException("Unsupported Operating System.", statusCode = XH_STATUS_GENERAL_ERROR)
     }
 }
+
+class XH_Timer {
+    private var current = System.nanoTime()
+    var elapsed = 0L
+        private set
+
+    fun stop() {
+        val old = current
+        current = System.nanoTime()
+        elapsed = current - old
+    }
+
+    fun elapsedNow(): Long = System.nanoTime() - current
+
+    fun reset() {
+        current = System.nanoTime()
+    }
+}

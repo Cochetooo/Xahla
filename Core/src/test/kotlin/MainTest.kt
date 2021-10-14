@@ -1,10 +1,9 @@
-import utils.XH_Logger.eLog
-import utils.XH_Logger.log
+import utils.XH_LogLevel
+import utils.XH_Logger
+import utils.xh_ping_test
 import utils.xh_tryCatch
-import java.nio.file.Paths
 
 fun main() {
-    xh_tryCatch {
-        val x = 5 / 0
-    }
+    XH_Logger.logLevel = XH_LogLevel.ALL
+    XH_Logger.log("${xh_ping_test("5.196.204.208")} ms")
 }

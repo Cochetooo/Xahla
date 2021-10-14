@@ -30,31 +30,50 @@ enum class XH_LogLevel {
 object XH_Logger {
     var logLevel: XH_LogLevel = XH_LogLevel.CONFIG
     var printer = System.out
+    var internalLog = true
+    var logFile = false
+    var prefix = true
 
     private val html_content = xh_file_read("templates/stacktrace.html")
 
     /**
      * Log a message as a severe message in System.err
      */
-    fun eLog(message: String? = null, logFile: Boolean = false, classSource: Class<Any>? = null) {
+    fun eLog(message: Any, classSource: String? = null) {
         val tmp = printer
         printer = System.err
-        log(message, XH_LogLevel.SEVERE, logFile, classSource)
+        log(message, XH_LogLevel.SEVERE, classSource)
         printer = tmp
     }
 
     /**
      * Log a message as a warning message.
      */
-    fun wLog(message: String? = null, logFile: Boolean = false, classSource: Class<Any>? = null)
-        = log(message, XH_LogLevel.WARNING, logFile, classSource)
+    fun wLog(message: Any, classSource: String? = null)
+        = log(message, XH_LogLevel.WARNING, classSource)
+
+    /**
+     * Discouraged to use this method if used externally.
+     * Log any kind of message into a defined printer if the internal logging is enabled.
+     */
+    fun internal_log(message: Any, logLevel: XH_LogLevel = XH_LogLevel.CONFIG, classSource: String) {
+        if (!internalLog)
+            return
+
+        log(message, logLevel, classSource)
+    }
 
     /**
      * Log any kind of message into a defined printer (by default, the standard JVM console System.out)
      */
-    fun log(message: String? = null, logLevel: XH_LogLevel = XH_LogLevel.INFO, logFile: Boolean = false, classSource: Class<Any>? = null) {
+    fun log(message: Any, logLevel: XH_LogLevel = XH_LogLevel.INFO, classSource: String? = null) {
         if (logLevel > this.logLevel)
             return
+
+        if (prefix)
+            printer.print("[$logLevel] ")
+        if (classSource != null)
+            printer.print("<$classSource> ")
 
         printer.println(message)
     }
