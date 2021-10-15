@@ -1,8 +1,32 @@
-import utils.XH_LogLevel
-import utils.XH_Logger
-import utils.xh_ping_test
+import templates.XH_ICoreLogic
 
 fun main() {
-    XH_Logger.logLevel = XH_LogLevel.ALL
-    XH_Logger.log("${xh_ping_test("5.196.204.208")} ms")
+    Main()
+}
+
+class Main : XH_ICoreLogic {
+
+    constructor() {
+        app().build(XH_Context::class.java, this)
+        app().start()
+
+        // Prohibited to do something here
+    }
+
+    override fun onInit() {
+        context().add(MyFirstObject())
+    }
+
+    override fun onExit() {
+        println("Goodbye")
+    }
+
+}
+
+class MyFirstObject : XH_Object("MyFirstObject") {
+    override fun onSecond() {
+        super.onSecond()
+        println("Hello!")
+        app().stop()
+    }
 }

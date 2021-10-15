@@ -57,5 +57,5 @@ fun xh_ping_test(address: String, timeout: Int = 10000): Float {
 
     XH_Logger.internal_log("IP $address reachable.", XH_LogLevel.FINER, "XH_UNet")
 
-    return time.elapsedNow() / 1_000_000.0f
+    return time.elapsed / 1_000_000.0f
 }

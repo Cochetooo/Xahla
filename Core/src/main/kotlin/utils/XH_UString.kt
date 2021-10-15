@@ -6,6 +6,8 @@
 */
 package utils
 
+val HEX_ARRAY = "0123456789abcdef".toCharArray()
+
 /**
  *
  */

@@ -27,18 +27,26 @@ val XH_DEVICE_OS: XH_EOperatingSystem = with(System.getProperty("os.name").lower
     }
 }
 
+/**
+ * Get the program current memory usage
+ */
+fun getMemoryUsage(): Long = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / 1024
+
+/**
+ * Get the memory capacity of the device
+ */
+fun getMemoryCapacity(): Long = Runtime.getRuntime().maxMemory()
+
+/**
+ * Get the number of available logical processors.
+ */
+fun getAvailableProcessors(): Int = Runtime.getRuntime().availableProcessors()
+
 class XH_Timer {
     private var current = System.nanoTime()
     var elapsed = 0L
         private set
-
-    fun stop() {
-        val old = current
-        current = System.nanoTime()
-        elapsed = current - old
-    }
-
-    fun elapsedNow(): Long = System.nanoTime() - current
+        get() = System.nanoTime() - current
 
     fun reset() {
         current = System.nanoTime()

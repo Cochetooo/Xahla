@@ -7,8 +7,6 @@
 package templates
 
 interface XH_ILogic {
-    /** Called on the startup of the program. */
-    fun onAwake()   {}
     /** Called after the internal engine initialization, while creating the context. */
     fun onInit()    {}
 
@@ -20,13 +18,6 @@ interface XH_ILogic {
     /** Called each seconds. */
     fun onSecond()      {}
 
-    /** Called whenever the program is put in standby. */
-    fun onPause()       {}
-    /** Called when the program resumes. */
-    fun onResume()      {}
-
     /** Called when the program got a request to terminate its execution, before the program exits. */
     fun onDispose()     {}
-    /** Called when the program is about to exit, after it has disposed. */
-    fun onExit()        {}
 }
