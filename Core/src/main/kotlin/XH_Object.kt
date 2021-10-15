@@ -71,9 +71,11 @@ open class XH_Object(val name: String = "XH_Object") : XH_IObjectLogic, Comparab
     override fun onDispose() = components.forEach { it.onDispose() }
 
     override fun toString(): String {
-        var result = "Object $name [${this.javaClass.simpleName}] ID: $id\n"
+        var result = "=============================\n" +
+                "$name [${this.javaClass.simpleName}] ID: $id\n"
         for (c in components)
             result += "\tComponent $c.name [${c.javaClass.simpleName}] ID: ${c.id}\n"
+        result += "============================="
         return result
     }
 

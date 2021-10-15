@@ -25,7 +25,7 @@ class XH_Context(private val app: XH_App) : XH_ICoreLogic {
         objects.remove(obj)
     }
 
-    fun getObjectsByClass(objClass: Class<Any>): List<XH_Object>
+    fun getObjectsByClass(objClass: Class<out XH_Object>): List<XH_Object>
         = objects.stream().filter { objClass.isInstance(it) }.collect(Collectors.toList())
 
     override fun onUpdate() {

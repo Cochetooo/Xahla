@@ -6,7 +6,7 @@ fun main() {
 
 class Main : XH_ICoreLogic {
 
-    constructor() {
+    init {
         app().build(XH_Context::class.java, this)
         app().start()
 
@@ -14,7 +14,15 @@ class Main : XH_ICoreLogic {
     }
 
     override fun onInit() {
-        context().add(MyFirstObject())
+        context().add(MyFirstObject("Obj 1"))
+        context().add(MyFirstObject("Obj 2"))
+    }
+
+    override fun onSecond() {
+        for (obj in context().getObjectsByClass(MyFirstObject::class.java))
+            println(obj)
+
+        app().stop()
     }
 
     override fun onExit() {
@@ -23,10 +31,4 @@ class Main : XH_ICoreLogic {
 
 }
 
-class MyFirstObject : XH_Object("MyFirstObject") {
-    override fun onSecond() {
-        super.onSecond()
-        println("Hello!")
-        app().stop()
-    }
-}
+class MyFirstObject(name: String = "MyFirstObject") : XH_Object(name) {}
