@@ -6,7 +6,7 @@ import templates.XH_ILogic
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-class XH_Component(val obj: XH_Object, val name: String = "XH_Component") : XH_ILogic, Comparable<XH_Component> {
+open class XH_Component(val obj: XH_Object, val name: String = "XH_Component") : XH_ILogic, Comparable<XH_Component> {
     companion object {
         private var auto_increment = 0
     }

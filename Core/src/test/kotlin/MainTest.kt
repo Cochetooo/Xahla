@@ -1,3 +1,4 @@
+import components.XH_CTransform
 import templates.XH_ICoreLogic
 
 fun main() {
@@ -15,20 +16,30 @@ class Main : XH_ICoreLogic {
 
     override fun onInit() {
         context().add(MyFirstObject("Obj 1"))
-        context().add(MyFirstObject("Obj 2"))
     }
 
     override fun onSecond() {
-        for (obj in context().getObjectsByClass(MyFirstObject::class.java))
-            println(obj)
 
-        app().stop()
     }
 
     override fun onExit() {
-        println("Goodbye")
+        println("Exit")
     }
 
 }
 
-class MyFirstObject(name: String = "MyFirstObject") : XH_Object(name) {}
+class MyFirstObject(name: String = "MyFirstObject") : XH_Object(name) {
+    val transform = XH_CTransform(this, name="Transform 1")
+
+    override fun onInit() {
+        add(transform)
+    }
+
+    override fun onSecond() {
+        transform.translate(0.5f, .0f, .0f)
+        println(transform.position)
+
+        if (transform.position.x > 3)
+            app().stop()
+    }
+}
