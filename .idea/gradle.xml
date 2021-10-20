@@ -9,12 +9,13 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="gradleHome" value="C:/Gradle" />
-        <option name="gradleJvm" value="16" />
+        <option name="gradleJvm" value="corretto-16" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Core" />
             <option value="$PROJECT_DIR$/Input" />
+            <option value="$PROJECT_DIR$/Render" />
           </set>
         </option>
       </GradleProjectSettings>

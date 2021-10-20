@@ -1,10 +1,13 @@
 package input
 
 import org.joml.Vector2d
+import org.joml.Vector2f
+import org.lwjgl.BufferUtils
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWKeyCallback
 import org.lwjgl.glfw.GLFWMouseButtonCallback
 import org.lwjgl.glfw.GLFWScrollCallback
+import org.lwjgl.system.MemoryStack.stackPush
 
 /** User Input handling
  * Copyright (C) Xahla - All Rights Reserved
@@ -12,7 +15,7 @@ import org.lwjgl.glfw.GLFWScrollCallback
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object XH_Input {
+object XHR_Input {
     private var window = 0L
     private val KEYBOARD_SIZE = 512
     private val MOUSE_SIZE = 16
@@ -64,7 +67,7 @@ object XH_Input {
         }
     }
 
-    fun update() {
+    fun onUpdate() {
         resetKeyboard()
         resetMouse()
 
@@ -108,7 +111,38 @@ object XH_Input {
     fun mouseButtonDoubleClicked(button: Int): Boolean {
         val last = lastMouseNS
         val flag = mouseButtonReleased(button)
+
+        val now = System.nanoTime()
+
+        if (flag && now - last < mouseDoubleClickPeriodNS) {
+            lastMouseNS = 0
+            return true
+        }
+
+        return false
+    }
+
+    fun getMousePosition(): Vector2f {
+        stackPush().apply {
+            val xBuffer = BufferUtils.createDoubleBuffer(1)
+            val yBuffer = BufferUtils.createDoubleBuffer(1)
+            glfwGetCursorPos(window, xBuffer, yBuffer)
+
+            return Vector2f(xBuffer[0].toFloat(), yBuffer[0].toFloat())
+        }
+    }
+
+    fun getScrollWheel() = scrollOffsets.y.toFloat()
+
+    fun setRawMouseMotion(option: Boolean) {
+        if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
+            return
+
+        if (!glfwRawMouseMotionSupported())
+            return
+
+        glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, if (option) GLFW_TRUE else GLFW_FALSE)
     }
 }
 
-fun input() = XH_Input
+fun input() = XHR_Input

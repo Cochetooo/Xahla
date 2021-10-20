@@ -2,10 +2,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import templates.XH_ICoreLogic
 import templates.XH_ILogic
-import utils.XH_FRAMEWORK_ROOT
-import utils.XH_Logger
-import utils.XH_STATUS_JSON_ERROR
-import utils.xh_tryCatch
+import utils.*
 import java.io.File
 import java.util.*
 
@@ -25,7 +22,8 @@ object XH_Config : XH_ICoreLogic {
     }
 
     override fun onAwake() {
-        File("$XH_FRAMEWORK_ROOT/configs/").walk().forEach { file ->
+        File("configs").walk().forEach { file ->
+            if (file.name == "configs") return@forEach
             val content = file.bufferedReader().use { it.readText() }
 
             xh_tryCatch ({
@@ -34,10 +32,11 @@ object XH_Config : XH_ICoreLogic {
                 while (keys.hasNext()) {
                     val key = keys.next()
                     val obj = jsonObject.get(key)
-                    if (obj is String || obj is Number) {
+                    if (obj is String || obj is Number || obj is Boolean) {
                         properties["${file.nameWithoutExtension}.$key"] = obj
                     } else {
-                        XH_Logger.throwException("The value of $key in ${file.name} has an unvalid format.")
+                        XH_Logger.throwException("The value of $key in ${file.name} has an unvalid format.",
+                            IllegalArgumentException(), classSource="XH_Config")
                     }
                 }
             }, catchException = JSONException::class.java)

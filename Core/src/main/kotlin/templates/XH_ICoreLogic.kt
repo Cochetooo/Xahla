@@ -2,10 +2,11 @@ package templates
 
 interface XH_ICoreLogic : XH_ILogic {
     /** Called on the startup of the program. */
-    fun onAwake()   {}
+
+    fun onAwake()       {}
 
     /** Called after everything else has been initialized. */
-    fun onPostInit() {}
+    fun onPostInit()    {}
 
     /** Called whenever the program is put in standby. */
     fun onPause()       {}

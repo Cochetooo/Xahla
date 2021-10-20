@@ -33,6 +33,7 @@ object XH_App : XH_ICoreLogic {
     /**
      * Instantiate the program app.
      */
+    @JvmStatic
     fun build(pContext: Class<out XH_Context>, pApp: XH_ICoreLogic, ups: Int = 50) {
         this.app = pApp
         this.tick = ups
@@ -40,11 +41,12 @@ object XH_App : XH_ICoreLogic {
         onAwake()
 
         xh_tryCatch {
-            context = pContext.getConstructor(XH_App.javaClass).newInstance(this)
+            context = pContext.getConstructor(XH_App::class.java).newInstance(this)
             onInit()
         }
     }
 
+    @JvmStatic
     fun start() {
         if (running)
             XH_Logger.throwException("The program has already started.")
@@ -93,6 +95,7 @@ object XH_App : XH_ICoreLogic {
         onExit()
     }
 
+    @JvmStatic
     fun stop() {
         onDispose()
     }
@@ -154,4 +157,4 @@ object XH_App : XH_ICoreLogic {
 }
 
 fun app(): XH_App = XH_App
-fun context(): XH_Context = XH_App.context
+fun context(): XH_Context = app().context

@@ -1,3 +1,4 @@
 rootProject.name = 'Xahla'
 include 'Core'
+include 'Render'
 include 'Input'

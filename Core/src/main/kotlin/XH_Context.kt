@@ -8,7 +8,7 @@ import java.util.stream.Collectors
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-class XH_Context(private val app: XH_App) : XH_ICoreLogic {
+open class XH_Context(private val app: XH_App) : XH_ICoreLogic {
 
     val objects: MutableList<XH_Object> = mutableListOf()
 

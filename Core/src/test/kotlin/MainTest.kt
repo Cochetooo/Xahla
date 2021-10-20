@@ -1,5 +1,7 @@
 import components.XH_CTransform
 import templates.XH_ICoreLogic
+import utils.XH_LogLevel
+import utils.logger
 
 fun main() {
     Main()
@@ -8,6 +10,7 @@ fun main() {
 class Main : XH_ICoreLogic {
 
     init {
+        logger().logLevel = XH_LogLevel.ALL
         app().build(XH_Context::class.java, this)
         app().start()
 

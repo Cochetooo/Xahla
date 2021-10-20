@@ -39,6 +39,7 @@ object XH_Logger {
     /**
      * Log a message as a severe message in System.err
      */
+    @JvmOverloads
     fun eLog(message: Any, classSource: String? = null) {
         val tmp = printer
         printer = System.err
@@ -49,6 +50,7 @@ object XH_Logger {
     /**
      * Log a message as a warning message.
      */
+    @JvmOverloads
     fun wLog(message: Any, classSource: String? = null)
         = log(message, XH_LogLevel.WARNING, classSource)
 
@@ -56,6 +58,7 @@ object XH_Logger {
      * Discouraged to use this method if used externally.
      * Log any kind of message into a defined printer if the internal logging is enabled.
      */
+    @JvmOverloads
     fun internal_log(message: Any, logLevel: XH_LogLevel = XH_LogLevel.CONFIG, classSource: String) {
         if (!internalLog)
             return
@@ -66,6 +69,7 @@ object XH_Logger {
     /**
      * Log any kind of message into a defined printer (by default, the standard JVM console System.out)
      */
+    @JvmOverloads
     fun log(message: Any, logLevel: XH_LogLevel = XH_LogLevel.INFO, classSource: String? = null) {
         if (logLevel > this.logLevel)
             return
@@ -83,14 +87,15 @@ object XH_Logger {
      *
      * A HTML log file can be requested with [logFile] = true.
      */
-    fun throwException(message: String? = null, exception: Exception = Exception(), logFile: Boolean = false, classSource: Class<Any>? = null, statusCode: Int = XH_STATUS_GENERAL_ERROR): Nothing {
+    @JvmOverloads
+    fun throwException(message: String? = null, exception: Exception = Exception(), logFile: Boolean = false, classSource: String = "", statusCode: Int = XH_STATUS_GENERAL_ERROR): Nothing {
         eLog("""
             ###### AN ERROR HAS OCCURED #####
             # Exception type: ${exception.javaClass.simpleName}
             # Exception message: ${exception.localizedMessage}
             # Exit Status Code: $statusCode
             # Additional message: ${message ?: "None"}
-            # From: ${classSource?.simpleName ?: "Unknown Class"}
+            # From: ${classSource.ifEmpty { "Unknown Class" }}
             # Occured during: ${SimpleDateFormat("dd/MM/yyyy HH:mm:ss.SSS").format(Date())}
         """.trimIndent())
 
@@ -98,7 +103,7 @@ object XH_Logger {
             val document = Jsoup.parse(html_content)
 
             val fileClass = document.select("#file_class")
-            fileClass.html("${classSource?.simpleName ?: "Unknown Class"}")
+            fileClass.html("${classSource.ifEmpty { "Unknown Class" }}")
 
             val exceptionName = document.select("#exception_name, title")
             exceptionName.html("${exception.javaClass.simpleName}")
@@ -150,3 +155,5 @@ object XH_Logger {
         return sw.buffer.toString()
     }
 }
+
+fun logger() = XH_Logger

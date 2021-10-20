@@ -1,0 +1,16 @@
+{
+  "projection": "2d",
+  "engine": "opengl",
+  "standard_opengl_version": 4.0,
+  "initial_width": 1280,
+  "initial_height": 720,
+  "resizable": true,
+  "fullscreen": false,
+  "window_title": "Simple Demo",
+  "color_buffer_bits": 32,
+  "floating": true,
+  "decoration": true,
+  "msaa": 0,
+  "center_cursor": true,
+  "vsync": false
+}
