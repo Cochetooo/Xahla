@@ -33,6 +33,7 @@ object XHR_Input {
 
     private val scrollOffsets = Vector2d(0.0, 0.0)
 
+    @JvmStatic
     fun init(pWindow: Long) {
         window = pWindow
 
@@ -89,16 +90,22 @@ object XHR_Input {
             lastMouseNS = 0
     }
 
+    @JvmStatic
     fun keyDown(key: Int): Boolean = activeKeys[key]
 
+    @JvmStatic
     fun keyPressed(key: Int): Boolean = keyStates[key] == GLFW_PRESS
 
+    @JvmStatic
     fun keyReleased(key: Int): Boolean = keyStates[key] == GLFW_RELEASE
 
+    @JvmStatic
     fun mouseButtonDown(button: Int): Boolean = activeMouseButtons[button]
 
+    @JvmStatic
     fun mouseButtonPressed(button: Int): Boolean = mouseButtonStates[button] == GLFW_PRESS
 
+    @JvmStatic
     fun mouseButtonReleased(button: Int): Boolean {
         val flag = mouseButtonStates[button] == GLFW_RELEASE
 
@@ -108,6 +115,7 @@ object XHR_Input {
         return flag
     }
 
+    @JvmStatic
     fun mouseButtonDoubleClicked(button: Int): Boolean {
         val last = lastMouseNS
         val flag = mouseButtonReleased(button)
@@ -122,6 +130,7 @@ object XHR_Input {
         return false
     }
 
+    @JvmStatic
     fun getMousePosition(): Vector2f {
         stackPush().apply {
             val xBuffer = BufferUtils.createDoubleBuffer(1)
@@ -132,8 +141,10 @@ object XHR_Input {
         }
     }
 
+    @JvmStatic
     fun getScrollWheel() = scrollOffsets.y.toFloat()
 
+    @JvmStatic
     fun setRawMouseMotion(option: Boolean) {
         if (glfwGetInputMode(window, GLFW_CURSOR) == GLFW_CURSOR_NORMAL)
             return

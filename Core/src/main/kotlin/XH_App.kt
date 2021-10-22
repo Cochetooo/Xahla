@@ -1,8 +1,11 @@
+import templates.XH_IApp
 import templates.XH_ICoreLogic
 import templates.XH_ILogic
 import utils.XH_Logger
 import utils.XH_Timer
+import utils.logger
 import utils.xh_tryCatch
+import kotlin.reflect.KClass
 import kotlin.system.exitProcess
 
 /** App instance
@@ -11,9 +14,8 @@ import kotlin.system.exitProcess
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object XH_App : XH_ICoreLogic {
+object XH_App : XH_IApp {
     private lateinit var app: XH_ICoreLogic
-    private var running = false;
     var paused = false
         set(value) {
             if (!value)
@@ -27,14 +29,14 @@ object XH_App : XH_ICoreLogic {
     private var tick = 0;
 
     private var tickTime = 0.0;
-
-    internal lateinit var context: XH_Context
+    private var running: Boolean = false
+    override lateinit var context: XH_Context
 
     /**
      * Instantiate the program app.
      */
-    @JvmStatic
-    fun build(pContext: Class<out XH_Context>, pApp: XH_ICoreLogic, ups: Int = 50) {
+    @JvmOverloads
+    override fun build(pContext: Class<out XH_Context>, pApp: XH_ICoreLogic, ups: Int) {
         this.app = pApp
         this.tick = ups
 
@@ -46,8 +48,7 @@ object XH_App : XH_ICoreLogic {
         }
     }
 
-    @JvmStatic
-    fun start() {
+    override fun start() {
         if (running)
             XH_Logger.throwException("The program has already started.")
 
@@ -95,8 +96,7 @@ object XH_App : XH_ICoreLogic {
         onExit()
     }
 
-    @JvmStatic
-    fun stop() {
+    override fun stop() {
         onDispose()
     }
 
@@ -156,5 +156,9 @@ object XH_App : XH_ICoreLogic {
 
 }
 
-fun app(): XH_App = XH_App
+private val app: XH_IApp
+    = (Class.forName(config()["app.app_name"] as String).kotlin as KClass<out XH_IApp>)
+            .objectInstance ?: logger().throwException("App Class is unvalid.", IllegalArgumentException())
+
+fun app(): XH_IApp = app
 fun context(): XH_Context = app().context

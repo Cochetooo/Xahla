@@ -17,6 +17,7 @@ object XHR_OpenGL {
     var msaa = 0
         private set
 
+    @JvmStatic
     fun init(pContext: XHR_ClientContext) {
         context = pContext
 
@@ -45,6 +46,7 @@ object XHR_OpenGL {
         return true
     }
 
+    @JvmStatic
     fun setMSAA(level: Int) {
         if (level < 0 || level > 3)
             logger().throwException("MSAA level must be between 0 and 3", IllegalArgumentException())

@@ -12,7 +12,7 @@ import org.joml.Vector3f
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-class XH_CTransform(obj: XH_Object, val position: Vector3f = Vector3f(), val rotation: Quaternionf = Quaternionf(), val scale: Vector3f = Vector3f(), name: String = "Transform")
+class XH_CTransform @JvmOverloads constructor(obj: XH_Object, val position: Vector3f = Vector3f(), val rotation: Quaternionf = Quaternionf(), val scale: Vector3f = Vector3f(), name: String = "Transform")
     : XH_Component(obj, name) {
 
     fun toMatrix(): Matrix4f {

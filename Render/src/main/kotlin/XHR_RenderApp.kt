@@ -1,3 +1,5 @@
-fun XH_App.startWithRender(fps: Int) {
+import templates.XHR_IRenderLogic
+
+class XHR_RenderApp : XHR_IRenderLogic {
 
 }

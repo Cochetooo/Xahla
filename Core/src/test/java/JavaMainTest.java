@@ -8,8 +8,8 @@ public class JavaMainTest implements XH_ICoreLogic {
     public static void main(String[] args) {
         JavaMainTest main = new JavaMainTest();
         logger().setLogLevel(XH_LogLevel.ALL);
-        XH_App.build(XH_Context.class, main, 60);
-        XH_App.start();
+        XH_AppKt.app().build(XH_Context.class, main, 60);
+        XH_AppKt.app().start();
 
         // Prohibited to do something here
     }

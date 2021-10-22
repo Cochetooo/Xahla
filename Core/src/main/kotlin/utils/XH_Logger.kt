@@ -40,6 +40,7 @@ object XH_Logger {
      * Log a message as a severe message in System.err
      */
     @JvmOverloads
+    @JvmStatic
     fun eLog(message: Any, classSource: String? = null) {
         val tmp = printer
         printer = System.err
@@ -51,6 +52,7 @@ object XH_Logger {
      * Log a message as a warning message.
      */
     @JvmOverloads
+    @JvmStatic
     fun wLog(message: Any, classSource: String? = null)
         = log(message, XH_LogLevel.WARNING, classSource)
 
@@ -59,6 +61,7 @@ object XH_Logger {
      * Log any kind of message into a defined printer if the internal logging is enabled.
      */
     @JvmOverloads
+    @JvmStatic
     fun internal_log(message: Any, logLevel: XH_LogLevel = XH_LogLevel.CONFIG, classSource: String) {
         if (!internalLog)
             return
@@ -70,6 +73,7 @@ object XH_Logger {
      * Log any kind of message into a defined printer (by default, the standard JVM console System.out)
      */
     @JvmOverloads
+    @JvmStatic
     fun log(message: Any, logLevel: XH_LogLevel = XH_LogLevel.INFO, classSource: String? = null) {
         if (logLevel > this.logLevel)
             return
@@ -88,6 +92,7 @@ object XH_Logger {
      * A HTML log file can be requested with [logFile] = true.
      */
     @JvmOverloads
+    @JvmStatic
     fun throwException(message: String? = null, exception: Exception = Exception(), logFile: Boolean = false, classSource: String = "", statusCode: Int = XH_STATUS_GENERAL_ERROR): Nothing {
         eLog("""
             ###### AN ERROR HAS OCCURED #####
@@ -148,6 +153,7 @@ object XH_Logger {
     /**
      * Get the exact stack trace of an exception as a String.
      */
+    @JvmStatic
     fun getStackTrace(ex: Throwable): String {
         val sw = StringWriter()
         val pw = PrintWriter(sw, true)

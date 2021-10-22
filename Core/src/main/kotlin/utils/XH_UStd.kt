@@ -14,6 +14,8 @@ fun xh_tryCatch(expression: () -> Unit) = xh_tryCatch(expression, null)
 /**
  * Automated try catch that throws the possible caught exception with the [XH_Logger.throwException] method.
  */
+@JvmName("tryCatch")
+@JvmOverloads
 fun xh_tryCatch(expression: () -> Unit, message: String? = null, catchException: Class<out Exception> = Exception::class.java) {
     try {
         expression()

@@ -9,7 +9,9 @@ import java.util.stream.Collectors
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-open class XH_Object(val name: String = "XH_Object") : XH_IObjectLogic, Comparable<XH_Object> {
+open class XH_Object
+        @JvmOverloads constructor(val name: String = "XH_Object") : XH_IObjectLogic, Comparable<XH_Object> {
+
     companion object {
         private var auto_increment = 0
     }

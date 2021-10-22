@@ -15,11 +15,10 @@ The lib/ folder contains LWJGL 3.2.3, JOML 1.10.2, JSON 2021-03-07 and JSoup 1.1
 
 # Modules
 Xahla framework provides several modules, that can be separately used:
-- **Core**: 0.2.0 [Core engine]
+- **Core**: 0.3.0 [Core engine]
 - **Server** *(optional)*: 0.1.2 [Server-side features]
-- **Render** *(optional)*: 0.1.3 [Client Rendering, supporting OpenGL and Vulkan]
+- **Render** *(optional)*: 0.2.0 [Client Rendering and Input, supporting OpenGL and Vulkan]
 - **Audio** *(optional)*: 0.1.1 [Sound & audio with OpenAL]
-- **Input** *(optional)*: 0.1.3 [Keyboard, mouse and game controllers input handling]
 - **Physics** *(optional)*: 0.1.2 [Physics engine]
 - **GUI** *(optional)*: 0.1.1 [User-interface management]
 - **AI** *(optional)*: 0.1.1 [Artifical Intelligence Handling]
