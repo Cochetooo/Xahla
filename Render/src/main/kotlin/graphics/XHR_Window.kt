@@ -3,6 +3,7 @@ package graphics
 import XHR_ENGINE
 import XHR_OPENGL
 import XHR_VULKAN
+import app
 import config
 import context.XHR_ClientContext
 import input.input
@@ -18,6 +19,7 @@ import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.NULL
 import templates.XHR_IRenderLogic
 import utils.XH_Logger
+import utils.XH_STATUS_GLFW_ERROR
 import utils.logger
 import java.lang.IllegalStateException
 import java.lang.Math.pow
@@ -48,7 +50,8 @@ class XHR_Window(val context: XHR_ClientContext) : XHR_IRenderLogic {
         GLFWErrorCallback.createPrint(logger().printer).set()
 
         if (!glfwInit())
-            logger().throwException("Unable to initialize GLFW", IllegalStateException())
+            logger().throwException("Unable to initialize GLFW", IllegalStateException(),
+                classSource = "XHR_Window", statusCode = XH_STATUS_GLFW_ERROR)
 
         glfwDefaultWindowHints()
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE)
@@ -68,7 +71,8 @@ class XHR_Window(val context: XHR_ClientContext) : XHR_IRenderLogic {
         window = glfwCreateWindow(windowSize.x, windowSize.y, config.title, NULL, NULL)
 
         if (window == NULL)
-            logger().throwException("Failed to create the GLFW window", RuntimeException())
+            logger().throwException("Failed to create the GLFW window", RuntimeException(),
+                classSource = "XHR_Window", statusCode = XH_STATUS_GLFW_ERROR)
 
         stackPush().apply {
             val pWidth = this.mallocInt(1)
@@ -76,7 +80,8 @@ class XHR_Window(val context: XHR_ClientContext) : XHR_IRenderLogic {
 
             glfwGetWindowSize(window, pWidth, pHeight)
             val vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor())
-                ?: logger().throwException("Failed to retrieve a screen monitor", RuntimeException())
+                ?: logger().throwException("Failed to retrieve a screen monitor", RuntimeException(),
+                    classSource = "XHR_Window", statusCode = XH_STATUS_GLFW_ERROR)
 
             glfwSetWindowPos(
                 window,
@@ -116,7 +121,7 @@ class XHR_Window(val context: XHR_ClientContext) : XHR_IRenderLogic {
 
     override fun onUpdate() {
         if (glfwWindowShouldClose(window))
-            context.onDispose()
+            app().stop()
 
         input().onUpdate()
     }

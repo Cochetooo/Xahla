@@ -1,10 +1,8 @@
 import templates.XH_IApp
 import templates.XH_ICoreLogic
 import templates.XH_ILogic
-import utils.XH_Logger
-import utils.XH_Timer
-import utils.logger
-import utils.xh_tryCatch
+import utils.*
+import java.lang.IllegalStateException
 import kotlin.reflect.KClass
 import kotlin.system.exitProcess
 
@@ -14,7 +12,7 @@ import kotlin.system.exitProcess
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object XH_App : XH_IApp {
+object XH_App : XH_IApp, XH_ICoreLogic {
     private lateinit var app: XH_ICoreLogic
     var paused = false
         set(value) {
@@ -36,21 +34,25 @@ object XH_App : XH_IApp {
      * Instantiate the program app.
      */
     @JvmOverloads
-    override fun build(pContext: Class<out XH_Context>, pApp: XH_ICoreLogic, ups: Int) {
+    override fun build(pContext: Class<out XH_Context>, pApp: XH_ICoreLogic) {
         this.app = pApp
-        this.tick = ups
 
         onAwake()
 
         xh_tryCatch {
             context = pContext.getConstructor(XH_App::class.java).newInstance(this)
+            context.onAwake()
+
+            this.tick = config()[XH_CONFIG_UPS] as Int
+
             onInit()
         }
     }
 
     override fun start() {
         if (running)
-            XH_Logger.throwException("The program has already started.")
+            logger().throwException("The program has already started.", IllegalStateException(),
+                classSource = "XH_App", statusCode = XH_STATUS_GENERAL_ERROR)
 
         onPostInit()
         running = true
@@ -102,7 +104,6 @@ object XH_App : XH_IApp {
 
     override fun onAwake() {
         app.onAwake()
-        XH_Config.onAwake()
     }
 
     override fun onInit() {
@@ -157,8 +158,24 @@ object XH_App : XH_IApp {
 }
 
 private val app: XH_IApp
-    = (Class.forName(config()["app.app_name"] as String).kotlin as KClass<out XH_IApp>)
-            .objectInstance ?: logger().throwException("App Class is unvalid.", IllegalArgumentException())
+    get() {
+        XH_Config.onAwake()
+
+        var clazz: KClass<out XH_IApp>? = null
+
+        if (config()[XH_CONFIG_CLASS] == null) {
+            logger().wLog("App class not defined! Choosing XH_App by default.")
+            clazz = XH_App.javaClass.kotlin
+        } else {
+            xh_tryCatch ({
+                clazz = Class.forName(config()[XH_CONFIG_CLASS] as String).kotlin as KClass<out XH_IApp>
+
+            }, "App Class name is not found: ${config()[XH_CONFIG_CLASS]}", ClassNotFoundException::class.java)
+        }
+
+        return clazz!!.objectInstance ?: logger().throwException("App is not a valid object class", IllegalArgumentException(),
+            classSource = "XH_App", statusCode = XH_STATUS_GENERAL_ERROR)
+    }
 
 fun app(): XH_IApp = app
 fun context(): XH_Context = app().context

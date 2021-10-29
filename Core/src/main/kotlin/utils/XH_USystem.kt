@@ -23,7 +23,8 @@ val XH_DEVICE_OS: XH_EOperatingSystem = with(System.getProperty("os.name").lower
         contains("lin") or contains("uni") -> XH_EOperatingSystem.UNIX
         contains("mac") or contains("osx") -> XH_EOperatingSystem.OSX
         // Miss Android & iOS
-        else -> XH_Logger.throwException("Unsupported Operating System.", statusCode = XH_STATUS_GENERAL_ERROR)
+        else -> logger().throwException("Unsupported Operating System.",
+            statusCode = XH_STATUS_GENERAL_ERROR)
     }
 }
 

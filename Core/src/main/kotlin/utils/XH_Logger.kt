@@ -93,7 +93,7 @@ object XH_Logger {
      */
     @JvmOverloads
     @JvmStatic
-    fun throwException(message: String? = null, exception: Exception = Exception(), logFile: Boolean = false, classSource: String = "", statusCode: Int = XH_STATUS_GENERAL_ERROR): Nothing {
+    fun throwException(message: String? = null, exception: Exception = Exception(), logFile: Boolean = true, classSource: String = "", statusCode: Int = XH_STATUS_GENERAL_ERROR): Nothing {
         eLog("""
             ###### AN ERROR HAS OCCURED #####
             # Exception type: ${exception.javaClass.simpleName}
@@ -113,8 +113,8 @@ object XH_Logger {
             val exceptionName = document.select("#exception_name, title")
             exceptionName.html("${exception.javaClass.simpleName}")
 
-            val statusCode = document.select("#status_code")
-            statusCode.html("Exit Status Code: $statusCode")
+            val statusCodeElem = document.select("#status_code")
+            statusCodeElem.html("Exit Status Code: $statusCode")
 
             val exceptionMessage = document.select("#exception_message")
             exceptionMessage.html("${exception.localizedMessage}")
@@ -143,7 +143,7 @@ object XH_Logger {
 
             val filename = "logs/xh_err_log-${SimpleDateFormat("dd_MM_yyyy-HH_mm_ss").format(Date())}.html"
             xh_file_write(filename, document.html())
-            eLog("See $filename for more information.")
+            internal_log("See $filename for more information.", XH_LogLevel.INFO, "XH_Logger")
             xh_open_webpage(URL("file:///${Paths.get("").toAbsolutePath()}/$filename"))
         }
 

@@ -1,3 +1,7 @@
-logs/
+.gradle
 build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+logs/
 *.log

@@ -32,6 +32,7 @@ val XH_STATUS_CONNECTION_ERROR = 8
 val XH_STATUS_DB_ERROR = 9
 val XH_STATUS_JSON_ERROR = 10
 val XH_STATUS_JOML_ERROR = 11
+val XH_STATUS_GLFW_ERROR = 12
 
 val XH_CONTEXT_INFO = mapOf(
     "OS Name" to System.getProperty("os.name"),
@@ -48,3 +49,9 @@ val XH_CONTEXT_INFO = mapOf(
     "Xahla Framework Version" to XH_FRAMEWORK_VERSION,
     "Xahla Environment" to XH_FRAMEWORK_ENVIRONMENT
 )
+
+val XH_CONFIG_CLASS = "app.class"
+val XH_CONFIG_DEFAULT_CLASS = "XH_App"
+
+val XH_CONFIG_UPS = "app.update_per_second"
+val XH_CONFIG_DEFAULT_UPS = 50

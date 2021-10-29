@@ -1,17 +1,23 @@
 package graphics
 
-import XHR_OPENGL_MAX_COLOR_ATTACHMENTS
-import XHR_OPENGL_VERSION
 import config
 import context.XHR_ClientContext
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL13.GL_MULTISAMPLE
 import org.lwjgl.opengl.GL13.GL_TEXTURE_3D
+import org.lwjgl.opengl.GL30
 import utils.XH_LogLevel
+import utils.XH_STATUS_OPENGL_ERROR
 import utils.logger
 
 object XHR_OpenGL {
     private lateinit var context: XHR_ClientContext
+
+    var XHR_OPENGL_VERSION: String? = null
+        private set
+
+    var XHR_OPENGL_MAX_COLOR_ATTACHMENTS: Int = 0
+        private set
 
     val modernGL = setStandardOpenGLVersion()
     var msaa = 0
@@ -22,6 +28,9 @@ object XHR_OpenGL {
         context = pContext
 
         setMSAA(context.window.config.msaa)
+
+        XHR_OPENGL_VERSION = glGetString(GL_VERSION)
+        XHR_OPENGL_MAX_COLOR_ATTACHMENTS = glGetInteger(GL30.GL_MAX_COLOR_ATTACHMENTS)
 
         glEnable(GL_TEXTURE_2D)
         if (context.projection == "3d")
@@ -38,7 +47,8 @@ object XHR_OpenGL {
             logger().wLog("Can't find OpenGL version. It might impact the program.")
             return false
         }
-        val glVersionString = XHR_OPENGL_VERSION.split(" ")[0].trim()
+
+        val glVersionString = XHR_OPENGL_VERSION!!.split(" ")[0].trim()
         val glVersion = glVersionString.substring(0, 3).toFloat()
 
         if (glVersion < config()["rendering.standard_opengl_version"] as Float)
@@ -49,7 +59,8 @@ object XHR_OpenGL {
     @JvmStatic
     fun setMSAA(level: Int) {
         if (level < 0 || level > 3)
-            logger().throwException("MSAA level must be between 0 and 3", IllegalArgumentException())
+            logger().throwException("MSAA level must be between 0 and 3", IllegalArgumentException(),
+                classSource = "XHR_OpenGL", statusCode = XH_STATUS_OPENGL_ERROR)
 
         if (level == 0)
             glDisable(GL_MULTISAMPLE)

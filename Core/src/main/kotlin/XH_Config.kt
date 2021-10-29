@@ -16,7 +16,7 @@ object XH_Config : XH_ICoreLogic {
 
     val properties: MutableMap<String, Any> = mutableMapOf()
 
-    operator fun get(key: String): Any = properties[key] ?: "null"
+    operator fun get(key: String): Any? = properties[key]
     operator fun set(key: String, value: Any) {
         properties[key] = value
     }
@@ -35,8 +35,8 @@ object XH_Config : XH_ICoreLogic {
                     if (obj is String || obj is Number || obj is Boolean) {
                         properties["${file.nameWithoutExtension}.$key"] = obj
                     } else {
-                        XH_Logger.throwException("The value of $key in ${file.name} has an unvalid format.",
-                            IllegalArgumentException(), classSource="XH_Config")
+                        logger().throwException("The value of $key in ${file.name} has an unvalid format.",
+                            IllegalArgumentException(), classSource="XH_Config", statusCode = XH_STATUS_JSON_ERROR)
                     }
                 }
             }, catchException = JSONException::class.java)
