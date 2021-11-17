@@ -56,8 +56,6 @@ object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
             if (this.render > 1_000_000_000 || this.render < 0)
                 this.render = 1_000_000_000
 
-            logger().log("FPS: $render")
-
             onInit()
         }
     }
