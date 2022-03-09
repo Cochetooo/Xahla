@@ -177,5 +177,8 @@ private val app: XH_IApp
             classSource = "XH_App", statusCode = XH_STATUS_GENERAL_ERROR)
     }
 
+/**
+ * app points to the program whatever if it is a custom or default app.
+ */
 fun app(): XH_IApp = app
 fun context(): XH_Context = app().context

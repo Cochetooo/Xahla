@@ -10,6 +10,12 @@ import utils.XH_LogLevel
 import utils.XH_STATUS_OPENGL_ERROR
 import utils.logger
 
+/** OpenGL Utils
+ * Copyright (C) Xahla - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
+ */
 object XHR_OpenGL {
     private lateinit var context: XHR_ClientContext
 
@@ -19,7 +25,9 @@ object XHR_OpenGL {
     var XHR_OPENGL_MAX_COLOR_ATTACHMENTS: Int = 0
         private set
 
-    val modernGL = setStandardOpenGLVersion()
+    var modernGL = false
+        private set
+
     var msaa = 0
         private set
 
@@ -31,6 +39,8 @@ object XHR_OpenGL {
 
         XHR_OPENGL_VERSION = glGetString(GL_VERSION)
         XHR_OPENGL_MAX_COLOR_ATTACHMENTS = glGetInteger(GL30.GL_MAX_COLOR_ATTACHMENTS)
+
+        setStandardOpenGLVersion()
 
         glEnable(GL_TEXTURE_2D)
         if (context.projection == "3d")
