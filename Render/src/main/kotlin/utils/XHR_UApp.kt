@@ -1,7 +1,4 @@
-import org.lwjgl.opengl.GL11.*
-import org.lwjgl.opengl.GL30.GL_MAX_COLOR_ATTACHMENTS
-
-val XHR_OPENGL = "opengl"
+val XHR_OPENGL = "graphics/opengl"
 val XHR_VULKAN = "vulkan"
 val XHR_NOENGINE = "none"
 
@@ -20,7 +17,7 @@ val XHR_CONFIG_PROJECTION = "rendering.projection"
 val XHR_CONFIG_DEFAULT_PROJECTION = "2d"
 
 val XHR_CONFIG_ENGINE = "rendering.engine"
-val XHR_CONFIG_DEFAULT_ENGINE = "opengl"
+val XHR_CONFIG_DEFAULT_ENGINE = "graphics/opengl"
 
 val XHR_CONFIG_STANDARD_OPENGL_VERSION = "rendering.standard_opengl_version"
 val XHR_CONFIG_DEFAULT_STANDARD_OPENGL_VERSION = 4.0
