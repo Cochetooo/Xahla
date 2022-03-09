@@ -1,11 +1,3 @@
-val XHR_OPENGL = "graphics/opengl"
-val XHR_VULKAN = "vulkan"
-val XHR_NOENGINE = "none"
-
-val XHR_ENGINE = config()["rendering.engine"] as String
-
-val XHR_VERSION = "0.2.0"
-
 /*
     CONFIGURATIONS
  */
@@ -54,3 +46,39 @@ val XHR_CONFIG_DEFAULT_CENTER_CURSOR = true
 
 val XHR_CONFIG_VSYNC = "rendering.vsync"
 val XHR_CONFIG_DEFAULT_VSYNC = false
+
+val XHR_CONFIG_GL_ATTRIB_LOCATION_POSITION = "gl.attrib_location_position"
+val XHR_CONFIG_GL_DEFAULT_ATTRIB_LOCATION_POSITION = "in_position"
+
+val XHR_CONFIG_GL_ATTRIB_LOCATION_COLOR = "gl.attrib_location_color"
+val XHR_CONFIG_GL_DEFAULT_ATTRIB_LOCATION_COLOR = "in_color"
+
+val XHR_CONFIG_GL_ATTRIB_LOCATION_NORMAL = "gl.attrib_location_normal"
+val XHR_CONFIG_GL_DEFAULT_ATTRIB_LOCATION_NORMAL = "in_normal"
+
+val XHR_CONFIG_GL_ATTRIB_LOCATION_TEXCOORD = "gl.attrib_location_texcoord"
+val XHR_CONFIG_GL_DEFAULT_ATTRIB_LOCATION_TEXCOORD = "in_texCoord"
+
+val XHR_CONFIG_GL_GEOMETRY_EXT = "gl.geometry_shader_ext"
+val XHR_CONFIG_GL_DEFAULT_GEOMETRY_EXT = ".gsh"
+
+val XHR_CONFIG_GL_VERTEX_EXT = "gl.vertex_shader_ext"
+val XHR_CONFIG_GL_DEFAULT_VERTEX_EXT = ".vsh"
+
+val XHR_CONFIG_GL_FRAGMENT_EXT = "gl.fragment_shader_ext"
+val XHR_CONFIG_GL_DEFAULT_FRAGMENT_EXT = ".fsh"
+
+/*  Other Utils  */
+
+val XHR_OPENGL = "graphics/opengl"
+val XHR_VULKAN = "vulkan"
+val XHR_NOENGINE = "none"
+
+val XHR_VERSION = "0.2.0"
+
+val XHR_ENGINE = config()[XHR_CONFIG_ENGINE] as String
+
+val XHR_GL_ATTRIB_LOCATION_POSITION = config()[XHR_CONFIG_GL_ATTRIB_LOCATION_POSITION] as String
+val XHR_GL_ATTRIB_LOCATION_COLOR = config()[XHR_CONFIG_GL_ATTRIB_LOCATION_COLOR] as String
+val XHR_GL_ATTRIB_LOCATION_NORMAL = config()[XHR_CONFIG_GL_ATTRIB_LOCATION_NORMAL] as String
+val XHR_GL_ATTRIB_LOCATION_TEXCOORD = config()[XHR_CONFIG_GL_ATTRIB_LOCATION_TEXCOORD] as String

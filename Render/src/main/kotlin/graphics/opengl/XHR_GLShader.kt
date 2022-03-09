@@ -1,5 +1,8 @@
 package graphics.opengl
 
+import XHR_CONFIG_GL_FRAGMENT_EXT
+import XHR_CONFIG_GL_GEOMETRY_EXT
+import XHR_CONFIG_GL_VERTEX_EXT
 import XH_Context
 import config
 import graphics.gl
@@ -22,7 +25,7 @@ import java.io.InputStreamReader
  * @author Cochetooo
  * @version 1.6
  */
-class XHR_GLShader(context: XH_Context, path: String, geometryShader: Boolean = false) {
+class XHR_GLShader(private val context: XH_Context, private val path: String, private val geometryShader: Boolean = false) {
 
     private val program: Int = glCreateProgram()
 
@@ -100,9 +103,9 @@ class XHR_GLShader(context: XH_Context, path: String, geometryShader: Boolean = 
     }
 
     companion object {
-        private val gShader = config()["rendering.geometry_shader_ext"]
-        private val vShader = config()["rendering.vertex_shader_ext"]
-        private val fShader = config()["rendering.fragment_shader_ext"]
+        private val gShader = config()[XHR_CONFIG_GL_GEOMETRY_EXT]
+        private val vShader = config()[XHR_CONFIG_GL_VERTEX_EXT]
+        private val fShader = config()[XHR_CONFIG_GL_FRAGMENT_EXT]
 
         val SHADER_PATH = if (gl().modernGL) "res/shaders/std/" else "res/shaders/comp"
 

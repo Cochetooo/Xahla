@@ -1,5 +1,6 @@
 package graphics
 
+import XHR_CONFIG_STANDARD_OPENGL_VERSION
 import config
 import context.XHR_ClientContext
 import org.lwjgl.opengl.GL11.*
@@ -61,7 +62,7 @@ object XHR_OpenGL {
         val glVersionString = XHR_OPENGL_VERSION!!.split(" ")[0].trim()
         val glVersion = glVersionString.substring(0, 3).toFloat()
 
-        if (glVersion < config()["rendering.standard_opengl_version"] as Float)
+        if (glVersion < config()[XHR_CONFIG_STANDARD_OPENGL_VERSION] as Float)
             return false
         return true
     }

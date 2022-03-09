@@ -1,5 +1,16 @@
 package graphics
 
+import XHR_CONFIG_CENTER_CURSOR
+import XHR_CONFIG_COLOR_BUFFER_BITS
+import XHR_CONFIG_DECORATION
+import XHR_CONFIG_FLOATING
+import XHR_CONFIG_FULLSCREEN
+import XHR_CONFIG_INITIAL_HEIGHT
+import XHR_CONFIG_INITIAL_WIDTH
+import XHR_CONFIG_MSAA
+import XHR_CONFIG_RESIZABLE
+import XHR_CONFIG_VSYNC
+import XHR_CONFIG_WINDOW_TITLE
 import XHR_ENGINE
 import XHR_OPENGL
 import XHR_VULKAN
@@ -30,20 +41,20 @@ class XHR_Window(val context: XHR_ClientContext) : XHR_IRenderLogic {
     var window: Long = 0L
         private set
 
-    val windowSize = Vector2i(config()["rendering.initial_width"] as Int,
-        config()["rendering.initial_height"] as Int)
+    val windowSize = Vector2i(config()[XHR_CONFIG_INITIAL_WIDTH] as Int,
+        config()[XHR_CONFIG_INITIAL_HEIGHT] as Int)
 
     val config: XHR_GLFWConfiguration = XHR_GLFWConfiguration(
-        if (config()["rendering.resizable"] as Boolean) GLFW_TRUE else GLFW_FALSE,
-        if (config()["rendering.fullscreen"] as Boolean) GLFW_TRUE else GLFW_FALSE,
+        if (config()[XHR_CONFIG_RESIZABLE] as Boolean) GLFW_TRUE else GLFW_FALSE,
+        if (config()[XHR_CONFIG_FULLSCREEN] as Boolean) GLFW_TRUE else GLFW_FALSE,
         windowSize.x, windowSize.y,
-        config()["rendering.window_title"] as String,
-        config()["rendering.color_buffer_bits"] as Int,
-        if (config()["rendering.floating"] as Boolean) GLFW_TRUE else GLFW_FALSE,
-        if (config()["rendering.decoration"] as Boolean) GLFW_TRUE else GLFW_FALSE,
-        config()["rendering.msaa"] as Int,
-        if (config()["rendering.center_cursor"] as Boolean) GLFW_TRUE else GLFW_FALSE,
-        if (config()["rendering.vsync"] as Boolean) GLFW_TRUE else GLFW_FALSE
+        config()[XHR_CONFIG_WINDOW_TITLE] as String,
+        config()[XHR_CONFIG_COLOR_BUFFER_BITS] as Int,
+        if (config()[XHR_CONFIG_FLOATING] as Boolean) GLFW_TRUE else GLFW_FALSE,
+        if (config()[XHR_CONFIG_DECORATION] as Boolean) GLFW_TRUE else GLFW_FALSE,
+        config()[XHR_CONFIG_MSAA] as Int,
+        if (config()[XHR_CONFIG_CENTER_CURSOR] as Boolean) GLFW_TRUE else GLFW_FALSE,
+        if (config()[XHR_CONFIG_VSYNC] as Boolean) GLFW_TRUE else GLFW_FALSE
     )
 
     override fun onInit() {

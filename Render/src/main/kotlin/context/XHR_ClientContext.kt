@@ -2,6 +2,7 @@ package context
 
 import XHR_CONFIG_DEFAULT_FPS
 import XHR_CONFIG_FPS
+import XHR_CONFIG_PROJECTION
 import XHR_ENGINE
 import XHR_OPENGL
 import XH_App
@@ -68,7 +69,7 @@ class XHR_ClientContext(app: XH_IApp) : XH_Context(app), XHR_IRenderLogic {
     override fun onInit() {
         super<XH_Context>.onInit()
 
-        projection = config()["rendering.projection"] as String
+        projection = config()[XHR_CONFIG_PROJECTION] as String
 
         window = XHR_Window(this)
         window.onInit()
