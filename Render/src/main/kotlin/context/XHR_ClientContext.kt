@@ -28,6 +28,24 @@ class XHR_ClientContext(app: XH_IApp) : XH_Context(app), XHR_IRenderLogic {
     override fun onAwake() {
         super.onAwake()
 
+        /*
+        "projection": "2d",
+  "engine": "opengl",
+  "standard_opengl_version": 4.0,
+  "initial_width": 1280,
+  "initial_height": 720,
+  "resizable": true,
+  "fullscreen": false,
+  "window_title": "Simple Demo",
+  "color_buffer_bits": 32,
+  "floating": true,
+  "decoration": true,
+  "msaa": 0,
+  "center_cursor": true,
+  "vsync": false
+
+         */
+
         if (config()[XHR_CONFIG_FPS] == null)
             config()[XHR_CONFIG_FPS] = XHR_CONFIG_DEFAULT_FPS
         else {
