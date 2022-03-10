@@ -36,7 +36,9 @@ fun createProject(name: String) {
     println("Creating project $name ...")
 
     val root = File("$currentFolder/$name")
-    root.mkdir()
+
+    if (!root.exists())
+        root.mkdir()
 
     val sourceDirectoryLocation = "vendor/templates/sample_project"
 
