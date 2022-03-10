@@ -1,6 +1,6 @@
 package templates
 
-interface XH_ICoreLogic : XH_ILogic {
+interface ICoreEngine : XH_ILogic {
     /** Called on the startup of the program. */
     fun onAwake()       {}
 

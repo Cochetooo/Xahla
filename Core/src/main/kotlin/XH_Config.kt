@@ -1,11 +1,9 @@
 import org.json.JSONException
 import org.json.JSONObject
-import templates.XH_ICoreLogic
-import templates.XH_ILogic
+import templates.ICoreEngine
 import utils.*
 import java.io.File
 import java.math.BigDecimal
-import java.util.*
 
 /** Configuration Handling
  * Copyright (C) Xahla - All Rights Reserved
@@ -13,7 +11,7 @@ import java.util.*
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object XH_Config : XH_ICoreLogic {
+object XH_Config : ICoreEngine {
 
     private val properties: MutableMap<String, Any> = mutableMapOf()
 

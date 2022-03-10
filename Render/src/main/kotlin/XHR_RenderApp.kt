@@ -2,9 +2,7 @@ import context.XHR_ClientContext
 import templates.*
 import utils.*
 import java.lang.IllegalStateException
-import java.lang.reflect.InvocationTargetException
 
-import kotlin.reflect.KClass
 import kotlin.system.exitProcess
 
 /** App instance
@@ -37,7 +35,7 @@ object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
      * Instantiate the program app.
      */
     @JvmOverloads
-    override fun build(pContext: Class<out XH_Context>, pApp: XH_ICoreLogic) {
+    override fun build(pContext: Class<out XH_Context>, pApp: ICoreEngine) {
         if (pApp !is XHR_ICoreRenderLogic)
             logger().throwException("App must inherits from render logic. Found: ${pApp.javaClass.simpleName}", IllegalArgumentException(),
                 classSource="XHR_RenderApp", statusCode=XH_STATUS_GENERAL_ERROR)

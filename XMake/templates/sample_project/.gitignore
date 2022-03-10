@@ -1,0 +1,9 @@
+.gradle/
+build/
+logs/
+out/
+.env
+.gradletasknamecache
+*.log
+gradle-app.setting
+!gradle-wrapper.jar

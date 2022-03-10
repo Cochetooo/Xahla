@@ -1,6 +1,6 @@
 package templates
 
-interface XHR_ICoreRenderLogic : XH_ICoreLogic {
+interface XHR_ICoreRenderLogic : ICoreEngine {
     fun onRender() {}
     fun onPostRender() {}
 

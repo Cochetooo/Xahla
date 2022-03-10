@@ -1,6 +1,5 @@
 import templates.XH_IApp
-import templates.XH_ICoreLogic
-import templates.XH_ILogic
+import templates.ICoreEngine
 import utils.XH_CONFIG_DEFAULT_UPS
 import utils.XH_CONFIG_UPS
 import utils.XH_STATUS_GENERAL_ERROR
@@ -14,7 +13,7 @@ import java.util.stream.Collectors
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-open class XH_Context(private val app: XH_IApp) : XH_ICoreLogic {
+open class XH_Context(private val app: XH_IApp) : ICoreEngine {
 
     val objects: MutableList<XH_Object> = mutableListOf()
 

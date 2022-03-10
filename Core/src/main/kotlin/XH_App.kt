@@ -1,6 +1,5 @@
 import templates.XH_IApp
-import templates.XH_ICoreLogic
-import templates.XH_ILogic
+import templates.ICoreEngine
 import utils.*
 import java.lang.IllegalStateException
 import kotlin.reflect.KClass
@@ -12,8 +11,8 @@ import kotlin.system.exitProcess
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object XH_App : XH_IApp, XH_ICoreLogic {
-    private lateinit var app: XH_ICoreLogic
+object XH_App : XH_IApp, ICoreEngine {
+    private lateinit var app: ICoreEngine
     var paused = false
         set(value) {
             if (!value)
@@ -34,7 +33,7 @@ object XH_App : XH_IApp, XH_ICoreLogic {
      * Instantiate the program app.
      */
     @JvmOverloads
-    override fun build(pContext: Class<out XH_Context>, pApp: XH_ICoreLogic) {
+    override fun build(pContext: Class<out XH_Context>, pApp: ICoreEngine) {
         this.app = pApp
 
         onAwake()

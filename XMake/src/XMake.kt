@@ -1,10 +1,18 @@
+import langs.en.helpers
 import java.io.File
+import java.io.IOException
+import java.nio.file.Files
+import java.nio.file.Paths
 
 val currentFolder = System.getProperty("user.dir")
 
 fun main(args: Array<String>) {
-    if (args.size === 0) {
-        println("List of available command:\n--- create:project -> Create a new project")
+    if (args.isEmpty()) {
+        println("List of available command:\n")
+
+        for (i in helpers)
+            println("--- ${i.key} -> ${i.value}")
+
         return
     }
 
@@ -15,43 +23,36 @@ fun main(args: Array<String>) {
 
             val name = args[1].replace("[^A-Za-z0-9]", "")
 
-            if (args.size == 3)
-                createProject(name, args[2])
-
             createProject(name)
+        }
+
+        "show:path" -> {
+            showPath()
         }
     }
 }
 
-fun createProject(name: String, clazz: String = "XHR_RenderApp") {
+fun createProject(name: String) {
     println("Creating project $name ...")
-
-    if (clazz.contains("[^A-Za-z_]"))
-        throw IllegalArgumentException("create:project -> Class name not valid")
 
     val root = File("$currentFolder/$name")
     root.mkdir()
 
-    val configs = File(root.absolutePath + "/configs")
-    configs.mkdir()
-    if (clazz.contains("Render")) {
-        val rendering = File(configs.absolutePath + "/rendering")
-        rendering.mkdir()
+    val sourceDirectoryLocation = "vendor/templates/sample_project"
+
+    Files.walk(Paths.get(sourceDirectoryLocation)).forEach { source ->
+        val destination = Paths.get(root.path, source.toString().substring(sourceDirectoryLocation.length))
+
+        try {
+            Files.copy(source, destination)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 
+    println("Project created successfully!")
+}
 
-    val resources = File(root.absolutePath + "/resources")
-    resources.mkdir()
-    val assets = File(resources.absolutePath + "/assets")
-    assets.mkdir()
-    val shaders = File(resources.absolutePath + "/shaders")
-    shaders.mkdir()
-
-    val source = File(root.absolutePath + "/source")
-    source.mkdir()
-    val components = File(source.absolutePath + "/components")
-    components.mkdir()
-    val objects = File(source.absolutePath + "/objects")
-    objects.mkdir()
-
+fun showPath() {
+    println("Current Working Directory: ${File(".").absolutePath}")
 }
