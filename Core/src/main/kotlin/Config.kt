@@ -23,7 +23,7 @@ object Config : ICoreEngine {
         File(configPath).walk().forEach { file ->
             if (file.path == configPath) return@forEach
 
-            logger().internal_log("File: " + file.path, XH_LogLevel.CONFIG, "Config")
+            logger().internal_log("File: " + file.path, LogLevel.CONFIG, "Config")
 
             properties.putAll(compileFiles(file.nameWithoutExtension, file.readLines()))
         }
@@ -70,7 +70,7 @@ object Config : ICoreEngine {
             }
         }
 
-        logger().internal_log(list.toString(), XH_LogLevel.CONFIG, "Config")
+        logger().internal_log(list.toString(), LogLevel.CONFIG, "Config")
 
         return list
     }

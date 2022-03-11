@@ -21,7 +21,7 @@ fun xh_open_webpage(url: URL): Boolean {
         return xh_open_webpage(url.toURI())
     } catch (e: URISyntaxException) {
         logger().throwException("Cannot open webpage: ${url.toURI().path}", e,
-            classSource = "XH_UNet", statusCode = XH_STATUS_CONNECTION_ERROR)
+            classSource = "UNet", statusCode = XH_STATUS_CONNECTION_ERROR)
     }
 
     return false
@@ -39,7 +39,7 @@ fun xh_open_webpage(uri: URI): Boolean {
             return true
         } catch (e: Exception) {
             logger().throwException("Cannot open webpage: ${uri.path}", e,
-                classSource = "XH_UNet", statusCode = XH_STATUS_CONNECTION_ERROR)
+                classSource = "UNet", statusCode = XH_STATUS_CONNECTION_ERROR)
         }
     }
 
@@ -57,7 +57,7 @@ fun xh_ping_test(address: String, timeout: Int = 10000): Float {
         val reachable = ip.isReachable(timeout)
     }
 
-    logger().internal_log("IP $address reachable.", XH_LogLevel.FINER, "XH_UNet")
+    logger().internal_log("IP $address reachable.", LogLevel.FINER, "XH_UNet")
 
     return time.elapsed / 1_000_000.0f
 }

@@ -4,7 +4,7 @@ import config
 import org.lwjgl.opengl.GL15.GL_STATIC_DRAW
 import org.lwjgl.opengl.GL30.*
 import org.lwjgl.system.MemoryStack.stackPush
-import utils.XH_LogLevel
+import utils.LogLevel
 import utils.logger
 import java.nio.FloatBuffer
 
@@ -25,10 +25,10 @@ class GLVertexBufferObject(private val shader: GLShader, private val pos: Int = 
     private val texCoordLocation = shader.getAttribLocation(config("gl.attribLocationTexCoord") as String)
 
     init {
-        logger().internal_log("Buffer size: $bufferSize", logLevel = XH_LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
-        logger().internal_log("Nb. Vertices: $nbVertices", logLevel = XH_LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
-        logger().internal_log("Row size: $rowSize", logLevel = XH_LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
-        logger().internal_log("Nb of objects: ${(bufferSize / (nbVertices * rowSize))}", logLevel = XH_LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
+        logger().internal_log("Buffer size: $bufferSize", logLevel = LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
+        logger().internal_log("Nb. Vertices: $nbVertices", logLevel = LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
+        logger().internal_log("Row size: $rowSize", logLevel = LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
+        logger().internal_log("Nb of objects: ${(bufferSize / (nbVertices * rowSize))}", logLevel = LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
 
         stackPush().apply {
             buffer = this.floats(*data)
@@ -81,7 +81,7 @@ class GLVertexBufferObject(private val shader: GLShader, private val pos: Int = 
 
         buffer.clear()
 
-        logger().internal_log("VAO updated (pos=$positionLocation color=$colorLocation normal=$normalLocation texCoord=$texCoordLocation", XH_LogLevel.FINEST, "XHR_GLVertexBufferObject")
+        logger().internal_log("VAO updated (pos=$positionLocation color=$colorLocation normal=$normalLocation texCoord=$texCoordLocation", LogLevel.FINEST, "XHR_GLVertexBufferObject")
     }
 
     fun subData(data: FloatArray) {

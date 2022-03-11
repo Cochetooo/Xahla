@@ -1,5 +1,5 @@
 import templates.ICoreEngine
-import utils.XH_LogLevel
+import utils.LogLevel
 import utils.logger
 
 fun main() {
@@ -9,7 +9,7 @@ fun main() {
 class Main : ICoreEngine {
 
     init {
-        logger().logLevel = XH_LogLevel.ALL
+        logger().logLevel = LogLevel.ALL
         app().build(ClientContext::class.java, this)
         app().start()
 

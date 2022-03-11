@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL13.GL_MULTISAMPLE
 import org.lwjgl.opengl.GL13.GL_TEXTURE_3D
 import org.lwjgl.opengl.GL30
-import utils.XH_LogLevel
+import utils.LogLevel
 import utils.XH_STATUS_OPENGL_ERROR
 import utils.logger
 
@@ -46,10 +46,10 @@ object XHR_OpenGL {
         if (context.projection == "3d")
             glEnable(GL_TEXTURE_3D)
 
-        logger().internal_log("VSync: ${context.window.config.vSync}", XH_LogLevel.CONFIG, "XHR_OpenGL")
-        logger().internal_log("Modern OpenGL Support: $modernGL ($XHR_OPENGL_VERSION)", XH_LogLevel.CONFIG, "XHR_OpenGL")
-        logger().internal_log("Texture enabled", XH_LogLevel.CONFIG, "XHR_OpenGL")
-        logger().internal_log("Max Color Attachments $XHR_OPENGL_MAX_COLOR_ATTACHMENTS", XH_LogLevel.FINE, "XHR_OpenGL")
+        logger().internal_log("VSync: ${context.window.config.vSync}", LogLevel.CONFIG, "XHR_OpenGL")
+        logger().internal_log("Modern OpenGL Support: $modernGL ($XHR_OPENGL_VERSION)", LogLevel.CONFIG, "XHR_OpenGL")
+        logger().internal_log("Texture enabled", LogLevel.CONFIG, "XHR_OpenGL")
+        logger().internal_log("Max Color Attachments $XHR_OPENGL_MAX_COLOR_ATTACHMENTS", LogLevel.FINE, "XHR_OpenGL")
     }
 
     private fun setStandardOpenGLVersion(): Boolean {

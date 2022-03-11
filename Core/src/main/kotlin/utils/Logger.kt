@@ -6,6 +6,7 @@
  */
 package utils
 
+import config
 import org.jsoup.Jsoup
 import java.io.PrintWriter
 import java.io.StringWriter
@@ -15,7 +16,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.system.exitProcess
 
-enum class XH_LogLevel {
+enum class LogLevel {
     OFF,
     SEVERE,
     WARNING,
@@ -28,13 +29,20 @@ enum class XH_LogLevel {
 }
 
 object XH_Logger {
-    var logLevel: XH_LogLevel = XH_LogLevel.CONFIG
+    var logLevel: LogLevel = LogLevel.CONFIG
     var printer = System.out
     var internalLog = true
     var logFile = false
     var prefix = true
+    var excepts: Array<String> = arrayOf()
 
     private val html_content = xh_file_read("templates/stacktrace.html")
+
+    fun onAwake() {
+        internalLog = config("debugger.internalLogging") as Boolean
+        logFile = config("debugger.logExceptionFile") as Boolean
+        prefix = config("debugger.prefix") as Boolean
+    }
 
     /**
      * Log a message as a severe message in System.err
@@ -44,7 +52,7 @@ object XH_Logger {
     fun eLog(message: Any, classSource: String? = null) {
         val tmp = printer
         printer = System.err
-        log(message, XH_LogLevel.SEVERE, classSource)
+        log(message, LogLevel.SEVERE, classSource)
         printer = tmp
     }
 
@@ -54,7 +62,7 @@ object XH_Logger {
     @JvmOverloads
     @JvmStatic
     fun wLog(message: Any, classSource: String? = null)
-        = log(message, XH_LogLevel.WARNING, classSource)
+        = log(message, LogLevel.WARNING, classSource)
 
     /**
      * Discouraged to use this method if used externally.
@@ -62,7 +70,7 @@ object XH_Logger {
      */
     @JvmOverloads
     @JvmStatic
-    fun internal_log(message: Any, logLevel: XH_LogLevel = XH_LogLevel.CONFIG, classSource: String) {
+    fun internal_log(message: Any, logLevel: LogLevel = LogLevel.CONFIG, classSource: String) {
         if (!internalLog)
             return
 
@@ -74,8 +82,11 @@ object XH_Logger {
      */
     @JvmOverloads
     @JvmStatic
-    fun log(message: Any, logLevel: XH_LogLevel = XH_LogLevel.INFO, classSource: String? = null) {
+    fun log(message: Any, logLevel: LogLevel = LogLevel.INFO, classSource: String? = null) {
         if (logLevel > this.logLevel)
+            return
+
+        if (classSource in excepts)
             return
 
         if (prefix)
@@ -93,7 +104,7 @@ object XH_Logger {
      */
     @JvmOverloads
     @JvmStatic
-    fun throwException(message: String? = null, exception: Exception = Exception(), logFile: Boolean = true, classSource: String = "", statusCode: Int = XH_STATUS_GENERAL_ERROR): Nothing {
+    fun throwException(message: String? = null, exception: Exception = Exception(), classSource: String = "", statusCode: Int = XH_STATUS_GENERAL_ERROR): Nothing {
         eLog("""
             ###### AN ERROR HAS OCCURED #####
             # Exception type: ${exception.javaClass.simpleName}
@@ -108,19 +119,19 @@ object XH_Logger {
             val document = Jsoup.parse(html_content)
 
             val fileClass = document.select("#file_class")
-            fileClass.html("${classSource.ifEmpty { "Unknown Class" }}")
+            fileClass.html(classSource.ifEmpty { "Unknown Class" })
 
             val exceptionName = document.select("#exception_name, title")
-            exceptionName.html("${exception.javaClass.simpleName}")
+            exceptionName.html(exception.javaClass.simpleName)
 
             val statusCodeElem = document.select("#status_code")
             statusCodeElem.html("Exit Status Code: $statusCode")
 
             val exceptionMessage = document.select("#exception_message")
-            exceptionMessage.html("${exception.localizedMessage}")
+            exceptionMessage.html(exception.localizedMessage)
 
             val additionalMessage = document.select("#additional_message")
-            additionalMessage.html("${message ?: ""}")
+            additionalMessage.html(message ?: "")
 
             val listStacktrace = document.select("#list-stacktrace")
             var stacktraceContent = getStackTrace(exception)
@@ -143,7 +154,7 @@ object XH_Logger {
 
             val filename = "logs/xh_err_log-${SimpleDateFormat("dd_MM_yyyy-HH_mm_ss").format(Date())}.html"
             xh_file_write(filename, document.html())
-            internal_log("See $filename for more information.", XH_LogLevel.INFO, "XH_Logger")
+            internal_log("See $filename for more information.", LogLevel.INFO, "XH_Logger")
             xh_open_webpage(URL("file:///${Paths.get("").toAbsolutePath()}/$filename"))
         }
 
