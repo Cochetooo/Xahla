@@ -3,16 +3,16 @@ val projection: String = "2d"
 val engine: String = "gl"
 
 // Window settings
-val windowDecorated: Boolean = true
-val windowFullscreen: Boolean = false
-val windowInitialWidth: Int = 1280
-val windowInitialHeight: Int = 720
-val windowResizable: Boolean = true
-val windowTitle: String = "Sample Project"
-val windowVisible: Boolean = true
+val decorated: Boolean = true
+val fullscreen: Boolean = false
+val resizable: Boolean = true
+val title: String = "Sample Project"
+val visible: Boolean = true
 
 // Window startup attributes
-val windowCenterCursor: Boolean = false
-val windowFloating: Boolean = true
-val windowInputFocus: Boolean = false
-val windowMaximize: Boolean = false
+val centerCursor: Boolean = false
+val floating: Boolean = true
+val inputFocus: Boolean = false
+val maximize: Boolean = false
+val screenWidth: Int = 1280
+val screenHeight: Int = 720
