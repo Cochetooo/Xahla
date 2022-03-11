@@ -46,7 +46,7 @@ fun String.encrypt(): String {
  * Capitalize the first word of the character sequence.
  */
 fun String.ucfirst(): String {
-    return this.substring(0, 1).uppercase() + this.substring(1, this.length - 1);
+    return this.substring(0, 1).uppercase() + this.substring(1, this.length);
 }
 
 /**

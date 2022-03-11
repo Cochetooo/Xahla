@@ -4,17 +4,15 @@ import XHR_GL_ATTRIB_LOCATION_COLOR
 import XHR_GL_ATTRIB_LOCATION_NORMAL
 import XHR_GL_ATTRIB_LOCATION_POSITION
 import XHR_GL_ATTRIB_LOCATION_TEXCOORD
-import config
 import org.lwjgl.opengl.GL15.GL_STATIC_DRAW
-import org.lwjgl.opengl.GL20
 import org.lwjgl.opengl.GL30.*
 import org.lwjgl.system.MemoryStack.stackPush
 import utils.XH_LogLevel
 import utils.logger
 import java.nio.FloatBuffer
 
-class XHR_GLVertexBufferObject(private val shader: XHR_GLShader, private val pos: Int = 0, private val color: Int = 0, private val normal: Int = 0,
-                               private val texCoord: Int = 0, private val drawMode: Int, private val nbVertices: Int, data: FloatArray) {
+class GLVertexBufferObject(private val shader: GLShader, private val pos: Int = 0, private val color: Int = 0, private val normal: Int = 0,
+                           private val texCoord: Int = 0, private val drawMode: Int, private val nbVertices: Int, data: FloatArray) {
 
     val vao = glGenVertexArrays()
     val vbo = glGenBuffers()

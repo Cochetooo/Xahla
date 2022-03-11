@@ -1,22 +1,13 @@
 package graphics
 
-import XHR_CONFIG_CENTER_CURSOR
-import XHR_CONFIG_COLOR_BUFFER_BITS
-import XHR_CONFIG_DECORATION
-import XHR_CONFIG_FLOATING
-import XHR_CONFIG_FULLSCREEN
-import XHR_CONFIG_INITIAL_HEIGHT
-import XHR_CONFIG_INITIAL_WIDTH
-import XHR_CONFIG_MSAA
-import XHR_CONFIG_RESIZABLE
-import XHR_CONFIG_VSYNC
-import XHR_CONFIG_WINDOW_TITLE
 import XHR_ENGINE
 import XHR_OPENGL
 import XHR_VULKAN
 import app
 import config
-import context.XHR_ClientContext
+import ClientContext
+import XHR_SCREEN_HEIGHT
+import XHR_SCREEN_WIDTH
 import input.input
 import org.joml.Vector2i
 import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
@@ -28,33 +19,36 @@ import org.lwjgl.opengl.GL11.glClearColor
 import org.lwjgl.opengl.GL11.glViewport
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.NULL
-import templates.XHR_IRenderLogic
-import utils.XH_Logger
+import templates.IEngine
 import utils.XH_STATUS_GLFW_ERROR
 import utils.logger
 import java.lang.IllegalStateException
-import java.lang.Math.pow
 import java.lang.RuntimeException
 import kotlin.math.pow
 
-class XHR_Window(val context: XHR_ClientContext) : XHR_IRenderLogic {
+data class GLFWConfiguration(val resizable: Int, val fullscreen: Int, val width: Int, val height: Int,
+                             val title: String, val colorBufferBits: Int, val floating: Int, val decoration: Int, val msaa: Int,
+                             val centerCursor: Int, val vSync: Int) {
+    fun getSize() = Vector2i(width, height)
+}
+
+class XHR_Window(val context: ClientContext) : IEngine {
     var window: Long = 0L
         private set
 
-    val windowSize = Vector2i(config()[XHR_CONFIG_INITIAL_WIDTH] as Int,
-        config()[XHR_CONFIG_INITIAL_HEIGHT] as Int)
+    val windowSize = Vector2i(XHR_SCREEN_WIDTH, XHR_SCREEN_HEIGHT)
 
-    val config: XHR_GLFWConfiguration = XHR_GLFWConfiguration(
-        if (config()[XHR_CONFIG_RESIZABLE] as Boolean) GLFW_TRUE else GLFW_FALSE,
-        if (config()[XHR_CONFIG_FULLSCREEN] as Boolean) GLFW_TRUE else GLFW_FALSE,
+    val config: GLFWConfiguration = GLFWConfiguration(
+        if (config("window.resizable") as Boolean) GLFW_TRUE else GLFW_FALSE,
+        if (config("window.fullscreen") as Boolean) GLFW_TRUE else GLFW_FALSE,
         windowSize.x, windowSize.y,
-        config()[XHR_CONFIG_WINDOW_TITLE] as String,
-        config()[XHR_CONFIG_COLOR_BUFFER_BITS] as Int,
-        if (config()[XHR_CONFIG_FLOATING] as Boolean) GLFW_TRUE else GLFW_FALSE,
-        if (config()[XHR_CONFIG_DECORATION] as Boolean) GLFW_TRUE else GLFW_FALSE,
-        config()[XHR_CONFIG_MSAA] as Int,
-        if (config()[XHR_CONFIG_CENTER_CURSOR] as Boolean) GLFW_TRUE else GLFW_FALSE,
-        if (config()[XHR_CONFIG_VSYNC] as Boolean) GLFW_TRUE else GLFW_FALSE
+        config("window.title") as String,
+        config("gl.colorBufferBits") as Int,
+        if (config("window.floating") as Boolean) GLFW_TRUE else GLFW_FALSE,
+        if (config("window.decoration") as Boolean) GLFW_TRUE else GLFW_FALSE,
+        config("gl.multisampling") as Int,
+        if (config("window.centerCursor") as Boolean) GLFW_TRUE else GLFW_FALSE,
+        if (config("gl.vsync") as Boolean) GLFW_TRUE else GLFW_FALSE
     )
 
     override fun onInit() {

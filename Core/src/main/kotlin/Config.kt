@@ -4,6 +4,7 @@ import templates.ICoreEngine
 import utils.*
 import java.io.File
 import java.math.BigDecimal
+import java.net.URLClassLoader
 
 /** Configuration Handling
  * Copyright (C) Xahla - All Rights Reserved
@@ -23,6 +24,8 @@ object XH_Config : ICoreEngine {
     override fun onAwake() {
         File("configs").walk().forEach { file ->
             if (file.name == "configs") return@forEach
+
+
             val content = file.bufferedReader().use { it.readText() }
 
             xh_tryCatch ({
@@ -49,4 +52,4 @@ object XH_Config : ICoreEngine {
     }
 }
 
-fun config(): XH_Config = XH_Config
+fun config(name: String): Any? = XH_Config[name]

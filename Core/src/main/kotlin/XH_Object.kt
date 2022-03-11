@@ -1,6 +1,8 @@
-import templates.XH_ILogic
-import templates.XH_IObjectLogic
-import java.awt.Component
+import templates.IObjectLogic
+import utils.XH_STATUS_ENGINE_ERROR
+import utils.XH_STATUS_GENERAL_ERROR
+import utils.logger
+import java.lang.annotation.AnnotationTypeMismatchException
 import java.util.stream.Collectors
 
 /** Basic Object of the Engine
@@ -10,7 +12,7 @@ import java.util.stream.Collectors
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
 open class XH_Object
-        @JvmOverloads constructor(val name: String = "XH_Object") : XH_IObjectLogic, Comparable<XH_Object> {
+        @JvmOverloads constructor(val name: String = "XH_Object") : IObjectLogic, Comparable<XH_Object> {
 
     companion object {
         private var auto_increment = 0
@@ -20,17 +22,30 @@ open class XH_Object
         private set
     val id = (auto_increment++)
 
-    val components: MutableList<XH_Component> = mutableListOf()
+    val components: MutableList<Component> = mutableListOf()
+
+    init {
+        for (c in this.javaClass.fields) {
+            if (c.getAnnotation(UseComponent::class.java) != null) {
+                var result = c[c.javaClass]
+
+                if (result !is Component)
+                    logger().throwException("@UseComponent annotation can only be set on Component fields!", RuntimeException(), classSource = "XH_Object", statusCode = XH_STATUS_ENGINE_ERROR)
+
+                this.add(result)
+            }
+        }
+    }
 
     fun destroy() {
         destroyed = true
     }
 
-    protected fun add(newComponent: XH_Component) {
+    protected fun add(newComponent: Component) {
         components.add(newComponent)
     }
 
-    protected fun set(name: String, newComponent: XH_Component): Boolean {
+    protected fun set(name: String, newComponent: Component): Boolean {
         for (i in 0 until components.size) {
             if (components[i].name == name) {
                 components[i] = newComponent
@@ -41,16 +56,16 @@ open class XH_Object
         return false
     }
 
-    fun find(name: String): XH_Component?
+    fun find(name: String): Component?
         = components.stream().filter { it.name == name }.findFirst().orElse(null)
 
-    fun find(id: Int): XH_Component?
+    fun find(id: Int): Component?
             = components.stream().filter { it.id == id }.findFirst().orElse(null)
 
-    fun get(name: String): List<XH_Component>
+    fun get(name: String): List<Component>
             = components.stream().filter { it.name == name }.collect(Collectors.toList())
 
-    fun get(clazz: Class<out XH_Component>): List<XH_Component>
+    fun get(clazz: Class<out Component>): List<Component>
             = components.stream().filter { it.javaClass == clazz }.collect(Collectors.toList())
 
     fun contains(comp: String): Boolean
@@ -59,7 +74,7 @@ open class XH_Object
     fun contains(comp: Int): Boolean
             = components.stream().anyMatch { it.id == comp }
 
-    fun contains(comp: Class<out XH_Component>): Boolean
+    fun contains(comp: Class<out Component>): Boolean
             = components.stream().anyMatch { comp.isAssignableFrom(it.javaClass) }
 
     override fun compareTo(other: XH_Object): Int {

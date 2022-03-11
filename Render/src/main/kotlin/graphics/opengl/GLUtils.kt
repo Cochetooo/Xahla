@@ -1,8 +1,7 @@
-package graphics
+package graphics.opengl
 
-import XHR_CONFIG_STANDARD_OPENGL_VERSION
 import config
-import context.XHR_ClientContext
+import ClientContext
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL13.GL_MULTISAMPLE
 import org.lwjgl.opengl.GL13.GL_TEXTURE_3D
@@ -18,7 +17,7 @@ import utils.logger
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
 object XHR_OpenGL {
-    private lateinit var context: XHR_ClientContext
+    private lateinit var context: ClientContext
 
     var XHR_OPENGL_VERSION: String? = null
         private set
@@ -33,7 +32,7 @@ object XHR_OpenGL {
         private set
 
     @JvmStatic
-    fun init(pContext: XHR_ClientContext) {
+    fun init(pContext: ClientContext) {
         context = pContext
 
         setMSAA(context.window.config.msaa)
@@ -62,7 +61,7 @@ object XHR_OpenGL {
         val glVersionString = XHR_OPENGL_VERSION!!.split(" ")[0].trim()
         val glVersion = glVersionString.substring(0, 3).toFloat()
 
-        if (glVersion < config()[XHR_CONFIG_STANDARD_OPENGL_VERSION] as Float)
+        if (glVersion < config("gl.modernGLVersion") as Float)
             return false
         return true
     }

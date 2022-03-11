@@ -1,11 +1,8 @@
-import templates.XH_IApp
 import templates.ICoreEngine
-import utils.XH_CONFIG_DEFAULT_UPS
-import utils.XH_CONFIG_UPS
 import utils.XH_STATUS_GENERAL_ERROR
 import utils.logger
-import java.lang.IllegalStateException
 import java.util.stream.Collectors
+import kotlin.IllegalStateException
 
 /** Context of the program
  * Copyright (C) Xahla - All Rights Reserved
@@ -13,7 +10,7 @@ import java.util.stream.Collectors
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-open class XH_Context(private val app: XH_IApp) : ICoreEngine {
+open class Context(private val app: XH_App) : ICoreEngine {
 
     val objects: MutableList<XH_Object> = mutableListOf()
 
@@ -34,12 +31,13 @@ open class XH_Context(private val app: XH_IApp) : ICoreEngine {
         = objects.stream().filter { objClass.isInstance(it) }.collect(Collectors.toList())
 
     override fun onAwake() {
-        if (config()[XH_CONFIG_UPS] == null)
-            config()[XH_CONFIG_UPS] = XH_CONFIG_DEFAULT_UPS
+        if (config("app.updatePerSecond") == null)
+            logger().throwException("configs/app.updatePerSecond is not found! Please restore app.kt.", IllegalStateException(),
+                classSource = "Context", statusCode = XH_STATUS_GENERAL_ERROR)
         else {
-            if (config()[XH_CONFIG_UPS] !is Int)
-                logger().throwException("configs/app.json : $XH_CONFIG_UPS must be an integer.", IllegalStateException(),
-                    classSource = "XH_Context", statusCode = XH_STATUS_GENERAL_ERROR)
+            if (config("app.updatePerSecond") !is Int)
+                logger().throwException("configs/app.updatePerSecond must be an integer.", IllegalStateException(),
+                    classSource = "Context", statusCode = XH_STATUS_GENERAL_ERROR)
         }
     }
 

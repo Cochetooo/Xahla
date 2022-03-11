@@ -1,4 +1,6 @@
-import templates.XH_ILogic
+import templates.IEngine
+
+annotation class UseComponent
 
 /** Components for program objects
  * Copyright (C) Xahla - All Rights Reserved
@@ -6,8 +8,8 @@ import templates.XH_ILogic
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-open class XH_Component
-        @JvmOverloads constructor(val obj: XH_Object, val name: String = "XH_Component") : XH_ILogic, Comparable<XH_Component> {
+open class Component
+        @JvmOverloads constructor(val obj: XH_Object, val name: String = "XH_Component") : IEngine, Comparable<Component> {
 
     companion object {
         private var auto_increment = 0
@@ -15,7 +17,7 @@ open class XH_Component
 
     val id = (auto_increment++)
 
-    override fun compareTo(other: XH_Component): Int {
+    override fun compareTo(other: Component): Int {
         return this.id - other.id
     }
 }

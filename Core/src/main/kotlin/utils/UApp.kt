@@ -49,9 +49,3 @@ val XH_CONTEXT_INFO = mapOf(
     "Xahla Framework Version" to XH_FRAMEWORK_VERSION,
     "Xahla Environment" to XH_FRAMEWORK_ENVIRONMENT
 )
-
-val XH_CONFIG_CLASS = "app.class"
-val XH_CONFIG_DEFAULT_CLASS = "XH_App"
-
-val XH_CONFIG_UPS = "app.update_per_second"
-val XH_CONFIG_DEFAULT_UPS = 50

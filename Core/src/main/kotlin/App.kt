@@ -1,8 +1,7 @@
-import context.XHR_ClientContext
-import templates.*
+import templates.ICoreEngine
 import utils.*
 import java.lang.IllegalStateException
-
+import kotlin.reflect.KClass
 import kotlin.system.exitProcess
 
 /** App instance
@@ -11,8 +10,8 @@ import kotlin.system.exitProcess
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
-    private lateinit var app: XHR_ICoreRenderLogic
+object XH_App : ICoreEngine {
+    private lateinit var app: ICoreEngine
     var paused = false
         set(value) {
             if (!value)
@@ -25,52 +24,43 @@ object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
         private set
     var fps = 0
         private set
-    private var tick = 0; private var render = 0
 
+    private var tick = 0; private var frame = 0
     private var tickTime = 0.0; private var renderTime = 0.0
+
     private var running: Boolean = false
-    override lateinit var context: XH_Context
+    lateinit var context: Context
 
     /**
      * Instantiate the program app.
      */
-    @JvmOverloads
-    override fun build(pContext: Class<out XH_Context>, pApp: ICoreEngine) {
-        if (pApp !is XHR_ICoreRenderLogic)
-            logger().throwException("App must inherits from render logic. Found: ${pApp.javaClass.simpleName}", IllegalArgumentException(),
-                classSource="XHR_RenderApp", statusCode=XH_STATUS_GENERAL_ERROR)
-
+    @JvmOverloads fun build(pContext: Class<out Context>, pApp: ICoreEngine) {
         this.app = pApp
 
         onAwake()
 
         xh_tryCatch {
-            context = pContext.getConstructor(XH_IApp::class.java).newInstance(this)
+            context = pContext.getConstructor(XH_App::class.java).newInstance(this)
             context.onAwake()
 
-            this.tick = config()[XH_CONFIG_UPS] as Int
-            this.render = config()[XHR_CONFIG_FPS] as Int
-
-            if (this.render > 1_000_000_000 || this.render < 0)
-                this.render = 1_000_000_000
+            this.tick = config("app.updatePerSecond") as Int
+            this.frame = config("app.framePerSecond") as Int
 
             onInit()
         }
     }
 
-    override fun start() {
+    fun start() {
         if (running)
             logger().throwException("The program has already started.", IllegalStateException(),
-                classSource = "XHR_RenderApp", statusCode = XH_STATUS_GENERAL_ERROR)
+                classSource = "XH_App", statusCode = XH_STATUS_GENERAL_ERROR)
 
         onPostInit()
         running = true
 
-        var ticks = 0
+        var ticks = 0; var frames = 0
         tickTime = 1_000_000_000.0 / tick
-
-        var frames = 0
-        renderTime = 1_000_000_000.0 / render
+        renderTime = 1_000_000_000.0 / frame
 
         var updatedTick = 0.0; var renderedTick = 0.0
         var secondTime = 0
@@ -93,12 +83,10 @@ object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
                 if (secondTime % tick == 0) {
                     secondTime = 0
                     ups = ticks
-                    fps = frames
 
                     onSecond()
 
                     ticks = 0
-                    frames = 0
                 }
 
                 updatedTick += tickTime
@@ -107,6 +95,7 @@ object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
                 onPostRender()
 
                 frames++
+
                 renderedTick += renderTime
             } else {
                 xh_tryCatch {
@@ -118,7 +107,7 @@ object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
         onExit()
     }
 
-    override fun stop() {
+    fun stop() {
         onDispose()
     }
 
@@ -146,19 +135,24 @@ object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
         context.onPostUpdate()
     }
 
-    override fun onRender() {
-        app.onRender()
-        clientContext().onRender()
-    }
-
-    override fun onPostRender() {
-        app.onPostRender()
-        clientContext().onPostRender()
-    }
-
     override fun onSecond() {
         app.onSecond()
         context.onSecond()
+    }
+
+    override fun onRender() {
+        context.onRender()
+        app.onRender()
+    }
+
+    override fun onPostRender() {
+        context.onPostRender()
+        app.onPostRender()
+    }
+
+    override fun onResize() {
+        context.onResize()
+        app.onResize()
     }
 
     override fun onPause() {
@@ -187,9 +181,8 @@ object XHR_RenderApp : XH_IApp, XHR_ICoreRenderLogic {
 
 }
 
-fun clientContext(): XHR_ClientContext {
-    if (app() is XHR_RenderApp)
-        return app().context as XHR_ClientContext
-    logger().throwException("Cannot invoke client context in a non-client app.", IllegalStateException(),
-        classSource = "XHR_RenderApp", statusCode = XH_STATUS_GENERAL_ERROR)
-}
+/**
+ * app points to the program whatever if it is a custom or default app.
+ */
+fun app(): XH_App = XH_App
+fun context(): Context = app().context

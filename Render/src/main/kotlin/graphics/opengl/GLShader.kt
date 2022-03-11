@@ -1,11 +1,7 @@
 package graphics.opengl
 
-import XHR_CONFIG_GL_FRAGMENT_EXT
-import XHR_CONFIG_GL_GEOMETRY_EXT
-import XHR_CONFIG_GL_VERTEX_EXT
-import XH_Context
+import Context
 import config
-import graphics.gl
 import org.joml.Matrix4f
 import org.joml.Vector2f
 import org.joml.Vector3f
@@ -18,6 +14,7 @@ import utils.logger
 import java.io.BufferedReader
 import java.io.FileInputStream
 import java.io.InputStreamReader
+import javax.print.DocFlavor.STRING
 
 /**
  * Shader class allows GLSL interpretation and execution within the program.<br>
@@ -25,7 +22,7 @@ import java.io.InputStreamReader
  * @author Cochetooo
  * @version 1.6
  */
-class XHR_GLShader(private val context: XH_Context, private val path: String, private val geometryShader: Boolean = false) {
+class GLShader(private val context: Context, private val path: String, private val geometryShader: Boolean = false) {
 
     private val program: Int = glCreateProgram()
 
@@ -103,11 +100,11 @@ class XHR_GLShader(private val context: XH_Context, private val path: String, pr
     }
 
     companion object {
-        private val gShader = config()[XHR_CONFIG_GL_GEOMETRY_EXT]
-        private val vShader = config()[XHR_CONFIG_GL_VERTEX_EXT]
-        private val fShader = config()[XHR_CONFIG_GL_FRAGMENT_EXT]
+        private val gShader = config("gl.geometryExtension") as String
+        private val vShader = config("gl.vertexExtension") as String
+        private val fShader = config("gl.fragmentExtension") as String
 
-        val SHADER_PATH = if (gl().modernGL) "res/shaders/std/" else "res/shaders/comp"
+        val SHADER_PATH = if (gl().modernGL) "resources/shaders/std/" else "resources/shaders/compatibility/"
 
         fun unbind() = glUseProgram(0)
     }

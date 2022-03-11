@@ -6,7 +6,7 @@
  */
 package templates
 
-interface XH_ILogic {
+interface IEngine {
     /** Called after the internal engine initialization, while creating the context. */
     fun onInit()    {}
 
@@ -14,6 +14,11 @@ interface XH_ILogic {
     fun onUpdate()      {}
     /** Called on each cycles of the program execution, at the very end of the cycle. */
     fun onPostUpdate()  {}
+
+    fun onRender() {}
+    fun onPostRender() {}
+
+    fun onResize() {}
 
     /** Called each seconds. */
     fun onSecond()      {}

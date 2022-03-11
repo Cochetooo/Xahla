@@ -6,13 +6,6 @@
  */
 package utils
 
-import java.awt.Desktop
-import java.net.URI
-import java.net.URISyntaxException
-import java.net.URL
-import java.util.*
-import kotlin.system.exitProcess
-
 enum class XH_EOperatingSystem {
     WINDOWS, UNIX, OSX, ANDROID, IOS
 }
