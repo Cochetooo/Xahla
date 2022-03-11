@@ -35,7 +35,7 @@ class ClientContext(app: XH_App) : Context(app), IEngine {
         window = XHR_Window(this)
         window.onInit()
 
-        when (XHR_ENGINE) {
+        when (config("window.engine")) {
             XHR_OPENGL -> gl().init(this)
         }
     }

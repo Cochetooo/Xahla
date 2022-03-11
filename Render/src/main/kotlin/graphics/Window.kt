@@ -1,13 +1,10 @@
 package graphics
 
-import XHR_ENGINE
 import XHR_OPENGL
 import XHR_VULKAN
 import app
 import config
 import ClientContext
-import XHR_SCREEN_HEIGHT
-import XHR_SCREEN_WIDTH
 import input.input
 import org.joml.Vector2i
 import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
@@ -36,7 +33,7 @@ class XHR_Window(val context: ClientContext) : IEngine {
     var window: Long = 0L
         private set
 
-    val windowSize = Vector2i(XHR_SCREEN_WIDTH, XHR_SCREEN_HEIGHT)
+    val windowSize = Vector2i(config("window.screenWidth") as Int, config("window.screenHeight") as Int)
 
     val config: GLFWConfiguration = GLFWConfiguration(
         if (config("window.resizable") as Boolean) GLFW_TRUE else GLFW_FALSE,
@@ -45,7 +42,7 @@ class XHR_Window(val context: ClientContext) : IEngine {
         config("window.title") as String,
         config("gl.colorBufferBits") as Int,
         if (config("window.floating") as Boolean) GLFW_TRUE else GLFW_FALSE,
-        if (config("window.decoration") as Boolean) GLFW_TRUE else GLFW_FALSE,
+        if (config("window.decorated") as Boolean) GLFW_TRUE else GLFW_FALSE,
         config("gl.multisampling") as Int,
         if (config("window.centerCursor") as Boolean) GLFW_TRUE else GLFW_FALSE,
         if (config("gl.vsync") as Boolean) GLFW_TRUE else GLFW_FALSE
@@ -110,7 +107,7 @@ class XHR_Window(val context: ClientContext) : IEngine {
             }
         })
 
-        when (XHR_ENGINE) {
+        when (config("window.engine")) {
             XHR_OPENGL -> {
                 GL.createCapabilities()
                 glClearColor(.0f, .0f, .0f, .0f)

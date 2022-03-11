@@ -14,23 +14,9 @@ open class Context(private val app: XH_App) : ICoreEngine {
 
     val objects: MutableList<XH_Object> = mutableListOf()
 
-    /**
-     * Add an object to the program.
-     */
-    fun add(obj: XH_Object) {
-        obj.onInit()
-        objects.add(obj)
-    }
-
-    fun remove(obj: XH_Object) {
-        obj.onDestroy()
-        objects.remove(obj)
-    }
-
-    fun getObjectsByClass(objClass: Class<out XH_Object>): List<XH_Object>
-        = objects.stream().filter { objClass.isInstance(it) }.collect(Collectors.toList())
-
     override fun onAwake() {
+        Config.onAwake()
+
         if (config("app.updatePerSecond") == null)
             logger().throwException("configs/app.updatePerSecond is not found! Please restore app.kt.", IllegalStateException(),
                 classSource = "Context", statusCode = XH_STATUS_GENERAL_ERROR)
@@ -59,4 +45,19 @@ open class Context(private val app: XH_App) : ICoreEngine {
         objects.forEach { it.onDispose() }
     }
 
+    /**
+     * Add an object to the program.
+     */
+    fun add(obj: XH_Object) {
+        obj.onInit()
+        objects.add(obj)
+    }
+
+    fun remove(obj: XH_Object) {
+        obj.onDestroy()
+        objects.remove(obj)
+    }
+
+    fun getObjectsByClass(objClass: Class<out XH_Object>): List<XH_Object>
+            = objects.stream().filter { objClass.isInstance(it) }.collect(Collectors.toList())
 }

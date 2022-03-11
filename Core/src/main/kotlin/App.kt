@@ -34,7 +34,7 @@ object XH_App : ICoreEngine {
     /**
      * Instantiate the program app.
      */
-    @JvmOverloads fun build(pContext: Class<out Context>, pApp: ICoreEngine) {
+    fun build(pContext: Class<out Context>, pApp: ICoreEngine) {
         this.app = pApp
 
         onAwake()
@@ -53,14 +53,15 @@ object XH_App : ICoreEngine {
     fun start() {
         if (running)
             logger().throwException("The program has already started.", IllegalStateException(),
-                classSource = "XH_App", statusCode = XH_STATUS_GENERAL_ERROR)
+                classSource = "App", statusCode = XH_STATUS_GENERAL_ERROR)
 
         onPostInit()
         running = true
 
         var ticks = 0; var frames = 0
+
         tickTime = 1_000_000_000.0 / tick
-        renderTime = 1_000_000_000.0 / frame
+        renderTime = 1_000_000_000.0 / (if (frame == -1) 1_000_000_000 else frame)
 
         var updatedTick = 0.0; var renderedTick = 0.0
         var secondTime = 0
@@ -83,10 +84,12 @@ object XH_App : ICoreEngine {
                 if (secondTime % tick == 0) {
                     secondTime = 0
                     ups = ticks
+                    fps = frames
 
                     onSecond()
 
                     ticks = 0
+                    frames = 0
                 }
 
                 updatedTick += tickTime

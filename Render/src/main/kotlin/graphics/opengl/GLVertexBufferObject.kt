@@ -1,9 +1,6 @@
 package graphics.opengl
 
-import XHR_GL_ATTRIB_LOCATION_COLOR
-import XHR_GL_ATTRIB_LOCATION_NORMAL
-import XHR_GL_ATTRIB_LOCATION_POSITION
-import XHR_GL_ATTRIB_LOCATION_TEXCOORD
+import config
 import org.lwjgl.opengl.GL15.GL_STATIC_DRAW
 import org.lwjgl.opengl.GL30.*
 import org.lwjgl.system.MemoryStack.stackPush
@@ -22,10 +19,10 @@ class GLVertexBufferObject(private val shader: GLShader, private val pos: Int = 
     var buffer: FloatBuffer
         private set
 
-    private val positionLocation = shader.getAttribLocation(XHR_GL_ATTRIB_LOCATION_POSITION)
-    private val colorLocation = shader.getAttribLocation(XHR_GL_ATTRIB_LOCATION_COLOR)
-    private val normalLocation = shader.getAttribLocation(XHR_GL_ATTRIB_LOCATION_NORMAL)
-    private val texCoordLocation = shader.getAttribLocation(XHR_GL_ATTRIB_LOCATION_TEXCOORD)
+    private val positionLocation = shader.getAttribLocation(config("gl.attribLocationPosition") as String)
+    private val colorLocation = shader.getAttribLocation(config("gl.attribLocationColor") as String)
+    private val normalLocation = shader.getAttribLocation(config("gl.attribLocationNormal") as String)
+    private val texCoordLocation = shader.getAttribLocation(config("gl.attribLocationTexCoord") as String)
 
     init {
         logger().internal_log("Buffer size: $bufferSize", logLevel = XH_LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
