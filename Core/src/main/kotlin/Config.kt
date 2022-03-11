@@ -1,10 +1,6 @@
-import org.json.JSONException
-import org.json.JSONObject
 import templates.ICoreEngine
 import utils.*
 import java.io.File
-import java.math.BigDecimal
-import java.net.URLClassLoader
 
 /** Configuration Handling
  * Copyright (C) Xahla - All Rights Reserved
@@ -12,9 +8,11 @@ import java.net.URLClassLoader
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object XH_Config : ICoreEngine {
+object Config : ICoreEngine {
 
     private val properties: MutableMap<String, Any> = mutableMapOf()
+
+    private const val configPath = "configs"
 
     operator fun get(key: String): Any? = properties[key]
     operator fun set(key: String, value: Any) {
@@ -22,34 +20,60 @@ object XH_Config : ICoreEngine {
     }
 
     override fun onAwake() {
-        File("configs").walk().forEach { file ->
-            if (file.name == "configs") return@forEach
+        File(configPath).walk().forEach { file ->
+            if (file.path == configPath) return@forEach
 
+            logger().internal_log("File: " + file.path, XH_LogLevel.CONFIG, "Config")
 
-            val content = file.bufferedReader().use { it.readText() }
-
-            xh_tryCatch ({
-                val jsonObject = JSONObject(content)
-                val keys = jsonObject.keys()
-                while (keys.hasNext()) {
-                    val key = keys.next()
-                    val obj = jsonObject.get(key)
-                    if (obj is BigDecimal) {
-                        properties["${file.nameWithoutExtension}.$key"] = obj.toFloat()
-                    } else if (obj is String || obj is Number || obj is Boolean) {
-                        properties["${file.nameWithoutExtension}.$key"] = obj
-                    } else {
-                        logger().throwException("The value of $key in ${file.name} has an unvalid format.",
-                            IllegalArgumentException(), classSource="XH_Config", statusCode = XH_STATUS_JSON_ERROR)
-                    }
-                }
-            }, catchException = JSONException::class.java)
+            properties.putAll(compileFiles(file.nameWithoutExtension, file.readLines()))
         }
     }
 
     override fun onExit() {
 
     }
+
+    private fun compileFiles(category: String, content: List<String>): MutableMap<String, Any> {
+        val list: MutableMap<String, Any> = mutableMapOf()
+
+        for (line in content) {
+            if (line.startsWith("//") || line.isBlank()) continue
+
+            var text = ""
+            var inText = false
+
+            for (c in line.toCharArray()) {
+                if (c == '"')
+                    inText = !inText
+
+                if (!inText) {
+                    if (c == ' ' || c == '\t')
+                        continue
+                }
+
+                text += c
+            }
+
+            val varName = text.substring(3, text.indexOf(":"))
+            val varType = text.substring(text.indexOf(":") + 1, text.indexOf("="))
+            val varValue = text.substring(text.indexOf("=") + 1)
+
+            if (varValue.contains("env(")) {
+                val params = varValue.substring(4, varValue.lastIndexOf(")"))
+            }
+
+            when (varType) {
+                "String" -> list["$category.$varName"] = varValue
+                "Int" -> list["$category.$varName"] = varValue.toInt()
+                "Float" -> list["$category.$varName"] = varValue.toFloat()
+                "Boolean" -> list["$category.$varName"] = varValue.toBoolean()
+            }
+        }
+
+        logger().internal_log(list.toString(), XH_LogLevel.CONFIG, "Config")
+
+        return list
+    }
 }
 
-fun config(name: String): Any? = XH_Config[name]
+fun config(name: String): Any? = Config[name]
