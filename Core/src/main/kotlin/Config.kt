@@ -21,7 +21,7 @@ object Config : ICoreEngine {
 
     override fun onAwake() {
         File(configPath).walk().forEach { file ->
-            if (file.path == configPath) return@forEach
+            if (file.path == configPath || file.isDirectory) return@forEach
 
             logger().internal_log("File: " + file.path, LogLevel.CONFIG, "Config")
 
@@ -60,10 +60,11 @@ object Config : ICoreEngine {
 
             if (varValue.contains("env(")) {
                 val params = varValue.substring(4, varValue.lastIndexOf(")"))
+                // Todo
             }
 
             when (varType) {
-                "String" -> list["$category.$varName"] = varValue
+                "String" -> list["$category.$varName"] = varValue.substring(1, varValue.length-1)
                 "Int" -> list["$category.$varName"] = varValue.toInt()
                 "Float" -> list["$category.$varName"] = varValue.toFloat()
                 "Boolean" -> list["$category.$varName"] = varValue.toBoolean()

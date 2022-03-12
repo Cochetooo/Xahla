@@ -5,7 +5,7 @@ import utils.XH_STATUS_GENERAL_ERROR
 import utils.logger
 import kotlin.IllegalStateException
 
-class ClientContext(app: XH_App) : Context(app), IEngine {
+class ClientContext(app: App) : Context(app), IEngine {
 
     lateinit var window: XHR_Window
         private set

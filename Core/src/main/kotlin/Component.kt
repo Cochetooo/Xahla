@@ -1,5 +1,6 @@
 import templates.IEngine
 
+@Target(AnnotationTarget.FIELD)
 annotation class UseComponent
 
 /** Components for program objects
@@ -9,7 +10,7 @@ annotation class UseComponent
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
 open class Component
-        @JvmOverloads constructor(val obj: XH_Object, val name: String = "XH_Component") : IEngine, Comparable<Component> {
+        @JvmOverloads constructor(val obj: XH_Object, val name: String = "Component") : IEngine, Comparable<Component> {
 
     companion object {
         private var auto_increment = 0
@@ -17,7 +18,17 @@ open class Component
 
     val id = (auto_increment++)
 
+    val priority: PriorityLevel
+        get() {
+            for (annotation in this::class.java.annotations) {
+                if (annotation is Priority)
+                    return annotation.level
+            }
+
+            return PriorityLevel.NORMAL
+        }
+
     override fun compareTo(other: Component): Int {
-        return this.id - other.id
+        return this.priority.ordinal - other.priority.ordinal
     }
 }

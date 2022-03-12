@@ -33,12 +33,12 @@ class XHR_Window(val context: ClientContext) : IEngine {
     var window: Long = 0L
         private set
 
-    val windowSize = Vector2i(config("window.screenWidth") as Int, config("window.screenHeight") as Int)
+    val dimension = Vector2i(config("window.screenWidth") as Int, config("window.screenHeight") as Int)
 
     val config: GLFWConfiguration = GLFWConfiguration(
         if (config("window.resizable") as Boolean) GLFW_TRUE else GLFW_FALSE,
         if (config("window.fullscreen") as Boolean) GLFW_TRUE else GLFW_FALSE,
-        windowSize.x, windowSize.y,
+        dimension.x, dimension.y,
         config("window.title") as String,
         config("gl.colorBufferBits") as Int,
         if (config("window.floating") as Boolean) GLFW_TRUE else GLFW_FALSE,
@@ -70,7 +70,7 @@ class XHR_Window(val context: ClientContext) : IEngine {
         if (config.msaa > 0)
             glfwWindowHint(GLFW_SAMPLES, 2.0.pow(config.msaa).toInt())
 
-        window = glfwCreateWindow(windowSize.x, windowSize.y, config.title, NULL, NULL)
+        window = glfwCreateWindow(dimension.x, dimension.y, config.title, NULL, NULL)
 
         if (window == NULL)
             logger().throwException("Failed to create the GLFW window", RuntimeException(),
@@ -111,7 +111,7 @@ class XHR_Window(val context: ClientContext) : IEngine {
             XHR_OPENGL -> {
                 GL.createCapabilities()
                 glClearColor(.0f, .0f, .0f, .0f)
-                glViewport(0, 0, windowSize.x, windowSize.y)
+                glViewport(0, 0, dimension.x, dimension.y)
             }
             XHR_VULKAN -> {
 
@@ -138,10 +138,10 @@ class XHR_Window(val context: ClientContext) : IEngine {
             val h = this.mallocInt(1)
             glfwGetWindowSize(window, w, h)
 
-            windowSize.set(w[0], h[0])
+            dimension.set(w[0], h[0])
         }
 
-        glViewport(0, 0, windowSize.x, windowSize.y)
+        glViewport(0, 0, dimension.x, dimension.y)
         context.onResize()
     }
 

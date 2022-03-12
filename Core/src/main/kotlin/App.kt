@@ -1,7 +1,6 @@
 import templates.ICoreEngine
 import utils.*
 import java.lang.IllegalStateException
-import kotlin.reflect.KClass
 import kotlin.system.exitProcess
 
 /** App instance
@@ -10,7 +9,7 @@ import kotlin.system.exitProcess
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object XH_App : ICoreEngine {
+object App : ICoreEngine {
     private lateinit var app: ICoreEngine
     var paused = false
         set(value) {
@@ -40,7 +39,7 @@ object XH_App : ICoreEngine {
         onAwake()
 
         xh_tryCatch {
-            context = pContext.getConstructor(XH_App::class.java).newInstance(this)
+            context = pContext.getConstructor(App::class.java).newInstance(this)
             context.onAwake()
 
             this.tick = config("app.updatePerSecond") as Int
@@ -187,5 +186,5 @@ object XH_App : ICoreEngine {
 /**
  * app points to the program whatever if it is a custom or default app.
  */
-fun app(): XH_App = XH_App
+fun app(): App = App
 fun context(): Context = app().context

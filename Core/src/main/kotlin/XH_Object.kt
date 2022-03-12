@@ -24,6 +24,17 @@ open class XH_Object
 
     val components: MutableList<Component> = mutableListOf()
 
+    val priority: PriorityLevel
+        get() {
+            for (annotation in this::class.java.annotations) {
+                if (annotation is Priority)
+                    return annotation.level
+            }
+
+            return PriorityLevel.NORMAL
+        }
+
+
     init {
         for (c in this.javaClass.fields) {
             if (c.getAnnotation(UseComponent::class.java) != null) {
@@ -62,7 +73,7 @@ open class XH_Object
     fun find(id: Int): Component?
             = components.stream().filter { it.id == id }.findFirst().orElse(null)
 
-    fun get(name: String): List<Component>
+    operator fun get(name: String): List<Component>
             = components.stream().filter { it.name == name }.collect(Collectors.toList())
 
     fun get(clazz: Class<out Component>): List<Component>
@@ -78,7 +89,7 @@ open class XH_Object
             = components.stream().anyMatch { comp.isAssignableFrom(it.javaClass) }
 
     override fun compareTo(other: XH_Object): Int {
-        return this.id - other.id
+        return this.priority.ordinal - other.priority.ordinal
     }
 
     override fun onInit() = components.forEach { it.onInit() }

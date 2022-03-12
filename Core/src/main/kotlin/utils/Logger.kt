@@ -28,7 +28,7 @@ enum class LogLevel {
     ALL
 }
 
-object XH_Logger {
+object Logger {
     var logLevel: LogLevel = LogLevel.CONFIG
     var printer = System.out
     var internalLog = true
@@ -41,6 +41,7 @@ object XH_Logger {
     fun onAwake() {
         internalLog = config("debugger.internalLogging") as Boolean
         logFile = config("debugger.logExceptionFile") as Boolean
+        logLevel = LogLevel::class.java.getField((config("debugger.logLevel") as String).uppercase()).get(this) as LogLevel
         prefix = config("debugger.prefix") as Boolean
     }
 
@@ -128,7 +129,7 @@ object XH_Logger {
             statusCodeElem.html("Exit Status Code: $statusCode")
 
             val exceptionMessage = document.select("#exception_message")
-            exceptionMessage.html(exception.localizedMessage)
+            exceptionMessage.html(exception.localizedMessage ?: "")
 
             val additionalMessage = document.select("#additional_message")
             additionalMessage.html(message ?: "")
@@ -173,4 +174,4 @@ object XH_Logger {
     }
 }
 
-fun logger() = XH_Logger
+fun logger() = Logger

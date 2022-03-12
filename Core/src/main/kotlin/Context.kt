@@ -1,4 +1,6 @@
 import templates.ICoreEngine
+import utils.LogLevel
+import utils.Logger
 import utils.XH_STATUS_GENERAL_ERROR
 import utils.logger
 import java.util.stream.Collectors
@@ -10,21 +12,27 @@ import kotlin.IllegalStateException
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-open class Context(private val app: XH_App) : ICoreEngine {
+open class Context(private val app: App) : ICoreEngine {
 
     val objects: MutableList<XH_Object> = mutableListOf()
 
+    private val validations = mapOf("app.appName" to String::class.java,
+        "app.appVersion" to String::class.java,
+        "app.appAuthor" to String::class.java,
+        "app.appEnvironment" to String::class.java,
+        "app.updatePerSecond" to Integer::class.java,
+        "app.framePerSecond" to Integer::class.java,
+        "debugger.internalLogging" to java.lang.Boolean::class.java,
+        "debugger.logExceptionFile" to java.lang.Boolean::class.java,
+        "debugger.logLevel" to String::class.java,
+        "debugger.prefix" to java.lang.Boolean::class.java
+    )
+
     override fun onAwake() {
         Config.onAwake()
+        Logger.onAwake()
 
-        if (config("app.updatePerSecond") == null)
-            logger().throwException("configs/app.updatePerSecond is not found! Please restore app.kt.", IllegalStateException(),
-                classSource = "Context", statusCode = XH_STATUS_GENERAL_ERROR)
-        else {
-            if (config("app.updatePerSecond") !is Int)
-                logger().throwException("configs/app.updatePerSecond must be an integer.", IllegalStateException(),
-                    classSource = "Context", statusCode = XH_STATUS_GENERAL_ERROR)
-        }
+        validateConfigs(validations)
     }
 
     override fun onUpdate() {
@@ -60,4 +68,17 @@ open class Context(private val app: XH_App) : ICoreEngine {
 
     fun getObjectsByClass(objClass: Class<out XH_Object>): List<XH_Object>
             = objects.stream().filter { objClass.isInstance(it) }.collect(Collectors.toList())
+
+    fun validateConfigs(properties: Map<String, Class<out Any>>) {
+        for (property in properties) {
+            try {
+                logger().internal_log("Validator: ${property.key} = " + config(property.key)?.javaClass!!.typeName, LogLevel.FINEST, "Context")
+                property.value.cast(config(property.key))
+            } catch (cce: ClassCastException) {
+                logger().throwException("Config ${property.key} is not a valid ${property.value.name}.", cce, "Context", XH_STATUS_GENERAL_ERROR)
+            } catch (npe: NullPointerException) {
+                logger().throwException("Config ${property.key} is not found.", npe, "Context", XH_STATUS_GENERAL_ERROR)
+            }
+        }
+    }
 }

@@ -9,11 +9,15 @@ fun main() {
 class Main : ICoreEngine {
 
     init {
-        logger().logLevel = LogLevel.ALL
+        logger().excepts = arrayOf()
         app().build(ClientContext::class.java, this)
         app().start()
 
         // Prohibited to do something here
+    }
+
+    override fun onInit() {
+        logger().log(logger().logLevel)
     }
 
     override fun onSecond() {
