@@ -1,8 +1,6 @@
-import templates.IObjectLogic
+import templates.IEngine
 import utils.XH_STATUS_ENGINE_ERROR
-import utils.XH_STATUS_GENERAL_ERROR
 import utils.logger
-import java.lang.annotation.AnnotationTypeMismatchException
 import java.util.stream.Collectors
 
 /** Basic Object of the Engine
@@ -12,7 +10,7 @@ import java.util.stream.Collectors
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
 open class XH_Object
-        @JvmOverloads constructor(val name: String = "XH_Object") : IObjectLogic, Comparable<XH_Object> {
+        @JvmOverloads constructor(val name: String = "XH_Object") : IEngine, Comparable<XH_Object> {
 
     companion object {
         private var auto_increment = 0
@@ -24,7 +22,7 @@ open class XH_Object
 
     val components: MutableList<Component> = mutableListOf()
 
-    val priority: PriorityLevel
+    private val priority: PriorityLevel
         get() {
             for (annotation in this::class.java.annotations) {
                 if (annotation is Priority)
@@ -34,25 +32,11 @@ open class XH_Object
             return PriorityLevel.NORMAL
         }
 
-
-    init {
-        for (c in this.javaClass.fields) {
-            if (c.getAnnotation(UseComponent::class.java) != null) {
-                var result = c[c.javaClass]
-
-                if (result !is Component)
-                    logger().throwException("@UseComponent annotation can only be set on Component fields!", RuntimeException(), classSource = "XH_Object", statusCode = XH_STATUS_ENGINE_ERROR)
-
-                this.add(result)
-            }
-        }
-    }
-
     fun destroy() {
         destroyed = true
     }
 
-    protected fun add(newComponent: Component) {
+    private fun add(newComponent: Component) {
         components.add(newComponent)
     }
 
@@ -92,11 +76,42 @@ open class XH_Object
         return this.priority.ordinal - other.priority.ordinal
     }
 
-    override fun onInit() = components.forEach { it.onInit() }
+    private fun addComponentsByField(cls: Class<out Any>) {
+        for (c in cls.declaredFields) {
+            if (cls.superclass != null) addComponentsByField(cls.superclass)
+
+            if (c.getAnnotation(UseComponent::class.java) != null) {
+                c.trySetAccessible()
+                val result = c[this]
+
+                if (result !is Component)
+                    logger().throwException("@UseComponent annotation can only be set on Component fields!", RuntimeException(), classSource = "XH_Object", statusCode = XH_STATUS_ENGINE_ERROR)
+
+                this.add(result)
+            }
+        }
+    }
+
+    /* IENGINE INTERFACE */
+
+    override fun onAwake() = components.forEach { it.onAwake() }
+
+    override fun onInit() {
+        addComponentsByField(this.javaClass)
+
+        components.forEach { it.onInit() }
+    }
+
     override fun onUpdate() = components.forEach { it.onUpdate() }
     override fun onPostUpdate() = components.forEach { it.onPostUpdate() }
+    override fun onRender() = components.forEach { it.onRender() }
+    override fun onPostRender() = components.forEach { it.onPostRender() }
+    override fun onResize() = components.forEach { it.onResize() }
     override fun onSecond() = components.forEach { it.onSecond() }
+    override fun onPause() = components.forEach { it.onPause() }
+    override fun onResume() = components.forEach { it.onResume() }
     override fun onDispose() = components.forEach { it.onDispose() }
+    override fun onExit() = components.forEach { it.onExit() }
 
     override fun toString(): String {
         var result = "=============================\n" +

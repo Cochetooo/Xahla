@@ -3,7 +3,7 @@ import java.awt.Toolkit
 
 /*  Other Utils  */
 
-val XHR_OPENGL = "opengl"
+val XHR_OPENGL = "gl"
 val XHR_VULKAN = "vulkan"
 val XHR_NOENGINE = "none"
 

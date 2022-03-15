@@ -6,7 +6,7 @@ import components.CTransform
 import org.joml.Quaternionf
 import org.joml.Vector3f
 
-open class Entity(position: Vector3f = Vector3f(), rotation: Quaternionf = Quaternionf(), scale: Vector3f = Vector3f()) : XH_Object() {
+open class Entity(name: String, position: Vector3f = Vector3f(), rotation: Quaternionf = Quaternionf(), scale: Vector3f = Vector3f()) : XH_Object(name) {
 
     var visible: Boolean = true
     var detached: Boolean = false

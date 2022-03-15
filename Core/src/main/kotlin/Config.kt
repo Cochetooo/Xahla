@@ -1,4 +1,4 @@
-import templates.ICoreEngine
+import templates.IEngine
 import utils.*
 import java.io.File
 
@@ -8,11 +8,23 @@ import java.io.File
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object Config : ICoreEngine {
+object Config : IEngine {
 
     private val properties: MutableMap<String, Any> = mutableMapOf()
 
     private const val configPath = "configs"
+
+    val validations = mutableMapOf("app.appName" to PropertyType.STRING,
+        "app.appVersion" to PropertyType.STRING,
+        "app.appAuthor" to PropertyType.STRING,
+        "app.appEnvironment" to PropertyType.STRING,
+        "app.updatePerSecond" to PropertyType.INT,
+        "app.framePerSecond" to PropertyType.INT,
+        "debugger.internalLogging" to PropertyType.BOOLEAN,
+        "debugger.logExceptionFile" to PropertyType.BOOLEAN,
+        "debugger.logLevel" to PropertyType.STRING,
+        "debugger.prefix" to PropertyType.BOOLEAN
+    )
 
     operator fun get(key: String): Any? = properties[key]
     operator fun set(key: String, value: Any) {
@@ -30,7 +42,7 @@ object Config : ICoreEngine {
     }
 
     override fun onExit() {
-
+        // TODO
     }
 
     private fun compileFiles(category: String, content: List<String>): MutableMap<String, Any> {
@@ -58,16 +70,26 @@ object Config : ICoreEngine {
             val varType = text.substring(text.indexOf(":") + 1, text.indexOf("="))
             val varValue = text.substring(text.indexOf("=") + 1)
 
+            // Validation
+            val keyName = "$category.$varName"
+            if (validations.containsKey(keyName)) {
+                if (varType != validations[keyName]!!.clazz)
+                    logger().throwException("Config $keyName is not valid! (Type requested: ${validations[keyName]})", ClassCastException(),
+                        "Config", XH_STATUS_GENERAL_ERROR)
+            }
+
+            // Property type
+
             if (varValue.contains("env(")) {
                 val params = varValue.substring(4, varValue.lastIndexOf(")"))
                 // Todo
             }
 
             when (varType) {
-                "String" -> list["$category.$varName"] = varValue.substring(1, varValue.length-1)
-                "Int" -> list["$category.$varName"] = varValue.toInt()
-                "Float" -> list["$category.$varName"] = varValue.toFloat()
-                "Boolean" -> list["$category.$varName"] = varValue.toBoolean()
+                "String" -> list[keyName] = varValue.substring(1, varValue.length-1)
+                "Int" -> list[keyName] = varValue.toInt()
+                "Float" -> list[keyName] = varValue.toFloat()
+                "Boolean" -> list[keyName] = varValue.toBoolean()
             }
         }
 
@@ -78,3 +100,11 @@ object Config : ICoreEngine {
 }
 
 fun config(name: String): Any? = Config[name]
+fun validateConfigs(list: Map<String, PropertyType>) = Config.validations.putAll(list)
+
+enum class PropertyType(internal val clazz: String) {
+    STRING("String"),
+    INT("Int"),
+    FLOAT("Float"),
+    BOOLEAN("Boolean")
+}

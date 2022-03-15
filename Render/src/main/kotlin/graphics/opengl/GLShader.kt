@@ -31,10 +31,10 @@ class GLShader(private val context: Context, private val path: String, private v
             logger().throwException("Can't create program for shader: $path", RuntimeException(), classSource = "XHR_GLShader", statusCode = XH_STATUS_OPENGL_ERROR)
 
         if (geometryShader)
-            createShader(loadShader("$path.$gShader"), GL_GEOMETRY_SHADER)
+            createShader(loadShader("$path$gShader"), GL_GEOMETRY_SHADER)
 
-        createShader(loadShader("$path.$vShader"), GL_VERTEX_SHADER)
-        createShader(loadShader("$path.$fShader"), GL_FRAGMENT_SHADER)
+        createShader(loadShader("$path$vShader"), GL_VERTEX_SHADER)
+        createShader(loadShader("$path$fShader"), GL_FRAGMENT_SHADER)
 
         glLinkProgram(program)
         glValidateProgram(program)
@@ -49,7 +49,7 @@ class GLShader(private val context: Context, private val path: String, private v
         glCompileShader(shader)
 
         if (glGetShaderi(shader, GL_COMPILE_STATUS) == GL_FALSE)
-            logger().throwException("(ID $shader) Error while computing shader.", RuntimeException(), classSource = "XHR_GLShader", statusCode = XH_STATUS_OPENGL_ERROR)
+            logger().throwException("(ID $shader) Error while computing shader.\nDetails: " + glGetShaderInfoLog(shader) + "\n" + glGetProgramInfoLog(program), RuntimeException(), classSource = "XHR_GLShader", statusCode = XH_STATUS_OPENGL_ERROR)
 
         glAttachShader(program, shader)
 
@@ -61,8 +61,8 @@ class GLShader(private val context: Context, private val path: String, private v
         var r = ""
 
         try {
-            BufferedReader(InputStreamReader(FileInputStream(SHADER_PATH + path))).apply {
-                for (line in this.lines()) {
+            BufferedReader(InputStreamReader(FileInputStream(SHADER_PATH + path))).use {
+                for (line in it.lines()) {
                     if (line.startsWith(INCLUDE_FUNC)) {
                         val fileDir = path.split("/")
                         val dir = path.substring(0, path.length - fileDir[fileDir.size - 1].length)
@@ -92,8 +92,8 @@ class GLShader(private val context: Context, private val path: String, private v
     fun loadVec4f(location: Int, v: Vector4f) = glUniform4f(location, v.x, v.y, v.z, v.w)
     fun load4f(location: Int, x: Float, y: Float, z: Float, w: Float) = glUniform4f(location, x, y, z, w)
     fun loadMat(location: Int, mat: Matrix4f) {
-        stackPush().apply {
-            val fb = this.mallocFloat(16)
+        stackPush().use {
+            val fb = it.mallocFloat(16)
             mat[fb]
             glUniformMatrix4fv(location, false, fb)
         }
@@ -104,9 +104,9 @@ class GLShader(private val context: Context, private val path: String, private v
         private val vShader = config("gl.vertexExtension") as String
         private val fShader = config("gl.fragmentExtension") as String
 
-        val SHADER_PATH = if (gl().modernGL) "resources/shaders/std/" else "resources/shaders/compatibility/"
-
-        fun unbind() = glUseProgram(0)
+        val SHADER_PATH = if (gl().modernGL) "resources/shaders/standard/" else "resources/shaders/compatibility/"
     }
 
 }
+
+fun unbindShaders() = glUseProgram(0)

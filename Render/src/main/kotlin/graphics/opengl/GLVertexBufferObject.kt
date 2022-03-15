@@ -30,8 +30,8 @@ class GLVertexBufferObject(private val shader: GLShader, private val pos: Int = 
         logger().internal_log("Row size: $rowSize", logLevel = LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
         logger().internal_log("Nb of objects: ${(bufferSize / (nbVertices * rowSize))}", logLevel = LogLevel.FINEST, classSource = "XHR_GLVertexBufferObject")
 
-        stackPush().apply {
-            buffer = this.floats(*data)
+        stackPush().use {
+            buffer = it.floats(*data)
             update(GL_STATIC_DRAW)
         }
     }
@@ -88,8 +88,8 @@ class GLVertexBufferObject(private val shader: GLShader, private val pos: Int = 
         this.bufferSize = data.size
         buffer.clear()
 
-        stackPush().apply {
-            buffer = this.floats(*data)
+        stackPush().use {
+            buffer = it.floats(*data)
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, vbo)

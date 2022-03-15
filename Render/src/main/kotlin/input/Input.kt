@@ -132,9 +132,9 @@ object XHR_Input {
 
     @JvmStatic
     fun getMousePosition(): Vector2f {
-        stackPush().apply {
-            val xBuffer = BufferUtils.createDoubleBuffer(1)
-            val yBuffer = BufferUtils.createDoubleBuffer(1)
+        stackPush().use {
+            val xBuffer = it.mallocDouble(1)
+            val yBuffer = it.mallocDouble(1)
             glfwGetCursorPos(window, xBuffer, yBuffer)
 
             return Vector2f(xBuffer[0].toFloat(), yBuffer[0].toFloat())

@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11.glViewport
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.NULL
 import templates.IEngine
+import utils.LogLevel
 import utils.XH_STATUS_GLFW_ERROR
 import utils.logger
 import java.lang.IllegalStateException
@@ -76,9 +77,9 @@ class XHR_Window(val context: ClientContext) : IEngine {
             logger().throwException("Failed to create the GLFW window", RuntimeException(),
                 classSource = "XHR_Window", statusCode = XH_STATUS_GLFW_ERROR)
 
-        stackPush().apply {
-            val pWidth = this.mallocInt(1)
-            val pHeight = this.mallocInt(1)
+        stackPush().use {
+            val pWidth = it.mallocInt(1)
+            val pHeight = it.mallocInt(1)
 
             glfwGetWindowSize(window, pWidth, pHeight)
             val vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor())
@@ -119,6 +120,8 @@ class XHR_Window(val context: ClientContext) : IEngine {
         }
 
         setVSync(config.vSync)
+
+        logger().internal_log("Window created successfully!", LogLevel.FINE, "Window")
     }
 
     override fun onUpdate() {
@@ -133,9 +136,9 @@ class XHR_Window(val context: ClientContext) : IEngine {
     }
 
     override fun onResize() {
-        stackPush().apply {
-            val w = this.mallocInt(1)
-            val h = this.mallocInt(1)
+        stackPush().use {
+            val w = it.mallocInt(1)
+            val h = it.mallocInt(1)
             glfwGetWindowSize(window, w, h)
 
             dimension.set(w[0], h[0])

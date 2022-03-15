@@ -1,4 +1,4 @@
-#version 330 core;
+#version 330 core
 
 out vec4 fragColor;
 
@@ -8,5 +8,5 @@ in vec2 normal;
 in vec2 texCoord;
 
 void main() {
-    fragColor = color;
+    fragColor = color * 0.5;
 }

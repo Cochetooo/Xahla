@@ -25,11 +25,11 @@ abstract class CProjection(obj: Entity) : Component(obj) {
     override fun onRender() {
         val trans = (obj as Entity).transform
 
-        if (config("window.engine") == "opengl") {
+        if (config("window.engine") == "gl") {
             glMatrixMode(GL_PROJECTION)
 
-            stackPush().apply {
-                val fb = this.mallocFloat(16)
+            stackPush().use {
+                val fb = it.mallocFloat(16)
                 projection[fb]
                 glLoadMatrixf(fb)
             }

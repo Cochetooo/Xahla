@@ -40,16 +40,16 @@ object XHR_OpenGL {
         XHR_OPENGL_VERSION = glGetString(GL_VERSION)
         XHR_OPENGL_MAX_COLOR_ATTACHMENTS = glGetInteger(GL30.GL_MAX_COLOR_ATTACHMENTS)
 
-        setStandardOpenGLVersion()
+        modernGL = setStandardOpenGLVersion()
 
         glEnable(GL_TEXTURE_2D)
         if (context.projection == "3d")
             glEnable(GL_TEXTURE_3D)
 
-        logger().internal_log("VSync: ${context.window.config.vSync}", LogLevel.CONFIG, "XHR_OpenGL")
-        logger().internal_log("Modern OpenGL Support: $modernGL ($XHR_OPENGL_VERSION)", LogLevel.CONFIG, "XHR_OpenGL")
-        logger().internal_log("Texture enabled", LogLevel.CONFIG, "XHR_OpenGL")
-        logger().internal_log("Max Color Attachments $XHR_OPENGL_MAX_COLOR_ATTACHMENTS", LogLevel.FINE, "XHR_OpenGL")
+        logger().internal_log("VSync: ${context.window.config.vSync}", LogLevel.CONFIG, "GLUtils")
+        logger().internal_log("Modern OpenGL Support: $modernGL ($XHR_OPENGL_VERSION)", LogLevel.CONFIG, "GLUtils")
+        logger().internal_log("Texture enabled", LogLevel.CONFIG, "GLUtils")
+        logger().internal_log("Max Color Attachments $XHR_OPENGL_MAX_COLOR_ATTACHMENTS", LogLevel.FINE, "GLUtils")
     }
 
     private fun setStandardOpenGLVersion(): Boolean {
@@ -61,7 +61,7 @@ object XHR_OpenGL {
         val glVersionString = XHR_OPENGL_VERSION!!.split(" ")[0].trim()
         val glVersion = glVersionString.substring(0, 3).toFloat()
 
-        if (glVersion < config("gl.modernGLVersion") as Float)
+        if (glVersion < config("gl.modernGLVersion").toString().toFloat())
             return false
         return true
     }

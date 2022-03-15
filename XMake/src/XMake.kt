@@ -26,6 +26,10 @@ fun main(args: Array<String>) {
             createProject(name)
         }
 
+        "log:clear" -> {
+            logClear()
+        }
+
         "show:path" -> {
             showPath()
         }
@@ -53,6 +57,11 @@ fun createProject(name: String) {
     }
 
     println("Project created successfully!")
+}
+
+fun logClear() {
+    File("logs/").deleteRecursively()
+    println("Logs deleted successfully!")
 }
 
 fun showPath() {

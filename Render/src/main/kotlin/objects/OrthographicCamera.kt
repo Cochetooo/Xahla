@@ -1,15 +1,19 @@
 package objects
 
+import UseComponent
 import XHR_SCREEN_DIMENSION
 import clientContext
+import components.COrthographicProjection
 import config
-import graphics.opengl.gl
+import org.joml.Vector3f
 
-class OrthographicCamera : Entity() {
+class OrthographicCamera(name: String) : Entity(name) {
+
+    @UseComponent val projection: COrthographicProjection
 
     init {
-        val posData = (config("orthographic.position") as String).split("-")
-        val orthoData = (config("orthographic.ortho") as String).split("-")
+        val posData = (config("gl.position") as String).split("-")
+        val orthoData = (config("gl.ortho") as String).split("-")
 
         val ortho = FloatArray(4)
         val dim = clientContext().window.dimension
@@ -29,6 +33,10 @@ class OrthographicCamera : Entity() {
                 ortho[i] = orthoData[i].toFloat()
             }
         }
+
+        this.detached = true
+        this.projection = COrthographicProjection(this, ortho)
+        this.transform.position.set(Vector3f(posData[0].toFloat(), posData[1].toFloat(), 0.0f))
     }
 
 }

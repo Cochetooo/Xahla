@@ -1,7 +1,8 @@
-import templates.ICoreEngine
+import templates.IEngine
 import utils.*
 import java.lang.IllegalStateException
 import kotlin.system.exitProcess
+import kotlin.system.measureTimeMillis
 
 /** App instance
  * Copyright (C) Xahla - All Rights Reserved
@@ -9,8 +10,8 @@ import kotlin.system.exitProcess
  * Proprietary and confidential
  * Written by Alexis Cochet <alexis.cochetooo@gmail.com>, October 2021
  */
-object App : ICoreEngine {
-    private lateinit var app: ICoreEngine
+object App : IEngine {
+    private lateinit var app: IEngine
     var paused = false
         set(value) {
             if (!value)
@@ -33,28 +34,30 @@ object App : ICoreEngine {
     /**
      * Instantiate the program app.
      */
-    fun build(pContext: Class<out Context>, pApp: ICoreEngine) {
+    fun build(pContext: Class<out Context>, pApp: IEngine) {
         this.app = pApp
 
-        onAwake()
+        val timeInit = measureTimeMillis {
+            onAwake()
 
-        xh_tryCatch {
-            context = pContext.getConstructor(App::class.java).newInstance(this)
-            context.onAwake()
+            xh_tryCatch {
+                context = pContext.getConstructor(App::class.java).newInstance(this)
+                context.onAwake()
 
-            this.tick = config("app.updatePerSecond") as Int
-            this.frame = config("app.framePerSecond") as Int
+                this.tick = config("app.updatePerSecond") as Int
+                this.frame = config("app.framePerSecond") as Int
 
-            onInit()
+                onInit()
+            }
         }
+
+        logger().internal_log("Initialization ended in $timeInit ms.", LogLevel.INFO, "App")
     }
 
-    fun start() {
+    fun run(): Nothing {
         if (running)
             logger().throwException("The program has already started.", IllegalStateException(),
                 classSource = "App", statusCode = XH_STATUS_GENERAL_ERROR)
-
-        onPostInit()
         running = true
 
         var ticks = 0; var frames = 0
@@ -68,10 +71,8 @@ object App : ICoreEngine {
         val timer = XH_Timer()
 
         while (running) {
-            if (paused) {
+            if (paused)
                 onPause()
-                return
-            }
 
             if (timer.elapsed - updatedTick >= tickTime) {
                 onUpdate()
@@ -107,6 +108,7 @@ object App : ICoreEngine {
         }
 
         onExit()
+        exitProcess(0)
     }
 
     fun stop() {
@@ -120,11 +122,6 @@ object App : ICoreEngine {
     override fun onInit() {
         context.onInit()
         app.onInit()
-    }
-
-    override fun onPostInit() {
-        context.onPostInit()
-        app.onPostInit()
     }
 
     override fun onUpdate() {
@@ -177,8 +174,6 @@ object App : ICoreEngine {
     override fun onExit() {
         app.onExit()
         context.onExit()
-
-        exitProcess(0)
     }
 
 }

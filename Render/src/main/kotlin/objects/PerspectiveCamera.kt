@@ -1,4 +1,4 @@
 package objects
 
-class PerspectiveCamera : Entity() {
+class PerspectiveCamera : Entity("PerspectiveCamera") {
 }
