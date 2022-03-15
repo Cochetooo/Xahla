@@ -117,6 +117,7 @@ object Logger {
         """.trimIndent())
 
         if (logFile) {
+
             val document = Jsoup.parse(html_content)
 
             val fileClass = document.select("#file_class")
@@ -132,7 +133,7 @@ object Logger {
             exceptionMessage.html(exception.localizedMessage ?: "")
 
             val additionalMessage = document.select("#additional_message")
-            additionalMessage.html(message ?: "")
+            additionalMessage.html(message?.replace("\n", "<br>") ?: "")
 
             val listStacktrace = document.select("#list-stacktrace")
             var stacktraceContent = getStackTrace(exception)
