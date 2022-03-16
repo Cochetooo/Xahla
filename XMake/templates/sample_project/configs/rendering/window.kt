@@ -11,7 +11,7 @@ val visible: Boolean = true
 
 // Window startup attributes
 val centerCursor: Boolean = false
-val floating: Boolean = true
+val floating: Boolean = false
 val inputFocus: Boolean = false
 val maximize: Boolean = false
 val screenWidth: Int = 1280
