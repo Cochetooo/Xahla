@@ -69,5 +69,5 @@ dependencies {
     implementation "org.joml:joml:${jomlVersion}"
     implementation 'org.json:json:20210307'
     implementation 'org.jsoup:jsoup:1.14.3'
-    implementation "org.jetbrains.kotlin:kotlin-reflect:1.5.10"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
 }

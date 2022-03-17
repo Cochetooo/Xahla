@@ -14,6 +14,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Core" />
+            <option value="$PROJECT_DIR$/Physics" />
             <option value="$PROJECT_DIR$/Render" />
           </set>
         </option>

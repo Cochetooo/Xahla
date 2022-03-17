@@ -40,7 +40,7 @@ open class XH_Object
         components.add(newComponent)
     }
 
-    protected fun set(name: String, newComponent: Component): Boolean {
+    operator protected fun set(name: String, newComponent: Component): Boolean {
         for (i in 0 until components.size) {
             if (components[i].name == name) {
                 components[i] = newComponent
@@ -60,7 +60,7 @@ open class XH_Object
     operator fun get(name: String): List<Component>
             = components.stream().filter { it.name == name }.collect(Collectors.toList())
 
-    fun get(clazz: Class<out Component>): List<Component>
+    operator fun get(clazz: Class<out Component>): List<Component>
             = components.stream().filter { it.javaClass == clazz }.collect(Collectors.toList())
 
     fun contains(comp: String): Boolean
