@@ -43,6 +43,8 @@ object Logger {
         logFile = config("debugger.logExceptionFile") as Boolean
         logLevel = LogLevel::class.java.getField((config("debugger.logLevel") as String).uppercase()).get(this) as LogLevel
         prefix = config("debugger.prefix") as Boolean
+
+        Thread.setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler())
     }
 
     /**

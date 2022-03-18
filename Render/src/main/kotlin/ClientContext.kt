@@ -10,7 +10,7 @@ import utils.XH_STATUS_GENERAL_ERROR
 import utils.logger
 import kotlin.IllegalStateException
 
-class ClientContext(app: App) : Context(app) {
+open class ClientContext(app: App) : Context(app) {
 
     lateinit var window: XHR_Window
         private set

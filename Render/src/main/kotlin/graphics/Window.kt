@@ -5,15 +5,20 @@ import XHR_VULKAN
 import app
 import config
 import ClientContext
+import graphics.opengl.gl
 import input.input
 import org.joml.Vector2i
 import org.lwjgl.glfw.Callbacks.glfwFreeCallbacks
 import org.lwjgl.glfw.GLFW.*
 import org.lwjgl.glfw.GLFWErrorCallback
 import org.lwjgl.glfw.GLFWWindowSizeCallback
+import org.lwjgl.opengl.ARBDebugOutput.*
 import org.lwjgl.opengl.GL
 import org.lwjgl.opengl.GL11.glClearColor
 import org.lwjgl.opengl.GL11.glViewport
+import org.lwjgl.opengl.GL43.*
+import org.lwjgl.opengl.GLUtil
+import org.lwjgl.opengl.KHRDebug
 import org.lwjgl.system.MemoryStack.stackPush
 import org.lwjgl.system.MemoryUtil.NULL
 import templates.IEngine
@@ -22,6 +27,7 @@ import utils.XH_STATUS_GLFW_ERROR
 import utils.logger
 import java.lang.IllegalStateException
 import java.lang.RuntimeException
+import java.nio.IntBuffer
 import kotlin.math.pow
 
 data class GLFWConfiguration(val resizable: Int, val fullscreen: Int, val width: Int, val height: Int,
@@ -110,7 +116,9 @@ class XHR_Window(val context: ClientContext) : IEngine {
 
         when (config("window.engine")) {
             XHR_OPENGL -> {
-                GL.createCapabilities()
+                val caps = GL.createCapabilities()
+                gl().setupDebugCallback(caps)
+
                 glClearColor(.0f, .0f, .0f, .0f)
                 glViewport(0, 0, dimension.x, dimension.y)
             }
