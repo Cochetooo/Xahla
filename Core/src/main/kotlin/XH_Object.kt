@@ -21,6 +21,7 @@ open class XH_Object
     val id = (auto_increment++)
 
     val components: MutableList<Component> = mutableListOf()
+    private val compNames: MutableList<String> = mutableListOf()
 
     private val priority: PriorityLevel
         get() {
@@ -38,9 +39,10 @@ open class XH_Object
 
     private fun add(newComponent: Component) {
         components.add(newComponent)
+        compNames.add(newComponent.javaClass.simpleName)
     }
 
-    operator protected fun set(name: String, newComponent: Component): Boolean {
+    protected operator fun set(name: String, newComponent: Component): Boolean {
         for (i in 0 until components.size) {
             if (components[i].name == name) {
                 components[i] = newComponent
@@ -56,6 +58,9 @@ open class XH_Object
 
     fun find(id: Int): Component?
             = components.stream().filter { it.id == id }.findFirst().orElse(null)
+
+    fun has(className: String): Boolean
+        = compNames.contains(className)
 
     operator fun get(name: String): List<Component>
             = components.stream().filter { it.name == name }.collect(Collectors.toList())

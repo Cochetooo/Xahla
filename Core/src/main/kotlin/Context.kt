@@ -1,3 +1,4 @@
+import objects.Entity
 import templates.IEngine
 import utils.Logger
 import java.util.stream.Collectors
@@ -11,6 +12,7 @@ import java.util.stream.Collectors
 open class Context(private val app: App) : IEngine {
 
     val objects: MutableList<XH_Object> = mutableListOf()
+    val entities: MutableList<Entity> = mutableListOf()
 
     override fun onAwake() {
         Config.onAwake()
@@ -47,14 +49,18 @@ open class Context(private val app: App) : IEngine {
         obj.onAwake()
         obj.onInit()
         objects.add(obj)
+        if (obj is Entity)
+            entities.add(obj)
     }
 
     fun remove(obj: XH_Object) {
         obj.onDispose()
         objects.remove(obj)
+        if (obj is Entity)
+            entities.remove(obj)
     }
 
-    fun getObjectsByClass(objClass: Class<out XH_Object>): List<XH_Object>
+    fun objectsWith(objClass: Class<out XH_Object>): List<XH_Object>
             = objects.stream().filter { objClass.isInstance(it) }.collect(Collectors.toList())
 
     operator fun get(name: String): XH_Object = objects.stream().filter { it.name == name }.findFirst().orElse(null)

@@ -10,10 +10,9 @@ class CRigidBody(obj: Entity) : Component(obj) {
 
     private val collider: CCollider
 
-    var movement = Vector3f()
-        private set
-
-    var gravity = -9.81f
+    var solid: Boolean = true
+    var mass: Float = 1.0f
+    var kinetic: Boolean = true
 
     init {
         val comp = obj[CCollider::class.java].firstOrNull()
@@ -21,6 +20,21 @@ class CRigidBody(obj: Entity) : Component(obj) {
             logger().internal_log("No collider found for Rigidbody on object #${obj.id} ${obj.name}", LogLevel.WARNING, "CRigidBody")
 
         collider = comp as CCollider
+    }
+
+    fun move(direction: Vector3f) {
+        if (solid) {
+
+        }
+
+        if (kinetic)
+            moveWithTorque(direction)
+        else
+            (obj as Entity).transform.position.add(direction)
+    }
+
+    private fun moveWithTorque(direction: Vector3f) {
+
     }
 
 }

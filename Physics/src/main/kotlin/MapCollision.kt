@@ -1,15 +1,31 @@
 import org.joml.Vector2f
 import org.joml.Vector3f
+import utils.LogLevel
+import utils.logger
 
 object MapCollision {
     /** Test if an object is set at a specific position in a 2D world. */
     fun collideAt2D(position: Vector2f): Boolean {
+        if (!Physics.useCollisionGrid) {
+            logger().internal_log("Trying to call collideAt2D() when collision grid is not set.",
+                LogLevel.WARNING, "MapCollision")
 
+            return false
+        }
+
+        if (Physics.collisionGrid[position.x][position.y][Physics.defaultZLayerFor2D] != 0)
 
         return false
     }
     /** Test if an object is set at a specific position in a 3D world. */
     fun collideAt3D(position: Vector3f): Boolean {
+        if (!Physics.useCollisionGrid) {
+            logger().internal_log("Trying to call collideAt2D() when collision grid is not set.",
+                LogLevel.WARNING, "MapCollision")
+
+            return false
+        }
+
         return false
     }
 }

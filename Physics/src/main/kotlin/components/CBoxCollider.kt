@@ -6,13 +6,6 @@ import org.joml.Vector3f
 class CBoxCollider(obj: Entity) : CCollider(obj) {
 
     val box = Vector3f()
-    override fun collide2D(): Boolean {
-        return false
-    }
-
-    override fun collide3D(): Boolean {
-        return false
-    }
 
     override fun collideAABB2D(other: CCollider): Boolean {
         val a = obj as Entity
