@@ -50,6 +50,10 @@ public final class Translator {
         return key;
     }
 
+    /*
+     * Static methods
+     */
+
     public static void setupTranslator(TranslatorData translatorData) {
         LOCALES_PATH = translatorData.localesPath();
         DEFAULT_FILENAME = translatorData.defaultFilename();
